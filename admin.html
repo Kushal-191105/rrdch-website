@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard | RRDCH</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:#071e38; --navy-mid:#0d2d52; --blue:#1456a0;
+      --accent:#00a8e8; --white:#ffffff; --off-white:#f3f7fd;
+      --surface:#eaf3fd; --text:#0d1f33; --muted:#556070; --border:#ccdff0;
+      --green:#0a7c4a; --green-bg:#f0faf5; --green-border:#a3d9b8;
+      --orange:#d97706; --orange-bg:#fffbeb; --orange-border:#fcd34d;
+      --red:#b91c1c; --red-bg:#fff3f3; --red-border:#f5c6c6;
+      --font-display:'Cormorant Garamond',Georgia,serif;
+      --font-body:'DM Sans',sans-serif;
+      --radius:16px; --radius-sm:10px; --sidebar:260px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:var(--font-body);background:var(--off-white);display:flex;min-height:100vh;}
+
+    /* LOGIN OVERLAY */
+    .admin-login{position:fixed;inset:0;background:var(--navy);display:flex;align-items:center;justify-content:center;z-index:999;}
+    .admin-login.hidden{display:none;}
+    .login-card{background:var(--off-white);border-radius:var(--radius);padding:2.5rem;width:100%;max-width:380px;}
+    .login-card h2{font-family:var(--font-display);font-size:2rem;color:var(--navy);margin-bottom:0.3rem;}
+    .login-card p{font-size:0.85rem;color:var(--muted);margin-bottom:1.75rem;}
+    .form-group{margin-bottom:1.1rem;}
+    .form-group label{display:block;font-size:0.72rem;font-weight:600;color:var(--navy);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.35rem;}
+    .form-group input{width:100%;padding:0.78rem 1rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font-body);font-size:0.9rem;outline:none;transition:border-color 0.2s;}
+    .form-group input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(20,86,160,0.1);}
+    .login-btn{width:100%;padding:0.88rem;border-radius:50px;background:var(--blue);color:white;border:none;font-family:var(--font-body);font-size:0.95rem;font-weight:600;cursor:pointer;transition:all 0.22s;}
+    .login-btn:hover{background:var(--navy);}
+    .err{color:#b91c1c;font-size:0.82rem;margin-bottom:0.75rem;display:none;}
+    .err.show{display:block;}
+    .admin-hint{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:0.8rem 1rem;font-size:0.78rem;color:var(--muted);margin-top:1rem;}
+    .admin-hint strong{display:block;color:var(--navy);margin-bottom:0.3rem;}
+    .use-demo{color:var(--blue);cursor:pointer;font-weight:600;text-decoration:underline;}
+
+    /* SIDEBAR */
+    .sidebar{width:var(--sidebar);background:var(--navy);position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column;z-index:100;}
+    .sidebar-header{padding:1.5rem;border-bottom:1px solid rgba(255,255,255,0.07);}
+    .logo-row{display:flex;align-items:center;gap:0.65rem;margin-bottom:0.5rem;}
+    .logo-mark{width:38px;height:38px;background:linear-gradient(135deg,var(--accent),var(--blue));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:white;}
+    .logo-text .ln{font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:white;display:block;}
+    .logo-text .ls{font-size:0.6rem;color:rgba(255,255,255,0.4);display:block;}
+    .admin-badge{display:inline-block;background:rgba(255,180,0,0.15);border:1px solid rgba(255,180,0,0.3);color:#fbbf24;font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.6rem;border-radius:50px;}
+
+    .nav-section{padding:1rem 0.75rem;flex:1;}
+    .nav-label{font-size:0.62rem;color:rgba(255,255,255,0.3);letter-spacing:0.12em;text-transform:uppercase;padding:0 0.75rem;margin-bottom:0.5rem;margin-top:1rem;}
+    .nav-item{display:flex;align-items:center;gap:0.65rem;padding:0.65rem 0.75rem;border-radius:9px;cursor:pointer;color:rgba(255,255,255,0.55);font-size:0.86rem;font-weight:500;transition:all 0.18s;margin-bottom:2px;}
+    .nav-item:hover{background:rgba(255,255,255,0.06);color:white;}
+    .nav-item.active{background:rgba(0,168,232,0.15);color:var(--accent);border-left:3px solid var(--accent);}
+    .nav-item .icon{font-size:1rem;width:20px;text-align:center;}
+    .badge-count{margin-left:auto;background:var(--accent);color:white;font-size:0.65rem;padding:0.15rem 0.5rem;border-radius:50px;font-weight:700;}
+
+    .sidebar-footer{padding:1rem 1.5rem;border-top:1px solid rgba(255,255,255,0.07);}
+    .logout-btn{width:100%;padding:0.65rem;border-radius:9px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);font-family:var(--font-body);font-size:0.84rem;cursor:pointer;}
+    .logout-btn:hover{background:rgba(185,28,28,0.15);color:#fca5a5;}
+
+    /* MAIN */
+    .main{margin-left:var(--sidebar);flex:1;padding:2rem;min-height:100vh;}
+    .page{display:none;}
+    .page.active{display:block;}
+    .page-header{margin-bottom:2rem;}
+    .page-header h1{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--navy);}
+    .page-header p{font-size:0.88rem;color:var(--muted);margin-top:0.25rem;}
+
+    .cards-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.25rem;margin-bottom:2rem;}
+    .stat-card{background:white;border-radius:var(--radius);padding:1.4rem;border:1.5px solid var(--border);position:relative;overflow:hidden;}
+    .stat-card .label{font-size:0.72rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.4rem;}
+    .stat-card .value{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--navy);}
+    .stat-card .icon-bg{position:absolute;right:1rem;top:50%;transform:translateY(-50%);font-size:2.5rem;opacity:0.07;}
+
+    .section-card{background:white;border-radius:var(--radius);border:1.5px solid var(--border);overflow:hidden;margin-bottom:1.5rem;}
+    .section-card-header{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;}
+    .section-card-header h3{font-family:var(--font-display);font-size:1.25rem;font-weight:700;color:var(--navy);}
+
+    .filter-row{display:flex;gap:0.75rem;flex-wrap:wrap;}
+    .filter-btn{padding:0.4rem 1rem;border-radius:50px;border:1.5px solid var(--border);font-family:var(--font-body);font-size:0.78rem;font-weight:500;cursor:pointer;background:white;color:var(--muted);transition:all 0.18s;}
+    .filter-btn.active,.filter-btn:hover{background:var(--navy);color:white;border-color:var(--navy);}
+
+    .search-bar{padding:0.5rem 1rem;border:1.5px solid var(--border);border-radius:50px;font-family:var(--font-body);font-size:0.85rem;outline:none;width:220px;}
+    .search-bar:focus{border-color:var(--blue);}
+
+    table{width:100%;border-collapse:collapse;}
+    th{font-size:0.7rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;padding:0.6rem 1rem;text-align:left;background:var(--off-white);}
+    td{padding:0.8rem 1rem;font-size:0.84rem;color:var(--text);border-bottom:1px solid var(--border);}
+    tr:last-child td{border-bottom:none;}
+    tr:hover td{background:var(--surface);}
+
+    .badge{display:inline-block;padding:0.22rem 0.65rem;border-radius:50px;font-size:0.7rem;font-weight:600;}
+    .badge-confirmed{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
+    .badge-waiting{background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-border);}
+    .badge-completed{background:var(--surface);color:var(--blue);border:1px solid var(--border);}
+    .badge-cancelled{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border);}
+
+    .action-btns{display:flex;gap:0.4rem;flex-wrap:wrap;}
+    .act-btn{padding:0.28rem 0.7rem;border-radius:6px;font-size:0.72rem;font-weight:600;border:none;cursor:pointer;font-family:var(--font-body);transition:opacity 0.15s;}
+    .act-btn:hover{opacity:0.8;}
+    .act-confirm{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
+    .act-complete{background:var(--surface);color:var(--blue);border:1px solid var(--border);}
+    .act-cancel{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border);}
+    .act-notes{background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-border);}
+
+    /* MODAL */
+    .modal-overlay{position:fixed;inset:0;background:rgba(7,30,56,0.55);z-index:500;display:flex;align-items:center;justify-content:center;display:none;}
+    .modal-overlay.show{display:flex;}
+    .modal{background:white;border-radius:var(--radius);padding:2rem;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;}
+    .modal h3{font-family:var(--font-display);font-size:1.5rem;color:var(--navy);margin-bottom:1.25rem;}
+    .modal-group{margin-bottom:1rem;}
+    .modal-group label{display:block;font-size:0.72rem;font-weight:600;color:var(--navy);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.35rem;}
+    .modal-group textarea,.modal-group input{width:100%;padding:0.75rem 1rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font-body);font-size:0.88rem;outline:none;}
+    .modal-group textarea{min-height:90px;resize:vertical;}
+    .modal-group textarea:focus,.modal-group input:focus{border-color:var(--blue);}
+    .modal-footer{display:flex;gap:0.75rem;margin-top:1.25rem;justify-content:flex-end;}
+    .modal-save{padding:0.7rem 1.75rem;border-radius:50px;background:var(--blue);color:white;border:none;font-family:var(--font-body);font-size:0.9rem;font-weight:600;cursor:pointer;}
+    .modal-cancel{padding:0.7rem 1.25rem;border-radius:50px;background:transparent;color:var(--muted);border:1.5px solid var(--border);font-family:var(--font-body);font-size:0.9rem;cursor:pointer;}
+
+    .empty-state{text-align:center;padding:3rem 1rem;color:var(--muted);}
+    .empty-state .icon{font-size:3rem;margin-bottom:1rem;}
+
+    /* PATIENTS PAGE */
+    .patient-row-info{font-size:0.78rem;color:var(--muted);}
+
+    @media(max-width:900px){
+      .sidebar{transform:translateX(-100%);}
+      .main{margin-left:0;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ADMIN LOGIN OVERLAY -->
+<div class="admin-login" id="adminLogin">
+  <div class="login-card">
+    <h2>Admin Login</h2>
+    <p>RRDCH Management Portal — Authorized Access Only</p>
+    <div class="err" id="adminErr">❌ Invalid credentials.</div>
+    <div class="form-group"><label>Username</label><input type="text" id="adminUser" placeholder="admin"/></div>
+    <div class="form-group"><label>Password</label><input type="password" id="adminPass" placeholder="Enter password"/></div>
+    <button class="login-btn" onclick="adminLogin()">Login to Admin →</button>
+    <div class="admin-hint">
+      <strong>🔐 Demo Credentials</strong>
+      <span>Username: <strong>admin</strong> &nbsp; Password: <strong>admin123</strong></span>
+      <span class="use-demo" onclick="document.getElementById('adminUser').value='admin';document.getElementById('adminPass').value='admin123'">Use demo →</span>
+    </div>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-header">
+    <div class="logo-row">
+      <div class="logo-mark">⚕</div>
+      <div class="logo-text"><span class="ln">RRDCH</span><span class="ls">Dental College & Hospital</span></div>
+    </div>
+    <span class="admin-badge">⚙ Admin Panel</span>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Overview</div>
+    <div class="nav-item active" onclick="showPage('dashboard',this)"><span class="icon">📊</span> Dashboard</div>
+    <div class="nav-label">Appointments</div>
+    <div class="nav-item" onclick="showPage('appointments',this)"><span class="icon">📅</span> All Appointments <span class="badge-count" id="navWaiting">0</span></div>
+    <div class="nav-item" onclick="showPage('today',this)"><span class="icon">📆</span> Today's Schedule</div>
+    <div class="nav-label">Patients</div>
+    <div class="nav-item" onclick="showPage('patients',this)"><span class="icon">👥</span> Patient Records</div>
+  </div>
+  <div class="sidebar-footer">
+    <button class="logout-btn" onclick="adminLogout()">🚪 Sign Out</button>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- DASHBOARD -->
+  <div class="page active" id="page-dashboard">
+    <div class="page-header">
+      <h1>Admin Dashboard</h1>
+      <p>Overview of all appointments and patient activity at RRDCH.</p>
+    </div>
+    <div class="cards-row" id="adminStats"></div>
+    <div class="section-card">
+      <div class="section-card-header"><h3>⏳ Waiting for Confirmation</h3></div>
+      <div id="waitingTable"><div class="empty-state"><div class="icon">✅</div><p>No pending appointments</p></div></div>
+    </div>
+    <div class="section-card">
+      <div class="section-card-header"><h3>📅 Today's Appointments</h3></div>
+      <div id="todayTable"><div class="empty-state"><div class="icon">📆</div><p>No appointments today</p></div></div>
+    </div>
+  </div>
+
+  <!-- ALL APPOINTMENTS -->
+  <div class="page" id="page-appointments">
+    <div class="page-header">
+      <h1>All Appointments</h1>
+      <p>Manage, confirm, complete or cancel any appointment.</p>
+    </div>
+    <div class="section-card">
+      <div class="section-card-header">
+        <h3>Appointments</h3>
+        <div style="display:flex;gap:0.75rem;align-items:center;flex-wrap:wrap;">
+          <input class="search-bar" id="apptSearch" placeholder="🔍 Search patient or dept..." oninput="renderAllAppts()"/>
+          <div class="filter-row">
+            <button class="filter-btn active" onclick="setFilter('All',this)">All</button>
+            <button class="filter-btn" onclick="setFilter('Waiting',this)">Waiting</button>
+            <button class="filter-btn" onclick="setFilter('Confirmed',this)">Confirmed</button>
+            <button class="filter-btn" onclick="setFilter('Completed',this)">Completed</button>
+            <button class="filter-btn" onclick="setFilter('Cancelled',this)">Cancelled</button>
+          </div>
+        </div>
+      </div>
+      <div id="allApptTable"><div class="empty-state"><div class="icon">📅</div><p>No appointments found</p></div></div>
+    </div>
+  </div>
+
+  <!-- TODAY -->
+  <div class="page" id="page-today">
+    <div class="page-header">
+      <h1>Today's Schedule</h1>
+      <p id="todayDateLabel"></p>
+    </div>
+    <div class="section-card">
+      <div class="section-card-header"><h3>Appointments for Today</h3></div>
+      <div id="todayFullTable"></div>
+    </div>
+  </div>
+
+  <!-- PATIENTS -->
+  <div class="page" id="page-patients">
+    <div class="page-header">
+      <h1>Patient Records</h1>
+      <p>All registered patients in the system.</p>
+    </div>
+    <div class="section-card">
+      <div class="section-card-header"><h3>Registered Patients</h3></div>
+      <div id="patientTable"><div class="empty-state"><div class="icon">👥</div><p>No patients registered yet</p></div></div>
+    </div>
+  </div>
+
+</main>
+
+<!-- NOTES MODAL -->
+<div class="modal-overlay" id="notesModal">
+  <div class="modal">
+    <h3>📝 Add Doctor Notes & Prescription</h3>
+    <input type="hidden" id="modalApptId"/>
+    <div class="modal-group">
+      <label>Patient</label>
+      <input type="text" id="modalPatient" readonly style="background:var(--off-white);"/>
+    </div>
+    <div class="modal-group">
+      <label>Department & Date</label>
+      <input type="text" id="modalDept" readonly style="background:var(--off-white);"/>
+    </div>
+    <div class="modal-group">
+      <label>Doctor's Notes / Follow-up Instructions</label>
+      <textarea id="modalNotes" placeholder="Enter treatment notes, follow-up instructions..."></textarea>
+    </div>
+    <div class="modal-group">
+      <label>Prescription</label>
+      <textarea id="modalPresc" placeholder="Enter medications prescribed..."></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-cancel" onclick="closeModal()">Cancel</button>
+      <button class="modal-save" onclick="saveNotes()">Save & Mark Completed</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let apptFilter = 'All';
+
+  function adminLogin() {
+    const u = document.getElementById('adminUser').value.trim();
+    const p = document.getElementById('adminPass').value.trim();
+    if (u === 'admin' && p === 'admin123') {
+      document.getElementById('adminLogin').classList.add('hidden');
+      loadDashboard();
+    } else {
+      document.getElementById('adminErr').classList.add('show');
+    }
+  }
+
+  function adminLogout() {
+    document.getElementById('adminLogin').classList.remove('hidden');
+    document.getElementById('adminUser').value = '';
+    document.getElementById('adminPass').value = '';
+  }
+
+  document.addEventListener('keydown', e => { if(e.key==='Enter') adminLogin(); });
+
+  function getAppts() { return JSON.parse(localStorage.getItem('rrdch_appointments') || '[]'); }
+  function saveAppts(a) { localStorage.setItem('rrdch_appointments', JSON.stringify(a)); }
+  function getPatients() { return JSON.parse(localStorage.getItem('rrdch_patients') || '[]'); }
+
+  function getTodayStr() { return new Date().toISOString().split('T')[0]; }
+
+  function loadDashboard() {
+    const appts = getAppts();
+    const today = getTodayStr();
+    const waiting = appts.filter(a => a.status==='Waiting');
+    const confirmed = appts.filter(a => a.status==='Confirmed');
+    const completed = appts.filter(a => a.status==='Completed');
+    const todayAppts = appts.filter(a => a.date===today);
+    const patients = getPatients();
+
+    document.getElementById('navWaiting').textContent = waiting.length;
+
+    document.getElementById('adminStats').innerHTML = `
+      <div class="stat-card"><div class="label">Total Appointments</div><div class="value">${appts.length}</div><div class="icon-bg">📅</div></div>
+      <div class="stat-card"><div class="label">Waiting</div><div class="value">${waiting.length}</div><div class="icon-bg">⏳</div></div>
+      <div class="stat-card"><div class="label">Confirmed</div><div class="value">${confirmed.length}</div><div class="icon-bg">✅</div></div>
+      <div class="stat-card"><div class="label">Completed</div><div class="value">${completed.length}</div><div class="icon-bg">🏥</div></div>
+      <div class="stat-card"><div class="label">Today</div><div class="value">${todayAppts.length}</div><div class="icon-bg">📆</div></div>
+      <div class="stat-card"><div class="label">Patients</div><div class="value">${patients.length}</div><div class="icon-bg">👥</div></div>
+    `;
+
+    document.getElementById('waitingTable').innerHTML = waiting.length ? buildAdminTable(waiting) : '<div class="empty-state"><div class="icon">✅</div><p>No pending appointments</p></div>';
+    document.getElementById('todayTable').innerHTML = todayAppts.length ? buildAdminTable(todayAppts) : '<div class="empty-state"><div class="icon">📆</div><p>No appointments today</p></div>';
+  }
+
+  function buildAdminTable(appts) {
+    if (!appts.length) return '<div class="empty-state"><div class="icon">📅</div><p>None</p></div>';
+    return `<table><thead><tr><th>Appt ID</th><th>Patient</th><th>Mobile</th><th>Department</th><th>Doctor</th><th>Date</th><th>Time</th><th>Type</th><th>Status</th><th>Actions</th></tr></thead>
+    <tbody>${appts.map(a => `<tr>
+      <td style="font-size:0.72rem;color:var(--muted)">${a.id}</td>
+      <td><strong>${a.patientName}</strong><div class="patient-row-info">${a.patientId}</div></td>
+      <td>${a.mobile}</td>
+      <td>${a.department}</td>
+      <td>${a.doctor}</td>
+      <td>${a.date}</td>
+      <td>${a.time}</td>
+      <td>${a.visitType}</td>
+      <td><span class="badge badge-${a.status.toLowerCase()}">${a.status}</span></td>
+      <td><div class="action-btns">
+        ${a.status==='Waiting'?`<button class="act-btn act-confirm" onclick="updateStatus('${a.id}','Confirmed')">✓ Confirm</button>`:''}
+        ${a.status==='Confirmed'?`<button class="act-btn act-notes" onclick="openModal('${a.id}')">📝 Notes</button>`:''}
+        ${a.status==='Completed'?`<button class="act-btn act-notes" onclick="openModal('${a.id}')">✏ Edit</button>`:''}
+        ${a.status!=='Cancelled'&&a.status!=='Completed'?`<button class="act-btn act-cancel" onclick="updateStatus('${a.id}','Cancelled')">✕ Cancel</button>`:''}
+      </div></td>
+    </tr>`).join('')}</tbody></table>`;
+  }
+
+  function setFilter(f, btn) {
+    apptFilter = f;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderAllAppts();
+  }
+
+  function renderAllAppts() {
+    let appts = getAppts();
+    const q = (document.getElementById('apptSearch')?.value || '').toLowerCase();
+    if (apptFilter !== 'All') appts = appts.filter(a => a.status === apptFilter);
+    if (q) appts = appts.filter(a => a.patientName.toLowerCase().includes(q) || a.department.toLowerCase().includes(q) || a.patientId.toLowerCase().includes(q) || a.mobile.includes(q));
+    document.getElementById('allApptTable').innerHTML = buildAdminTable([...appts].reverse());
+  }
+
+  function updateStatus(id, status) {
+    const appts = getAppts();
+    const idx = appts.findIndex(a => a.id === id);
+    if (idx > -1) { appts[idx].status = status; saveAppts(appts); }
+    loadDashboard();
+    renderAllAppts();
+    loadToday();
+    document.getElementById('navWaiting').textContent = appts.filter(a=>a.status==='Waiting').length;
+  }
+
+  function openModal(id) {
+    const appts = getAppts();
+    const a = appts.find(x => x.id === id);
+    if (!a) return;
+    document.getElementById('modalApptId').value = id;
+    document.getElementById('modalPatient').value = a.patientName + ' (' + a.patientId + ')';
+    document.getElementById('modalDept').value = a.department + ' — ' + a.date;
+    document.getElementById('modalNotes').value = a.doctorNotes || '';
+    document.getElementById('modalPresc').value = a.prescription || '';
+    document.getElementById('notesModal').classList.add('show');
+  }
+
+  function closeModal() { document.getElementById('notesModal').classList.remove('show'); }
+
+  function saveNotes() {
+    const id = document.getElementById('modalApptId').value;
+    const notes = document.getElementById('modalNotes').value.trim();
+    const presc = document.getElementById('modalPresc').value.trim();
+    const appts = getAppts();
+    const idx = appts.findIndex(a => a.id === id);
+    if (idx > -1) { appts[idx].doctorNotes = notes; appts[idx].prescription = presc; appts[idx].status = 'Completed'; saveAppts(appts); }
+    closeModal();
+    loadDashboard();
+    renderAllAppts();
+    loadToday();
+  }
+
+  function loadToday() {
+    const today = getTodayStr();
+    document.getElementById('todayDateLabel').textContent = 'Schedule for ' + new Date().toLocaleDateString('en-IN', {weekday:'long',year:'numeric',month:'long',day:'numeric'});
+    const todayAppts = getAppts().filter(a => a.date === today);
+    document.getElementById('todayFullTable').innerHTML = todayAppts.length ? buildAdminTable(todayAppts) : '<div class="empty-state"><div class="icon">📆</div><p>No appointments scheduled for today.</p></div>';
+  }
+
+  function loadPatients() {
+    const patients = getPatients();
+    const appts = getAppts();
+    if (!patients.length) { document.getElementById('patientTable').innerHTML = '<div class="empty-state"><div class="icon">👥</div><p>No patients registered yet</p></div>'; return; }
+    document.getElementById('patientTable').innerHTML = `<table><thead><tr><th>Patient ID</th><th>Name</th><th>Mobile</th><th>Email</th><th>DOB</th><th>Gender</th><th>Total Appts</th><th>Registered</th></tr></thead>
+    <tbody>${patients.map(p => {
+      const count = appts.filter(a => a.patientId === p.patientId).length;
+      return `<tr><td style="font-weight:600">${p.patientId}</td><td>${p.firstName} ${p.lastName}</td><td>${p.mobile}</td><td>${p.email||'—'}</td><td>${p.dob||'—'}</td><td>${p.gender||'—'}</td><td>${count}</td><td>${p.registeredOn||'—'}</td></tr>`;
+    }).join('')}</tbody></table>`;
+  }
+
+  function showPage(id, navEl) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    if (navEl) navEl.classList.add('active');
+    if (id==='appointments') renderAllAppts();
+    if (id==='today') loadToday();
+    if (id==='patients') loadPatients();
+    if (id==='dashboard') loadDashboard();
+  }
+</script>
+</body>
+</html>
