@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Portal | RRDCH</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:#071e38; --navy-mid:#0d2d52; --blue:#1456a0;
+      --blue-mid:#1a6bbf; --accent:#00a8e8; --teal:#00869e;
+      --gold:#d4960a; --white:#fff; --off-white:#f3f7fd;
+      --surface:#eaf3fd; --text:#0d1f33; --muted:#556070; --border:#ccdff0;
+      --green:#0f7b4f; --green-bg:#e6f7f0; --red:#c0392b; --red-bg:#fdf0ee;
+      --font-display:'Cormorant Garamond',Georgia,serif;
+      --font-body:'DM Sans',sans-serif;
+      --radius:18px; --radius-sm:10px;
+      --shadow:0 4px 20px rgba(7,30,56,0.10);
+      --shadow-lg:0 12px 48px rgba(7,30,56,0.18);
+      --sidebar:260px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--off-white);color:var(--text);display:flex;min-height:100vh;font-size:15px;}
+
+    /* ===== SIDEBAR ===== */
+    .sidebar{
+      width:var(--sidebar);background:var(--navy);
+      display:flex;flex-direction:column;
+      position:fixed;left:0;top:0;bottom:0;z-index:100;
+      transition:transform 0.3s;
+    }
+    .sidebar-logo{
+      padding:1.5rem 1.25rem;border-bottom:1px solid rgba(255,255,255,0.08);
+      display:flex;align-items:center;gap:0.7rem;text-decoration:none;
+    }
+    .sb-logo-mark{
+      width:38px;height:38px;background:linear-gradient(135deg,var(--accent),var(--blue));
+      border-radius:9px;display:flex;align-items:center;justify-content:center;
+      font-size:1.2rem;color:white;font-weight:700;flex-shrink:0;
+    }
+    .sb-logo-text .sln{display:block;font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:white;line-height:1;}
+    .sb-logo-text .sls{display:block;font-size:0.58rem;color:rgba(255,255,255,0.4);margin-top:2px;}
+
+    .student-info{
+      padding:1.25rem;margin:0.75rem;
+      background:rgba(255,255,255,0.06);border-radius:12px;
+      border:1px solid rgba(255,255,255,0.1);
+    }
+    .student-avatar{
+      width:48px;height:48px;border-radius:50%;
+      background:linear-gradient(135deg,var(--accent),var(--blue-mid));
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.3rem;margin-bottom:0.6rem;
+      border:2px solid rgba(255,255,255,0.15);
+    }
+    .student-info .s-name{font-size:0.9rem;font-weight:600;color:white;}
+    .student-info .s-id{font-size:0.72rem;color:rgba(255,255,255,0.4);}
+    .student-info .s-batch{
+      display:inline-block;margin-top:0.4rem;
+      background:rgba(0,168,232,0.15);border:1px solid rgba(0,168,232,0.3);
+      color:var(--accent);font-size:0.65rem;font-weight:600;
+      padding:0.18rem 0.6rem;border-radius:50px;
+    }
+
+    .sb-nav{flex:1;padding:0.75rem 0;overflow-y:auto;}
+    .sb-section-label{
+      font-size:0.62rem;font-weight:700;letter-spacing:0.15em;
+      text-transform:uppercase;color:rgba(255,255,255,0.25);
+      padding:0.75rem 1.25rem 0.4rem;
+    }
+    .sb-link{
+      display:flex;align-items:center;gap:0.75rem;
+      padding:0.7rem 1.25rem;color:rgba(255,255,255,0.6);
+      text-decoration:none;font-size:0.84rem;font-weight:500;
+      transition:all 0.2s;border-left:3px solid transparent;cursor:pointer;
+    }
+    .sb-link:hover{color:white;background:rgba(255,255,255,0.06);}
+    .sb-link.active{color:white;background:rgba(0,168,232,0.12);border-left-color:var(--accent);}
+    .sb-link .sb-ico{font-size:1rem;width:22px;text-align:center;flex-shrink:0;}
+    .sb-badge{
+      margin-left:auto;background:var(--accent);color:white;
+      font-size:0.62rem;font-weight:700;padding:0.15rem 0.5rem;
+      border-radius:50px;min-width:18px;text-align:center;
+    }
+
+    .sb-bottom{
+      padding:1rem 1.25rem;border-top:1px solid rgba(255,255,255,0.08);
+    }
+    .logout-btn{
+      display:flex;align-items:center;gap:0.6rem;
+      color:rgba(255,255,255,0.5);font-size:0.82rem;
+      text-decoration:none;padding:0.5rem 0;
+      transition:color 0.2s;cursor:pointer;background:none;border:none;
+      font-family:var(--font-body);width:100%;
+    }
+    .logout-btn:hover{color:white;}
+
+    /* ===== MAIN ===== */
+    .main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;}
+
+    .topbar{
+      background:white;border-bottom:1.5px solid var(--border);
+      padding:0.9rem 2rem;display:flex;align-items:center;
+      justify-content:space-between;position:sticky;top:0;z-index:50;
+    }
+    .topbar-left{display:flex;align-items:center;gap:0.75rem;}
+    .page-title{font-size:1rem;font-weight:600;color:var(--navy);}
+    .page-sub{font-size:0.78rem;color:var(--muted);}
+    .topbar-right{display:flex;align-items:center;gap:0.75rem;}
+    .lang-toggle{
+      background:var(--surface);border:1.5px solid var(--border);
+      color:var(--muted);padding:0.38rem 0.85rem;border-radius:50px;
+      font-size:0.75rem;cursor:pointer;font-family:var(--font-body);
+      transition:all 0.2s;
+    }
+    .lang-toggle:hover{border-color:var(--accent);color:var(--blue);}
+    .notif-btn{
+      width:36px;height:36px;background:var(--surface);
+      border:1.5px solid var(--border);border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-size:1rem;cursor:pointer;position:relative;
+    }
+    .notif-dot{
+      position:absolute;top:4px;right:4px;
+      width:8px;height:8px;background:var(--accent);
+      border-radius:50%;border:2px solid white;
+    }
+    .menu-btn{display:none;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--navy);}
+
+    /* ===== CONTENT PANELS ===== */
+    .content{padding:2rem;flex:1;}
+    .panel{display:none;}
+    .panel.active{display:block;}
+
+    /* ===== DASHBOARD ===== */
+    .dash-welcome{
+      background:var(--navy);border-radius:var(--radius);
+      padding:2rem 2.5rem;margin-bottom:1.5rem;
+      position:relative;overflow:hidden;
+    }
+    .dash-welcome::before{
+      content:'';position:absolute;right:-60px;top:-60px;
+      width:250px;height:250px;border-radius:50%;
+      border:1px solid rgba(0,168,232,0.1);
+    }
+    .dash-welcome h2{
+      font-family:var(--font-display);font-size:1.75rem;
+      color:white;font-weight:700;margin-bottom:0.3rem;
+    }
+    .dash-welcome h2 em{font-style:italic;color:var(--accent);}
+    .dash-welcome p{font-size:0.88rem;color:rgba(255,255,255,0.5);}
+    .dash-date{
+      position:absolute;right:2rem;top:50%;transform:translateY(-50%);
+      text-align:right;
+    }
+    .dash-date .dd{font-family:var(--font-display);font-size:2.5rem;color:white;font-weight:700;line-height:1;}
+    .dash-date .dm{font-size:0.8rem;color:rgba(255,255,255,0.45);}
+
+    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem;}
+    .stat-card{
+      background:white;border:1.5px solid var(--border);
+      border-radius:var(--radius);padding:1.25rem 1.5rem;
+      display:flex;align-items:center;gap:1rem;
+      transition:transform 0.2s,box-shadow 0.2s;
+    }
+    .stat-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);}
+    .stat-ico{
+      width:44px;height:44px;border-radius:11px;
+      display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;
+    }
+    .stat-ico.blue{background:var(--surface);}
+    .stat-ico.green{background:var(--green-bg);}
+    .stat-ico.gold{background:#fff8e6;}
+    .stat-ico.red{background:var(--red-bg);}
+    .stat-card .sv{font-family:var(--font-display);font-size:1.6rem;font-weight:700;color:var(--navy);display:block;line-height:1;}
+    .stat-card .sk{font-size:0.72rem;color:var(--muted);display:block;margin-top:3px;}
+
+    .dash-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:1.25rem;}
+    .card{background:white;border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+    .card-head{
+      padding:1.1rem 1.5rem;border-bottom:1.5px solid var(--border);
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .card-head h3{font-size:0.9rem;font-weight:600;color:var(--navy);}
+    .card-head a,.card-head button{
+      font-size:0.75rem;color:var(--blue);font-weight:600;
+      text-decoration:none;background:none;border:none;cursor:pointer;
+      font-family:var(--font-body);
+    }
+    .card-body{padding:1.25rem 1.5rem;}
+
+    /* Notice items */
+    .notice-item{
+      display:flex;gap:0.75rem;align-items:flex-start;
+      padding:0.75rem 0;border-bottom:1px solid var(--border);
+    }
+    .notice-item:last-child{border-bottom:none;padding-bottom:0;}
+    .notice-dot{
+      width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:6px;
+    }
+    .notice-dot.urgent{background:#e74c3c;}
+    .notice-dot.info{background:var(--accent);}
+    .notice-dot.normal{background:var(--muted);}
+    .notice-title{font-size:0.85rem;color:var(--navy);font-weight:500;margin-bottom:2px;}
+    .notice-meta{font-size:0.72rem;color:var(--muted);}
+
+    /* Today's schedule */
+    .schedule-item{
+      display:flex;gap:0.75rem;align-items:flex-start;
+      padding:0.7rem 0;border-bottom:1px solid var(--border);
+    }
+    .schedule-item:last-child{border-bottom:none;}
+    .sched-time{
+      font-size:0.72rem;font-weight:600;color:var(--blue);
+      min-width:65px;flex-shrink:0;padding-top:2px;
+    }
+    .sched-body h5{font-size:0.85rem;color:var(--navy);font-weight:500;}
+    .sched-body span{font-size:0.72rem;color:var(--muted);}
+    .sched-tag{
+      margin-left:auto;font-size:0.65rem;font-weight:600;
+      padding:0.15rem 0.5rem;border-radius:50px;flex-shrink:0;
+    }
+    .sched-tag.clinical{background:var(--green-bg);color:var(--green);}
+    .sched-tag.theory{background:var(--surface);color:var(--blue);}
+    .sched-tag.practical{background:#fff8e6;color:var(--gold);}
+
+    /* ===== TIMETABLE ===== */
+    .filter-row{display:flex;gap:0.75rem;margin-bottom:1.5rem;flex-wrap:wrap;align-items:center;}
+    .filter-select{
+      padding:0.55rem 1rem;border:1.5px solid var(--border);
+      border-radius:50px;font-family:var(--font-body);font-size:0.84rem;
+      background:white;color:var(--text);outline:none;cursor:pointer;
+      transition:border-color 0.2s;
+    }
+    .filter-select:focus{border-color:var(--blue);}
+    .tt-table-wrap{background:white;border:1.5px solid var(--border);border-radius:var(--radius);overflow:auto;}
+    table.tt-tbl{width:100%;border-collapse:collapse;min-width:700px;}
+    table.tt-tbl th{
+      background:var(--navy);color:white;font-size:0.75rem;
+      font-weight:600;padding:0.85rem 1rem;text-align:left;
+      letter-spacing:0.04em;
+    }
+    table.tt-tbl th:first-child{min-width:80px;}
+    table.tt-tbl td{
+      padding:0.8rem 1rem;font-size:0.82rem;border-bottom:1px solid var(--border);
+      vertical-align:top;
+    }
+    table.tt-tbl tr:last-child td{border-bottom:none;}
+    table.tt-tbl tr:hover td{background:var(--off-white);}
+    .tt-cell{display:flex;flex-direction:column;gap:2px;}
+    .tt-subject{font-weight:600;color:var(--navy);font-size:0.82rem;}
+    .tt-room{font-size:0.7rem;color:var(--muted);}
+    .tt-tag{
+      display:inline-block;font-size:0.62rem;font-weight:600;
+      padding:0.12rem 0.45rem;border-radius:50px;margin-top:2px;
+    }
+    .tt-tag.th{background:var(--surface);color:var(--blue);}
+    .tt-tag.pr{background:#fff8e6;color:var(--gold);}
+    .tt-tag.cl{background:var(--green-bg);color:var(--green);}
+    .tt-tag.br{background:var(--off-white);color:var(--muted);}
+    .time-col{font-weight:600;color:var(--navy);font-size:0.78rem;white-space:nowrap;}
+
+    /* ===== SYLLABUS ===== */
+    .syllabus-tabs{display:flex;gap:0.5rem;margin-bottom:1.5rem;flex-wrap:wrap;}
+    .syl-tab{
+      padding:0.5rem 1.2rem;border-radius:50px;
+      border:1.5px solid var(--border);background:white;
+      font-size:0.82rem;font-weight:500;color:var(--muted);
+      cursor:pointer;transition:all 0.2s;font-family:var(--font-body);
+    }
+    .syl-tab:hover{border-color:var(--accent);color:var(--blue);}
+    .syl-tab.active{background:var(--blue);border-color:var(--blue);color:white;font-weight:600;}
+    .syl-panel{display:none;}
+    .syl-panel.active{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;}
+    .syl-card{
+      background:white;border:1.5px solid var(--border);
+      border-radius:var(--radius);padding:1.25rem 1.5rem;
+      display:flex;align-items:center;gap:1rem;
+      transition:transform 0.2s,box-shadow 0.2s,border-color 0.2s;
+    }
+    .syl-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--accent);}
+    .syl-ico{
+      width:44px;height:44px;border-radius:11px;background:#fff0f0;
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.2rem;flex-shrink:0;
+    }
+    .syl-card h4{font-size:0.9rem;font-weight:600;color:var(--navy);margin-bottom:0.2rem;}
+    .syl-card p{font-size:0.75rem;color:var(--muted);}
+    .dl-btn{
+      margin-left:auto;background:var(--blue);color:white;border:none;
+      padding:0.4rem 0.9rem;border-radius:50px;font-size:0.75rem;
+      font-weight:600;cursor:pointer;font-family:var(--font-body);
+      transition:background 0.2s;flex-shrink:0;
+    }
+    .dl-btn:hover{background:var(--navy);}
+
+    /* ===== HOSTEL COMPLAINT ===== */
+    .complaint-layout{display:grid;grid-template-columns:1.1fr 1fr;gap:1.5rem;}
+    .complaint-form-card{background:white;border:1.5px solid var(--border);border-radius:var(--radius);padding:2rem;}
+    .complaint-form-card h3{font-family:var(--font-display);font-size:1.4rem;color:var(--navy);font-weight:700;margin-bottom:0.4rem;}
+    .complaint-form-card p{font-size:0.84rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.65;}
+    .cf-group{margin-bottom:1.1rem;}
+    .cf-group label{display:block;font-size:0.75rem;font-weight:600;color:var(--navy);margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.04em;}
+    .cf-group input,.cf-group select,.cf-group textarea{
+      width:100%;padding:0.7rem 1rem;border:1.5px solid var(--border);
+      border-radius:var(--radius-sm);font-family:var(--font-body);
+      font-size:0.88rem;color:var(--text);background:var(--off-white);
+      outline:none;transition:border-color 0.2s,background 0.2s;
+    }
+    .cf-group input:focus,.cf-group select:focus,.cf-group textarea:focus{
+      border-color:var(--blue);background:white;
+    }
+    .cf-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+    .cf-submit{
+      width:100%;padding:0.85rem;border-radius:50px;
+      background:var(--blue);color:white;border:none;
+      font-family:var(--font-body);font-size:0.9rem;font-weight:600;
+      cursor:pointer;transition:all 0.22s;margin-top:0.5rem;
+    }
+    .cf-submit:hover{background:var(--navy);transform:translateY(-2px);}
+
+    .complaints-history h3{font-family:var(--font-display);font-size:1.2rem;color:var(--navy);font-weight:700;margin-bottom:1.25rem;}
+    .complaint-item{
+      background:white;border:1.5px solid var(--border);
+      border-radius:var(--radius-sm);padding:1rem 1.25rem;
+      margin-bottom:0.75rem;
+    }
+    .complaint-item-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.4rem;}
+    .complaint-item h5{font-size:0.88rem;font-weight:600;color:var(--navy);}
+    .c-status{
+      font-size:0.68rem;font-weight:700;padding:0.2rem 0.6rem;
+      border-radius:50px;flex-shrink:0;
+    }
+    .c-status.resolved{background:var(--green-bg);color:var(--green);}
+    .c-status.pending{background:#fff8e6;color:var(--gold);}
+    .c-status.inprogress{background:var(--surface);color:var(--blue);}
+    .complaint-item p{font-size:0.78rem;color:var(--muted);line-height:1.5;}
+    .complaint-item .c-meta{font-size:0.7rem;color:var(--muted);margin-top:0.4rem;}
+
+    /* ===== PG SCHEDULE ===== */
+    .pg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;}
+    .pg-card{
+      background:white;border:1.5px solid var(--border);
+      border-radius:var(--radius);overflow:hidden;
+      transition:transform 0.2s,box-shadow 0.2s;
+    }
+    .pg-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);}
+    .pg-card-head{
+      background:var(--navy-mid);padding:1rem 1.25rem;
+      display:flex;align-items:center;gap:0.75rem;
+    }
+    .pg-avatar{
+      width:40px;height:40px;border-radius:50%;
+      background:linear-gradient(135deg,var(--accent),var(--blue));
+      display:flex;align-items:center;justify-content:center;
+      font-size:1rem;border:2px solid rgba(255,255,255,0.2);flex-shrink:0;
+    }
+    .pg-card-head h4{font-size:0.9rem;font-weight:600;color:white;}
+    .pg-card-head span{font-size:0.72rem;color:rgba(255,255,255,0.5);}
+    .pg-card-body{padding:1rem 1.25rem;}
+    .pg-row{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:0.5rem 0;border-bottom:1px solid var(--border);font-size:0.82rem;
+    }
+    .pg-row:last-child{border-bottom:none;}
+    .pg-row .pk{color:var(--muted);}
+    .pg-row .pv{font-weight:600;color:var(--navy);}
+    .pg-status-badge{
+      display:inline-flex;align-items:center;gap:0.3rem;
+      font-size:0.68rem;font-weight:700;padding:0.2rem 0.6rem;
+      border-radius:50px;margin-top:0.75rem;
+    }
+    .pg-status-badge.on-duty{background:var(--green-bg);color:var(--green);}
+    .pg-status-badge.on-duty::before{content:'';width:6px;height:6px;background:var(--green);border-radius:50%;}
+    .pg-status-badge.off{background:var(--off-white);color:var(--muted);}
+
+    /* ===== CALENDAR ===== */
+    .calendar-layout{display:grid;grid-template-columns:1fr 1.5fr;gap:1.5rem;}
+    .mini-cal{background:white;border:1.5px solid var(--border);border-radius:var(--radius);padding:1.5rem;}
+    .cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;}
+    .cal-header h3{font-family:var(--font-display);font-size:1.15rem;font-weight:700;color:var(--navy);}
+    .cal-nav{background:var(--surface);border:1.5px solid var(--border);width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.8rem;color:var(--navy);border:none;}
+    .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center;}
+    .cal-day-label{font-size:0.68rem;font-weight:700;color:var(--muted);padding:0.3rem 0;}
+    .cal-day{
+      font-size:0.8rem;padding:0.45rem 0.2rem;border-radius:8px;
+      cursor:pointer;transition:background 0.15s;color:var(--text);
+    }
+    .cal-day:hover{background:var(--surface);}
+    .cal-day.today{background:var(--blue);color:white;font-weight:700;}
+    .cal-day.has-event{position:relative;}
+    .cal-day.has-event::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:4px;height:4px;background:var(--accent);border-radius:50%;}
+    .cal-day.other-month{color:var(--border);}
+    .cal-day.holiday{background:#fff0f0;color:#c0392b;}
+
+    .events-list-cal{background:white;border:1.5px solid var(--border);border-radius:var(--radius);padding:1.5rem;}
+    .events-list-cal h3{font-family:var(--font-display);font-size:1.2rem;font-weight:700;color:var(--navy);margin-bottom:1.25rem;}
+    .event-item{
+      display:flex;gap:1rem;align-items:flex-start;
+      padding:1rem 0;border-bottom:1px solid var(--border);
+    }
+    .event-item:last-child{border-bottom:none;}
+    .event-date-badge{
+      background:var(--blue);color:white;border-radius:10px;
+      padding:0.5rem 0.75rem;text-align:center;flex-shrink:0;min-width:52px;
+    }
+    .event-date-badge .ed{display:block;font-size:1.3rem;font-weight:700;font-family:var(--font-display);line-height:1;}
+    .event-date-badge .em{display:block;font-size:0.6rem;letter-spacing:0.08em;opacity:0.8;margin-top:2px;}
+    .event-item h5{font-size:0.88rem;font-weight:600;color:var(--navy);margin-bottom:0.25rem;}
+    .event-item p{font-size:0.78rem;color:var(--muted);line-height:1.5;}
+    .event-type-tag{
+      display:inline-block;font-size:0.65rem;font-weight:600;
+      padding:0.15rem 0.5rem;border-radius:50px;margin-top:0.4rem;
+    }
+    .event-type-tag.exam{background:#fff0f0;color:#c0392b;}
+    .event-type-tag.seminar{background:var(--surface);color:var(--blue);}
+    .event-type-tag.holiday{background:var(--green-bg);color:var(--green);}
+    .event-type-tag.workshop{background:#fff8e6;color:var(--gold);}
+    .event-type-tag.cultural{background:#f8e6ff;color:#6b1f9e;}
+
+    /* ===== NOTICES ===== */
+    .notices-grid{display:flex;flex-direction:column;gap:0.85rem;}
+    .notice-card{
+      background:white;border:1.5px solid var(--border);
+      border-radius:var(--radius);padding:1.25rem 1.5rem;
+      display:flex;gap:1rem;align-items:flex-start;
+      transition:border-color 0.2s,transform 0.2s;
+    }
+    .notice-card:hover{border-color:var(--accent);transform:translateX(4px);}
+    .notice-card-ico{
+      width:40px;height:40px;border-radius:10px;
+      display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;
+    }
+    .notice-card-ico.red{background:#fff0f0;}
+    .notice-card-ico.blue{background:var(--surface);}
+    .notice-card-ico.gold{background:#fff8e6;}
+    .notice-card h4{font-size:0.92rem;font-weight:600;color:var(--navy);margin-bottom:0.25rem;}
+    .notice-card p{font-size:0.82rem;color:var(--muted);line-height:1.6;}
+    .notice-card .n-meta{display:flex;gap:0.75rem;margin-top:0.5rem;flex-wrap:wrap;}
+    .notice-card .n-date{font-size:0.72rem;color:var(--muted);}
+    .notice-card .n-tag{
+      font-size:0.65rem;font-weight:600;padding:0.15rem 0.5rem;
+      border-radius:50px;background:var(--surface);color:var(--blue);
+    }
+    .notice-card .n-tag.urgent{background:#fff0f0;color:#c0392b;}
+
+    /* ===== FEEDBACK ===== */
+    .feedback-wrap{max-width:680px;}
+    .feedback-card{background:white;border:1.5px solid var(--border);border-radius:var(--radius);padding:2rem;}
+    .feedback-card h3{font-family:var(--font-display);font-size:1.4rem;color:var(--navy);font-weight:700;margin-bottom:0.4rem;}
+    .feedback-card p{font-size:0.84rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.65;}
+    .stars-row{display:flex;gap:0.5rem;margin-bottom:0.3rem;}
+    .stars-row span{font-size:1.6rem;color:var(--border);cursor:pointer;transition:color 0.15s;}
+    .stars-row span.lit{color:var(--gold);}
+
+    /* TOAST */
+    .toast{
+      position:fixed;bottom:2rem;right:2rem;
+      background:var(--navy);color:white;
+      padding:0.9rem 1.5rem;border-radius:var(--radius-sm);
+      font-size:0.86rem;font-weight:500;box-shadow:var(--shadow-lg);
+      border-left:4px solid var(--accent);
+      transform:translateY(120px);opacity:0;
+      transition:all 0.35s ease;z-index:9999;max-width:340px;
+    }
+    .toast.show{transform:translateY(0);opacity:1;}
+
+    /* RESPONSIVE */
+    @media(max-width:1024px){
+      .stats-row{grid-template-columns:1fr 1fr;}
+      .dash-grid{grid-template-columns:1fr;}
+      .complaint-layout{grid-template-columns:1fr;}
+      .calendar-layout{grid-template-columns:1fr;}
+    }
+    @media(max-width:768px){
+      .sidebar{transform:translateX(-100%);}
+      .sidebar.open{transform:translateX(0);}
+      .main{margin-left:0;}
+      .menu-btn{display:block;}
+      .dash-date{display:none;}
+      .stats-row{grid-template-columns:1fr 1fr;}
+      .cf-row{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <a href="home.html" class="sidebar-logo">
+      <div class="sb-logo-mark">⚕</div>
+      <div class="sb-logo-text">
+        <span class="sln">RRDCH</span>
+        <span class="sls">Student Portal</span>
+      </div>
+    </a>
+
+    <div class="student-info">
+      <div class="student-avatar">👨‍🎓</div>
+      <div class="s-name">Arjun Sharma</div>
+      <div class="s-id">ID: RRDCH2024001</div>
+      <span class="s-batch">BDS Year 2 · 2024–25</span>
+    </div>
+
+    <nav class="sb-nav">
+      <div class="sb-section-label">Main</div>
+      <div class="sb-link active" onclick="switchPanel(this,'dashboard')">
+        <span class="sb-ico">🏠</span> Dashboard
+      </div>
+
+      <div class="sb-section-label">Academic</div>
+      <div class="sb-link" onclick="switchPanel(this,'timetable')">
+        <span class="sb-ico">📅</span> Timetable
+      </div>
+      <div class="sb-link" onclick="switchPanel(this,'syllabus')">
+        <span class="sb-ico">📚</span> Syllabus
+      </div>
+      <div class="sb-link" onclick="switchPanel(this,'pg-schedule')">
+        <span class="sb-ico">👨‍⚕️</span> PG Schedule
+      </div>
+      <div class="sb-link" onclick="switchPanel(this,'calendar')">
+        <span class="sb-ico">🗓</span> Events Calendar
+      </div>
+
+      <div class="sb-section-label">Services</div>
+      <div class="sb-link" onclick="switchPanel(this,'notices')">
+        <span class="sb-ico">📢</span> Notices & Circulars
+        <span class="sb-badge">3</span>
+      </div>
+      <div class="sb-link" onclick="switchPanel(this,'hostel')">
+        <span class="sb-ico">🏠</span> Hostel Complaint
+      </div>
+      <div class="sb-link" onclick="switchPanel(this,'feedback')">
+        <span class="sb-ico">💬</span> Feedback
+      </div>
+    </nav>
+
+    <div class="sb-bottom">
+      <button class="logout-btn" onclick="window.location.href='student-login.html'">
+        🚪 Sign Out
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+        <div>
+          <div class="page-title" id="pageTitle">Dashboard</div>
+          <div class="page-sub" id="pageSub">Welcome back, Arjun</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="lang-toggle" onclick="toggleLang()">🌐 ಕನ್ನಡ</button>
+        <div class="notif-btn">🔔<span class="notif-dot"></span></div>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+      <!-- ===== DASHBOARD ===== -->
+      <div class="panel active" id="panel-dashboard">
+        <div class="dash-welcome">
+          <h2>Good Morning, <em>Arjun</em> 👋</h2>
+          <p>BDS Year 2 · Department of Conservative Dentistry · Academic Year 2024–25</p>
+          <div class="dash-date">
+            <div class="dd">14</div>
+            <div class="dm">April 2026, Tuesday</div>
+          </div>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-ico blue">📅</div>
+            <div><span class="sv">6</span><span class="sk">Classes Today</span></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-ico green">✅</div>
+            <div><span class="sv">82%</span><span class="sk">Attendance</span></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-ico gold">📋</div>
+            <div><span class="sv">3</span><span class="sk">New Notices</span></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-ico red">🏠</div>
+            <div><span class="sv">1</span><span class="sk">Open Complaint</span></div>
+          </div>
+        </div>
+
+        <div class="dash-grid">
+          <div class="card">
+            <div class="card-head">
+              <h3>📅 Today's Schedule</h3>
+              <div class="sb-link" style="padding:0;border:none;color:var(--blue);font-size:0.75rem;font-weight:600;cursor:pointer;" onclick="switchPanel(document.querySelector('[onclick*=timetable]'),'timetable')">View Full →</div>
+            </div>
+            <div class="card-body">
+              <div class="schedule-item">
+                <span class="sched-time">9:00 AM</span>
+                <div class="sched-body"><h5>General Anatomy</h5><span>Hall A · Dr. Rajan Kumar</span></div>
+                <span class="sched-tag theory">Theory</span>
+              </div>
+              <div class="schedule-item">
+                <span class="sched-time">10:00 AM</span>
+                <div class="sched-body"><h5>Dental Materials</h5><span>Lab 2 · Dr. Meera S</span></div>
+                <span class="sched-tag practical">Practical</span>
+              </div>
+              <div class="schedule-item">
+                <span class="sched-time">11:30 AM</span>
+                <div class="sched-body"><h5>Oral Histology</h5><span>Hall B · Dr. Priya Nair</span></div>
+                <span class="sched-tag theory">Theory</span>
+              </div>
+              <div class="schedule-item">
+                <span class="sched-time">2:00 PM</span>
+                <div class="sched-body"><h5>Clinical Posting</h5><span>OPD Block · Cons. Dept</span></div>
+                <span class="sched-tag clinical">Clinical</span>
+              </div>
+              <div class="schedule-item">
+                <span class="sched-time">4:30 PM</span>
+                <div class="sched-body"><h5>Biochemistry</h5><span>Hall A · Dr. Anand R</span></div>
+                <span class="sched-tag theory">Theory</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>📢 Latest Notices</h3></div>
+            <div class="card-body">
+              <div class="notice-item">
+                <span class="notice-dot urgent"></span>
+                <div>
+                  <div class="notice-title">Internal Exam Schedule Released</div>
+                  <div class="notice-meta">May 10–14, 2026 · Exam Cell</div>
+                </div>
+              </div>
+              <div class="notice-item">
+                <span class="notice-dot info"></span>
+                <div>
+                  <div class="notice-title">Dental Camp Volunteers Needed</div>
+                  <div class="notice-meta">April 20, 2026 · Public Health Dept</div>
+                </div>
+              </div>
+              <div class="notice-item">
+                <span class="notice-dot info"></span>
+                <div>
+                  <div class="notice-title">National Dental Symposium 2026</div>
+                  <div class="notice-meta">April 28, 2026 · Academic Block</div>
+                </div>
+              </div>
+              <div class="notice-item">
+                <span class="notice-dot normal"></span>
+                <div>
+                  <div class="notice-title">Library Timings Extended</div>
+                  <div class="notice-meta">Effective April 15 · Library</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== TIMETABLE ===== -->
+      <div class="panel" id="panel-timetable">
+        <div class="filter-row">
+          <select class="filter-select" onchange="loadTimetable()">
+            <option>BDS Year 1</option>
+            <option selected>BDS Year 2</option>
+            <option>BDS Year 3</option>
+            <option>BDS Year 4</option>
+            <option>MDS — Orthodontics</option>
+            <option>MDS — Periodontics</option>
+            <option>MDS — Oral Surgery</option>
+          </select>
+          <select class="filter-select">
+            <option>Current Week (Apr 14–19)</option>
+            <option>Next Week</option>
+          </select>
+        </div>
+
+        <div class="tt-table-wrap">
+          <table class="tt-tbl">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="time-col">9:00–10:00</td>
+                <td><div class="tt-cell"><span class="tt-subject">General Anatomy</span><span class="tt-room">Hall A</span><span class="tt-tag th">Theory</span></div></td>
+                <td><div class="tt-cell"><span class="tt-subject">General Anatomy</span><span class="tt-room">Hall A</span><span class="tt-tag th">Theory</span></div></td>
+                <td><div class="tt-cell"><span class="tt-subject">Oral Histology</span><span class="tt-room">Hall B</span><span class="tt-tag th">Theory</span></div></td>
+                <td><div class="tt-cell"><span class="tt-subject">Biochemistry</span><span class="tt-room">Hall C</span><span class="tt-tag th">Theory</span></div></td>
+                <td><div class="tt-cell"><span class="tt-subject">Dental Materials</span><span class="tt-room">Hall A</span><span class="tt-tag th">Theory</span></div></td>
+                <td><div class="tt-cell"><span class="tt-subject">Clinical Posting</span><span class="tt-room">OPD Block</span><span class="tt-tag cl">Clinical</span></div></td>
+              </tr>
+              <tr>
+                <td class="time-col">10:00–11:00</td>
+                <td><div class="tt-cell"><span class="tt-subject">Dental Materials</span><span class="tt-room">Lab 2</span><span class="tt-tag pr">Practical</span></div></td>
+                <td><div class="tt-cell"><span class="tt-subject">Dental Materials</span><span class="tt-room">Lab 2</span><span class="tt-tag pr">Practical</span></div></td>
+                <td><div class="tt-cell"><span class="tt-subject">Dental Materials</span><span class="tt-room">Lab 2</span><span class="tt-tag pr">Practical</span></div></td>
+                <td><div class="tt-cell"><span class="tt-subject">Anatomy Practical</span><span class="tt-room">Dissection Hall</span><span class="tt-tag pr">Practical</span></div></td>
+                <td><div class="tt-cell"><span class="tt-subject">Microbiology</span><span class="tt-room">Lab 1</span><span class="tt-tag pr">Practical</span></div></td>
+                <td><div class="tt-cell"><span class="tt-subject">Clinical Posting</span><span class="tt-room">OPD Block</span><span class="tt-tag cl">Clinical</span></div></td>
+              </tr>
+              <tr>
+                <td class="time-col">11:00–11:30</td>
+                <td colspan="6" style="text-align:center;"><div class="tt-cell" style="align-items:center;"><span class="tt-tag br">Break</span></div></td>
+              </tr>
+              <tr>
+                <td class="time-col">11:30–12:30</td>
+                <td><div class="tt-cell"><span class="tt-subject">Oral Histology</span><span class="tt-room">Hall B</span><span class="tt-tag th">Theory</span></div></td>
+                <td><div class="tt-cell"><span class="tt-subject">Oral Histology</span><span class="tt-room">Hall B</span><span class="tt-tag th">Theory</span></div></td>
+                <td><div class="tt-cell"><span class="tt-subject">Biochemistry</span><span class="tt-room">Hall C</span><span class="tt-tag th">Theory</span></div></td>
+                <td><div class="tt-cell"><span class="tt-subject">Dental Materials</span><span class="tt-room">Hall A</span><span class="tt-tag th">Theory</span></div></td>
+                <td><div class="tt-cell"><span class="tt-subject">General Anatomy</span><span class="tt-room">Hall A</span><span class="tt-tag th">Theory</span></div></td>
+                <td><div class="tt-cell"><span class="tt-subject">Tutorial</span><span class="tt-room">Seminar Hall</span><span class="tt-tag th">Theory</span></div></td>
+              </tr>
+              <tr>
+                <td class="time-col">12:30–2:00</td>
+                <td colspan="6" style="text-align:center;"><div class="tt-cell" style="align-items:center;"><span class="tt-tag br">Lunch Break</span></div></td>
+              </tr>
+              <tr>
+                <td class="time-col">2:00–4:30</td>
+                <td><div class="tt-cell"><span class="tt-subject">Clinical Posting</span><span class="tt-room">OPD Block</span><span class="tt-tag cl">Clinical</span></div></td>
+                <td><div class="tt-cell"><span class="tt-subject">Clinical Posting</span><span class="tt-room">OPD Block</span><span class="tt-tag cl">Clinical</span></div></td>
+                <td><div class="tt-cell"><span class="tt-subject">Clinical Posting</span><span class="tt-room">OPD Block</span><span class="tt-tag cl">Clinical</span></div></td>
+                <td><div class="tt-cell"><span class="tt-subject">Clinical Posting</span><span class="tt-room">OPD Block</span><span class="tt-tag cl">Clinical</span></div></td>
+                <td><div class="tt-cell"><span class="tt-subject">Clinical Posting</span><span class="tt-room">OPD Block</span><span class="tt-tag cl">Clinical</span></div></td>
+                <td><div class="tt-cell"><span class="tt-subject">Sports / Free</span><span class="tt-room">Ground</span><span class="tt-tag br">Activity</span></div></td>
+              </tr>
+              <tr>
+                <td class="time-col">4:30–5:30</td>
+                <td><div class="tt-cell"><span class="tt-subject">Biochemistry</span><span class="tt-room">Hall C</span><span class="tt-tag th">Theory</span></div></td>
+                <td><div class="tt-cell"><span class="tt-subject">Microbiology</span><span class="tt-room">Hall B</span><span class="tt-tag th">Theory</span></div></td>
+                <td><div class="tt-cell"><span class="tt-subject">Dental Materials</span><span class="tt-room">Hall A</span><span class="tt-tag th">Theory</span></div></td>
+                <td><div class="tt-cell"><span class="tt-subject">Physiology</span><span class="tt-room">Hall C</span><span class="tt-tag th">Theory</span></div></td>
+                <td><div class="tt-cell"><span class="tt-subject">Oral Histology</span><span class="tt-room">Hall B</span><span class="tt-tag th">Theory</span></div></td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== SYLLABUS ===== -->
+      <div class="panel" id="panel-syllabus">
+        <div class="syllabus-tabs">
+          <button class="syl-tab active" onclick="switchSylTab(this,'syl-bds1')">BDS Year 1</button>
+          <button class="syl-tab" onclick="switchSylTab(this,'syl-bds2')">BDS Year 2</button>
+          <button class="syl-tab" onclick="switchSylTab(this,'syl-bds3')">BDS Year 3</button>
+          <button class="syl-tab" onclick="switchSylTab(this,'syl-bds4')">BDS Year 4</button>
+          <button class="syl-tab" onclick="switchSylTab(this,'syl-mds')">MDS</button>
+        </div>
+
+        <div class="syl-panel active" id="syl-bds1">
+          <div class="syl-card"><div class="syl-ico">📄</div><div><h4>General Anatomy including Embryology &amp; Histology</h4><p>RGUHS BDS Year 1 · 2024–25</p></div><button class="dl-btn" onclick="showToast('📥 Downloading Anatomy Syllabus...')">⬇ PDF</button></div>
+          <div class="syl-card"><div class="syl-ico">📄</div><div><h4>General Human Physiology &amp; Biochemistry</h4><p>RGUHS BDS Year 1 · 2024–25</p></div><button class="dl-btn" onclick="showToast('📥 Downloading Physiology Syllabus...')">⬇ PDF</button></div>
+          <div class="syl-card"><div class="syl-ico">📄</div><div><h4>Dental Anatomy, Embryology &amp; Oral Histology</h4><p>RGUHS BDS Year 1 · 2024–25</p></div><button class="dl-btn" onclick="showToast('📥 Downloading Dental Anatomy Syllabus...')">⬇ PDF</button></div>
+        </div>
+        <div class="syl-panel" id="syl-bds2">
+          <div class="syl-card"><div class="syl-ico">📄</div><div><h4>General &amp; Dental Pharmacology &amp; Therapeutics</h4><p>RGUHS BDS Year 2 · 2024–25</p></div><button class="dl-btn" onclick="showToast('📥 Downloading Pharmacology Syllabus...')">⬇ PDF</button></div>
+          <div class="syl-card"><div class="syl-ico">📄</div><div><h4>General Pathology &amp; Microbiology</h4><p>RGUHS BDS Year 2 · 2024–25</p></div><button class="dl-btn" onclick="showToast('📥 Downloading Pathology Syllabus...')">⬇ PDF</button></div>
+          <div class="syl-card"><div class="syl-ico">📄</div><div><h4>Dental Materials</h4><p>RGUHS BDS Year 2 · 2024–25</p></div><button class="dl-btn" onclick="showToast('📥 Downloading Dental Materials Syllabus...')">⬇ PDF</button></div>
+          <div class="syl-card"><div class="syl-ico">📄</div><div><h4>Preclinical Conservative Dentistry</h4><p>RGUHS BDS Year 2 · 2024–25</p></div><button class="dl-btn" onclick="showToast('📥 Downloading Conservative Dentistry Syllabus...')">⬇ PDF</button></div>
+          <div class="syl-card"><div class="syl-ico">📄</div><div><h4>Preclinical Prosthodontics</h4><p>RGUHS BDS Year 2 · 2024–25</p></div><button class="dl-btn" onclick="showToast('📥 Downloading Prosthodontics Syllabus...')">⬇ PDF</button></div>
+        </div>
+        <div class="syl-panel" id="syl-bds3">
+          <div class="syl-card"><div class="syl-ico">📄</div><div><h4>Oral Pathology &amp; Oral Microbiology</h4><p>RGUHS BDS Year 3 · 2024–25</p></div><button class="dl-btn" onclick="showToast('📥 Downloading...')">⬇ PDF</button></div>
+          <div class="syl-card"><div class="syl-ico">📄</div><div><h4>General Medicine</h4><p>RGUHS BDS Year 3 · 2024–25</p></div><button class="dl-btn" onclick="showToast('📥 Downloading...')">⬇ PDF</button></div>
+          <div class="syl-card"><div class="syl-ico">📄</div><div><h4>General Surgery</h4><p>RGUHS BDS Year 3 · 2024–25</p></div><button class="dl-btn" onclick="showToast('📥 Downloading...')">⬇ PDF</button></div>
+          <div class="syl-card"><div class="syl-ico">📄</div><div><h4>Conservative Dentistry &amp; Endodontics</h4><p>RGUHS BDS Year 3 · 2024–25</p></div><button class="dl-btn" onclick="showToast('📥 Downloading...')">⬇ PDF</button></div>
+        </div>
+        <div class="syl-panel" id="syl-bds4">
+          <div class="syl-card"><div class="syl-ico">📄</div><div><h4>Orthodontics &amp; Dentofacial Orthopedics</h4><p>RGUHS BDS Year 4 · 2024–25</p></div><button class="dl-btn" onclick="showToast('📥 Downloading...')">⬇ PDF</button></div>
+          <div class="syl-card"><div class="syl-ico">📄</div><div><h4>Oral &amp; Maxillofacial Surgery</h4><p>RGUHS BDS Year 4 · 2024–25</p></div><button class="dl-btn" onclick="showToast('📥 Downloading...')">⬇ PDF</button></div>
+          <div class="syl-card"><div class="syl-ico">📄</div><div><h4>Prosthodontics including Crown &amp; Bridge</h4><p>RGUHS BDS Year 4 · 2024–25</p></div><button class="dl-btn" onclick="showToast('📥 Downloading...')">⬇ PDF</button></div>
+          <div class="syl-card"><div class="syl-ico">📄</div><div><h4>Public Health Dentistry</h4><p>RGUHS BDS Year 4 · 2024–25</p></div><button class="dl-btn" onclick="showToast('📥 Downloading...')">⬇ PDF</button></div>
+          <div class="syl-card"><div class="syl-ico">📄</div><div><h4>Pedodontics &amp; Preventive Dentistry</h4><p>RGUHS BDS Year 4 · 2024–25</p></div><button class="dl-btn" onclick="showToast('📥 Downloading...')">⬇ PDF</button></div>
+        </div>
+        <div class="syl-panel" id="syl-mds">
+          <div class="syl-card"><div class="syl-ico">📄</div><div><h4>MDS — Orthodontics Syllabus</h4><p>RGUHS MDS · 2024–25</p></div><button class="dl-btn" onclick="showToast('📥 Downloading...')">⬇ PDF</button></div>
+          <div class="syl-card"><div class="syl-ico">📄</div><div><h4>MDS — Periodontology Syllabus</h4><p>RGUHS MDS · 2024–25</p></div><button class="dl-btn" onclick="showToast('📥 Downloading...')">⬇ PDF</button></div>
+          <div class="syl-card"><div class="syl-ico">📄</div><div><h4>MDS — Oral Surgery Syllabus</h4><p>RGUHS MDS · 2024–25</p></div><button class="dl-btn" onclick="showToast('📥 Downloading...')">⬇ PDF</button></div>
+          <div class="syl-card"><div class="syl-ico">📄</div><div><h4>MDS — Conservative Dentistry Syllabus</h4><p>RGUHS MDS · 2024–25</p></div><button class="dl-btn" onclick="showToast('📥 Downloading...')">⬇ PDF</button></div>
+        </div>
+      </div>
+
+      <!-- ===== HOSTEL COMPLAINT ===== -->
+      <div class="panel" id="panel-hostel">
+        <div class="complaint-layout">
+          <div class="complaint-form-card">
+            <h3>Submit a Complaint</h3>
+            <p>Fill in the details below. Your complaint will be reviewed within 24 hours and you'll receive an update via the portal.</p>
+            <div class="cf-row">
+              <div class="cf-group">
+                <label>Your Name</label>
+                <input type="text" value="Arjun Sharma" readonly/>
+              </div>
+              <div class="cf-group">
+                <label>Room Number *</label>
+                <input type="text" placeholder="e.g. B-204"/>
+              </div>
+            </div>
+            <div class="cf-row">
+              <div class="cf-group">
+                <label>Hostel Block</label>
+                <select>
+                  <option>Boys Hostel Block A</option>
+                  <option>Boys Hostel Block B</option>
+                  <option>Girls Hostel Block A</option>
+                  <option>Girls Hostel Block B</option>
+                </select>
+              </div>
+              <div class="cf-group">
+                <label>Complaint Category *</label>
+                <select>
+                  <option>Select Category</option>
+                  <option>Plumbing / Water Issue</option>
+                  <option>Electrical / Power Issue</option>
+                  <option>Furniture / Room Maintenance</option>
+                  <option>Mess / Food Quality</option>
+                  <option>Wi-Fi / Internet</option>
+                  <option>Cleanliness / Housekeeping</option>
+                  <option>Security Concern</option>
+                  <option>Laundry</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="cf-group">
+              <label>Complaint Subject *</label>
+              <input type="text" placeholder="Brief description of the issue"/>
+            </div>
+            <div class="cf-group">
+              <label>Detailed Description *</label>
+              <textarea rows="4" placeholder="Please describe the issue in detail — when it started, how it affects you, any previous complaints raised..."></textarea>
+            </div>
+            <div class="cf-group">
+              <label>Priority</label>
+              <select>
+                <option>Normal</option>
+                <option>Urgent</option>
+                <option>Emergency</option>
+              </select>
+            </div>
+            <button class="cf-submit" onclick="submitComplaint()">Submit Complaint →</button>
+          </div>
+
+          <div class="complaints-history">
+            <h3>Your Complaints</h3>
+            <div class="complaint-item">
+              <div class="complaint-item-top">
+                <h5>Wi-Fi not working in Room B-204</h5>
+                <span class="c-status resolved">✓ Resolved</span>
+              </div>
+              <p>Internet connectivity issue in room B-204. Reported to IT department.</p>
+              <div class="c-meta">🗓 Submitted: Apr 8, 2026 · Resolved: Apr 10, 2026</div>
+            </div>
+            <div class="complaint-item">
+              <div class="complaint-item-top">
+                <h5>Tap leaking in common bathroom</h5>
+                <span class="c-status inprogress">⚙ In Progress</span>
+              </div>
+              <p>The tap near bathroom no. 3 on floor 2 has been leaking since last week.</p>
+              <div class="c-meta">🗓 Submitted: Apr 12, 2026 · Assigned to: Maintenance</div>
+            </div>
+            <div class="complaint-item">
+              <div class="complaint-item-top">
+                <h5>Mess food quality — dinner</h5>
+                <span class="c-status pending">⏳ Pending</span>
+              </div>
+              <p>Quality of dinner has been inconsistent over the past week.</p>
+              <div class="c-meta">🗓 Submitted: Apr 13, 2026</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PG SCHEDULE ===== -->
+      <div class="panel" id="panel-pg-schedule">
+        <div class="filter-row">
+          <select class="filter-select">
+            <option>All Departments</option>
+            <option>Orthodontics</option>
+            <option>Periodontics</option>
+            <option>Oral Surgery</option>
+            <option>Conservative &amp; Endodontics</option>
+            <option>Prosthodontics</option>
+          </select>
+          <select class="filter-select">
+            <option>This Week (Apr 14–19)</option>
+            <option>Next Week</option>
+          </select>
+        </div>
+        <div class="pg-grid">
+          <div class="pg-card">
+            <div class="pg-card-head">
+              <div class="pg-avatar">👨‍⚕️</div>
+              <div><h4>Dr. Rahul Menon</h4><span>MDS Year 2 · Orthodontics</span></div>
+            </div>
+            <div class="pg-card-body">
+              <div class="pg-row"><span class="pk">Posting</span><span class="pv">OPD — Orthodontics</span></div>
+              <div class="pg-row"><span class="pk">Timing</span><span class="pv">9:00 AM – 4:00 PM</span></div>
+              <div class="pg-row"><span class="pk">Supervisor</span><span class="pv">Dr. Priya Nair</span></div>
+              <div class="pg-row"><span class="pk">Days</span><span class="pv">Mon, Tue, Wed</span></div>
+              <span class="pg-status-badge on-duty">On Duty</span>
+            </div>
+          </div>
+          <div class="pg-card">
+            <div class="pg-card-head">
+              <div class="pg-avatar">👩‍⚕️</div>
+              <div><h4>Dr. Sneha Kamath</h4><span>MDS Year 1 · Periodontics</span></div>
+            </div>
+            <div class="pg-card-body">
+              <div class="pg-row"><span class="pk">Posting</span><span class="pv">OPD — Periodontics</span></div>
+              <div class="pg-row"><span class="pk">Timing</span><span class="pv">10:00 AM – 5:00 PM</span></div>
+              <div class="pg-row"><span class="pk">Supervisor</span><span class="pv">Dr. Meera Krishnamurthy</span></div>
+              <div class="pg-row"><span class="pk">Days</span><span class="pv">Mon – Sat</span></div>
+              <span class="pg-status-badge on-duty">On Duty</span>
+            </div>
+          </div>
+          <div class="pg-card">
+            <div class="pg-card-head">
+              <div class="pg-avatar">👨‍⚕️</div>
+              <div><h4>Dr. Kiran Rao</h4><span>MDS Year 3 · Oral Surgery</span></div>
+            </div>
+            <div class="pg-card-body">
+              <div class="pg-row"><span class="pk">Posting</span><span class="pv">OT — Oral Surgery</span></div>
+              <div class="pg-row"><span class="pk">Timing</span><span class="pv">8:00 AM – 2:00 PM</span></div>
+              <div class="pg-row"><span class="pk">Supervisor</span><span class="pv">Dr. Arjun Bhat</span></div>
+              <div class="pg-row"><span class="pk">Days</span><span class="pv">Tue, Thu, Fri</span></div>
+              <span class="pg-status-badge on-duty">On Duty</span>
+            </div>
+          </div>
+          <div class="pg-card">
+            <div class="pg-card-head">
+              <div class="pg-avatar">👩‍⚕️</div>
+              <div><h4>Dr. Divya Shetty</h4><span>MDS Year 2 · Prosthodontics</span></div>
+            </div>
+            <div class="pg-card-body">
+              <div class="pg-row"><span class="pk">Posting</span><span class="pv">OPD — Prosthodontics</span></div>
+              <div class="pg-row"><span class="pk">Timing</span><span class="pv">9:00 AM – 4:00 PM</span></div>
+              <div class="pg-row"><span class="pk">Supervisor</span><span class="pv">Dr. Suresh R. Nair</span></div>
+              <div class="pg-row"><span class="pk">Days</span><span class="pv">Mon – Fri</span></div>
+              <span class="pg-status-badge on-duty">On Duty</span>
+            </div>
+          </div>
+          <div class="pg-card">
+            <div class="pg-card-head">
+              <div class="pg-avatar">👨‍⚕️</div>
+              <div><h4>Dr. Aditya Kumar</h4><span>MDS Year 1 · Endodontics</span></div>
+            </div>
+            <div class="pg-card-body">
+              <div class="pg-row"><span class="pk">Posting</span><span class="pv">OPD — Conservative</span></div>
+              <div class="pg-row"><span class="pk">Timing</span><span class="pv">9:00 AM – 5:00 PM</span></div>
+              <div class="pg-row"><span class="pk">Supervisor</span><span class="pv">Dr. Rajan Kumar</span></div>
+              <div class="pg-row"><span class="pk">Days</span><span class="pv">Mon – Sat</span></div>
+              <span class="pg-status-badge off">Day Off</span>
+            </div>
+          </div>
+          <div class="pg-card">
+            <div class="pg-card-head">
+              <div class="pg-avatar">👩‍⚕️</div>
+              <div><h4>Dr. Pooja Iyer</h4><span>MDS Year 3 · Oral Pathology</span></div>
+            </div>
+            <div class="pg-card-body">
+              <div class="pg-row"><span class="pk">Posting</span><span class="pv">Histopathology Lab</span></div>
+              <div class="pg-row"><span class="pk">Timing</span><span class="pv">9:00 AM – 3:30 PM</span></div>
+              <div class="pg-row"><span class="pk">Supervisor</span><span class="pv">Dr. Shreya Kulkarni</span></div>
+              <div class="pg-row"><span class="pk">Days</span><span class="pv">Mon, Wed, Fri</span></div>
+              <span class="pg-status-badge on-duty">On Duty</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== CALENDAR ===== -->
+      <div class="panel" id="panel-calendar">
+        <div class="calendar-layout">
+          <div class="mini-cal">
+            <div class="cal-header">
+              <button class="cal-nav">‹</button>
+              <h3>April 2026</h3>
+              <button class="cal-nav">›</button>
+            </div>
+            <div class="cal-grid">
+              <div class="cal-day-label">S</div><div class="cal-day-label">M</div><div class="cal-day-label">T</div><div class="cal-day-label">W</div><div class="cal-day-label">T</div><div class="cal-day-label">F</div><div class="cal-day-label">S</div>
+              <div class="cal-day other-month">29</div><div class="cal-day other-month">30</div><div class="cal-day other-month">31</div><div class="cal-day">1</div><div class="cal-day">2</div><div class="cal-day">3</div><div class="cal-day">4</div>
+              <div class="cal-day">5</div><div class="cal-day">6</div><div class="cal-day">7</div><div class="cal-day">8</div><div class="cal-day">9</div><div class="cal-day">10</div><div class="cal-day">11</div>
+              <div class="cal-day">12</div><div class="cal-day">13</div><div class="cal-day today has-event">14</div><div class="cal-day">15</div><div class="cal-day">16</div><div class="cal-day">17</div><div class="cal-day">18</div>
+              <div class="cal-day">19</div><div class="cal-day has-event">20</div><div class="cal-day">21</div><div class="cal-day">22</div><div class="cal-day">23</div><div class="cal-day">24</div><div class="cal-day">25</div>
+              <div class="cal-day">26</div><div class="cal-day">27</div><div class="cal-day has-event">28</div><div class="cal-day">29</div><div class="cal-day holiday">30</div>
+            </div>
+          </div>
+
+          <div class="events-list-cal">
+            <h3>Upcoming Events</h3>
+            <div class="event-item">
+              <div class="event-date-badge"><span class="ed">14</span><span class="em">APR</span></div>
+              <div>
+                <h5>Internal Assessment — Dental Materials</h5>
+                <p>Hall A, 10:00 AM – 12:00 PM · All BDS Year 2 students</p>
+                <span class="event-type-tag exam">Exam</span>
+              </div>
+            </div>
+            <div class="event-item">
+              <div class="event-date-badge"><span class="ed">20</span><span class="em">APR</span></div>
+              <div>
+                <h5>Free Dental Health Camp</h5>
+                <p>RRDCH Main OPD Block · Volunteer registration open</p>
+                <span class="event-type-tag workshop">Community</span>
+              </div>
+            </div>
+            <div class="event-item">
+              <div class="event-date-badge"><span class="ed">28</span><span class="em">APR</span></div>
+              <div>
+                <h5>National Dental Symposium 2026</h5>
+                <p>Academic Block Auditorium · Speakers from AIIMS, IISc</p>
+                <span class="event-type-tag seminar">Seminar</span>
+              </div>
+            </div>
+            <div class="event-item">
+              <div class="event-date-badge" style="background:var(--teal);"><span class="ed">30</span><span class="em">APR</span></div>
+              <div>
+                <h5>Dr. B.R. Ambedkar Jayanti — Holiday</h5>
+                <p>College &amp; Hospital closed · No OPD</p>
+                <span class="event-type-tag holiday">Holiday</span>
+              </div>
+            </div>
+            <div class="event-item">
+              <div class="event-date-badge" style="background:var(--gold);"><span class="ed">10</span><span class="em">MAY</span></div>
+              <div>
+                <h5>Internal Examinations Begin</h5>
+                <p>May 10–14, 2026 · All departments · Hall allocation TBA</p>
+                <span class="event-type-tag exam">Exam</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== NOTICES ===== -->
+      <div class="panel" id="panel-notices">
+        <div class="notices-grid">
+          <div class="notice-card">
+            <div class="notice-card-ico red">🔴</div>
+            <div>
+              <h4>Internal Exam Schedule — May 2026</h4>
+              <p>Internal examinations for all BDS years (1–4) and MDS years are scheduled from May 10 to May 14, 2026. Hall allocations will be communicated by April 30. Students are advised to check the timetable section for subject-wise slots.</p>
+              <div class="n-meta">
+                <span class="n-date">📅 April 14, 2026</span>
+                <span class="n-tag urgent">Urgent</span>
+                <span class="n-tag">Exam Cell</span>
+              </div>
+            </div>
+          </div>
+          <div class="notice-card">
+            <div class="notice-card-ico blue">📢</div>
+            <div>
+              <h4>Dental Camp Volunteer Registration Open</h4>
+              <p>RRDCH is conducting a Free Dental Health Camp on April 20, 2026. BDS Year 3 and Year 4 students can register as volunteers. Clinical credit will be awarded for participation. Contact the Public Health Dentistry department to register before April 17.</p>
+              <div class="n-meta">
+                <span class="n-date">📅 April 12, 2026</span>
+                <span class="n-tag">Public Health Dept</span>
+              </div>
+            </div>
+          </div>
+          <div class="notice-card">
+            <div class="notice-card-ico blue">🎓</div>
+            <div>
+              <h4>National Dental Symposium — Student Registrations</h4>
+              <p>The National Dental Symposium 2026 is open for student registrations. The event will be held on April 28 at the Academic Block Auditorium. Eminent speakers from AIIMS and IISc will present. Registration fee: ₹200. Contact the academic office.</p>
+              <div class="n-meta">
+                <span class="n-date">📅 April 10, 2026</span>
+                <span class="n-tag">Academics</span>
+              </div>
+            </div>
+          </div>
+          <div class="notice-card">
+            <div class="notice-card-ico gold">📚</div>
+            <div>
+              <h4>Library Timings Extended — Exam Preparation</h4>
+              <p>The college library will remain open until 10:00 PM (extended from 7:00 PM) effective April 15, 2026, to support students during exam preparation. Silent study zones are available on the 2nd floor. Carry your student ID.</p>
+              <div class="n-meta">
+                <span class="n-date">📅 April 9, 2026</span>
+                <span class="n-tag">Library</span>
+              </div>
+            </div>
+          </div>
+          <div class="notice-card">
+            <div class="notice-card-ico blue">🏅</div>
+            <div>
+              <h4>Best Outgoing Student Award — Nominations Open</h4>
+              <p>Nominations are invited for the Best Outgoing Student Award 2025–26 for final year BDS students. Submit nominations with faculty recommendation letters to the Dean's office by April 25, 2026.</p>
+              <div class="n-meta">
+                <span class="n-date">📅 April 8, 2026</span>
+                <span class="n-tag">Dean's Office</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== FEEDBACK ===== -->
+      <div class="panel" id="panel-feedback">
+        <div class="feedback-wrap">
+          <div class="feedback-card">
+            <h3>Student Feedback</h3>
+            <p>Your feedback helps us improve academic quality, hostel services, and campus experience. All responses are anonymous.</p>
+            <div class="cf-group">
+              <label>Feedback Category</label>
+              <select>
+                <option>Select Category</option>
+                <option>Teaching Quality</option>
+                <option>Clinical Training</option>
+                <option>Library & Resources</option>
+                <option>Hostel Services</option>
+                <option>Mess & Food</option>
+                <option>Campus Infrastructure</option>
+                <option>Administrative Services</option>
+                <option>General Suggestion</option>
+              </select>
+            </div>
+            <div class="cf-group">
+              <label>Overall Rating</label>
+              <div class="stars-row" id="fbStars">
+                <span onclick="setFbRating(1)">★</span>
+                <span onclick="setFbRating(2)">★</span>
+                <span onclick="setFbRating(3)">★</span>
+                <span onclick="setFbRating(4)">★</span>
+                <span onclick="setFbRating(5)">★</span>
+              </div>
+            </div>
+            <div class="cf-group">
+              <label>Your Feedback *</label>
+              <textarea rows="5" placeholder="Share your thoughts, suggestions, or concerns in detail..."></textarea>
+            </div>
+            <div class="cf-group">
+              <label>Department (Optional)</label>
+              <select>
+                <option value="">Select Department (Optional)</option>
+                <option>Orthodontics</option>
+                <option>Periodontics</option>
+                <option>Oral Surgery</option>
+                <option>Conservative Dentistry</option>
+                <option>Prosthodontics</option>
+                <option>Oral Medicine</option>
+                <option>Pedodontics</option>
+                <option>Public Health Dentistry</option>
+              </select>
+            </div>
+            <button class="cf-submit" onclick="submitFeedback()">Submit Feedback →</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end content -->
+  </div><!-- end main -->
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const pageTitles = {
+      dashboard: ['Dashboard', 'Welcome back, Arjun'],
+      timetable: ['Timetable', 'BDS Year 2 · Weekly Schedule'],
+      syllabus: ['Syllabus', 'Download subject-wise PDFs'],
+      hostel: ['Hostel Complaint', 'Submit & track complaints'],
+      'pg-schedule': ['PG Doctors Schedule', 'Live posting schedule'],
+      calendar: ['Events Calendar', 'Academic events & holidays'],
+      notices: ['Notices & Circulars', '5 active notices'],
+      feedback: ['Feedback', 'Share your experience']
+    };
+
+    function switchPanel(el, id) {
+      document.querySelectorAll('.sb-link').forEach(l => l.classList.remove('active'));
+      if(el) el.classList.add('active');
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('panel-' + id).classList.add('active');
+      const t = pageTitles[id] || [id, ''];
+      document.getElementById('pageTitle').textContent = t[0];
+      document.getElementById('pageSub').textContent = t[1];
+      if(window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
+    }
+
+    function switchSylTab(btn, id) {
+      document.querySelectorAll('.syl-tab').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.syl-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(id).classList.add('active');
+    }
+
+    function submitComplaint() {
+      showToast('✅ Complaint submitted! You will receive an update within 24 hours.');
+    }
+
+    function submitFeedback() {
+      showToast('🙏 Thank you for your feedback! It helps us improve.');
+      document.querySelectorAll('#fbStars span').forEach(s => s.classList.remove('lit'));
+      fbRating = 0;
+    }
+
+    let fbRating = 0;
+    function setFbRating(n) {
+      fbRating = n;
+      document.querySelectorAll('#fbStars span').forEach((s, i) => s.classList.toggle('lit', i < n));
+    }
+
+    let isKannada = false;
+    function toggleLang() {
+      isKannada = !isKannada;
+      document.querySelector('.lang-toggle').textContent = isKannada ? '🌐 English' : '🌐 ಕನ್ನಡ';
+      showToast(isKannada ? '✅ ಕನ್ನಡಕ್ಕೆ ಬದಲಾಯಿಸಲಾಗಿದೆ' : '✅ Switched to English');
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 4000);
+    }
+
+    function loadTimetable() {
+      showToast('📅 Timetable updated for selected batch.');
+    }
+  </script>
+</body>
+</html>

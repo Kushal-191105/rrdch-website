@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Departments | RRDCH – Rajarajeshwari Dental College & Hospital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:       #071e38;
+      --navy-mid:   #0d2d52;
+      --blue:       #1456a0;
+      --blue-mid:   #1a6bbf;
+      --accent:     #00a8e8;
+      --teal:       #00869e;
+      --gold:       #d4960a;
+      --white:      #ffffff;
+      --off-white:  #f3f7fd;
+      --surface:    #eaf3fd;
+      --text:       #0d1f33;
+      --muted:      #556070;
+      --border:     #ccdff0;
+
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body:    'DM Sans', sans-serif;
+      --radius:    18px;
+      --radius-sm: 10px;
+      --shadow:    0 4px 20px rgba(7,30,56,0.10);
+      --shadow-lg: 0 12px 48px rgba(7,30,56,0.18);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      color: var(--text);
+      background: var(--white);
+      overflow-x: hidden;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 1.5rem; }
+    .section-eyebrow {
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.5rem; display: block;
+    }
+    .section-eyebrow.center { text-align: center; }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.9rem, 3.2vw, 2.8rem);
+      font-weight: 700; color: var(--navy);
+      line-height: 1.15; margin-bottom: 2.5rem;
+    }
+    .section-title.center { text-align: center; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.75rem 1.75rem; border-radius: 50px;
+      font-weight: 600; font-size: 0.9rem;
+      font-family: var(--font-body); text-decoration: none;
+      cursor: pointer; border: 2px solid transparent;
+      transition: all 0.22s ease;
+    }
+    .btn-primary { background: var(--blue); color: white; border-color: var(--blue); }
+    .btn-primary:hover { background: var(--navy); border-color: var(--navy); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(20,86,160,0.35); }
+    .btn-outline-white { background: transparent; color: white; border-color: rgba(255,255,255,0.6); }
+    .btn-outline-white:hover { background: rgba(255,255,255,0.12); }
+    .btn-outline { background: transparent; color: var(--blue); border-color: var(--blue); }
+    .btn-outline:hover { background: var(--blue); color: white; }
+    .btn-sm { padding: 0.5rem 1.1rem; font-size: 0.82rem; }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 999; background: rgba(7,30,56,0.97);
+      backdrop-filter: blur(14px); padding: 0.85rem 0;
+      transition: box-shadow 0.3s;
+    }
+    .navbar.scrolled { box-shadow: 0 4px 28px rgba(0,0,0,0.3); }
+    .nav-inner {
+      max-width: 1180px; margin: 0 auto; padding: 0 1.5rem;
+      display: flex; align-items: center; gap: 1.5rem;
+    }
+    .logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; flex-shrink: 0; }
+    .logo-mark {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--accent), var(--blue));
+      border-radius: 10px; display: flex; align-items: center;
+      justify-content: center; font-size: 1.3rem; color: white; font-weight: 700;
+    }
+    .logo-text .logo-name { display: block; font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; color: white; line-height: 1; }
+    .logo-text .logo-sub  { display: block; font-size: 0.62rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
+    .nav-links { display: flex; gap: 1.5rem; flex: 1; justify-content: center; }
+    .nav-links a {
+      color: rgba(255,255,255,0.78); text-decoration: none;
+      font-size: 0.86rem; font-weight: 500; padding: 0.3rem 0;
+      border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: white; border-bottom-color: var(--accent); }
+    .nav-actions { display: flex; align-items: center; gap: 0.65rem; flex-shrink: 0; }
+    .lang-btn {
+      background: rgba(255,255,255,0.09); color: rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.2); padding: 0.38rem 0.9rem;
+      border-radius: 50px; font-size: 0.78rem; cursor: pointer;
+      transition: background 0.2s; font-family: var(--font-body);
+    }
+    .lang-btn:hover { background: rgba(255,255,255,0.18); }
+    .appt-btn {
+      background: var(--accent); color: white; border: none;
+      padding: 0.5rem 1.15rem; border-radius: 50px;
+      font-size: 0.82rem; font-weight: 600; cursor: pointer;
+      transition: background 0.2s, transform 0.15s; font-family: var(--font-body);
+    }
+    .appt-btn:hover { background: var(--teal); transform: translateY(-1px); }
+    .hamburger { display: none; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+
+    /* ===== ANNOUNCE BAR ===== */
+    .announce-bar {
+      background: var(--navy-mid); border-bottom: 2px solid var(--accent);
+      margin-top: 68px; overflow: hidden; padding: 0.45rem 0;
+    }
+    .ticker {
+      display: inline-flex; white-space: nowrap;
+      animation: ticker 36s linear infinite;
+      font-size: 0.8rem; color: rgba(255,255,255,0.88);
+    }
+    .ticker .sep { color: var(--accent); margin: 0 1rem; }
+    .ticker .tag {
+      background: var(--accent); color: white; font-size: 0.65rem;
+      font-weight: 700; padding: 0.1rem 0.5rem; border-radius: 4px;
+      margin-right: 0.4rem; letter-spacing: 0.05em;
+    }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ===== PAGE HERO ===== */
+    .page-hero {
+      background: var(--navy); padding: 9rem 1.5rem 5rem;
+      position: relative; overflow: hidden;
+    }
+    .page-hero::before {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        radial-gradient(circle at 80% 50%, rgba(0,168,232,0.10) 0%, transparent 55%),
+        radial-gradient(circle at 10% 30%, rgba(20,86,160,0.20) 0%, transparent 40%);
+    }
+    .page-hero-grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .page-hero-inner { position: relative; z-index: 2; max-width: 1180px; margin: 0 auto; }
+    .breadcrumb {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.8rem; color: rgba(255,255,255,0.4); margin-bottom: 1.25rem;
+    }
+    .breadcrumb a { color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .page-hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(0,168,232,0.12); border: 1px solid rgba(0,168,232,0.3);
+      color: var(--accent); font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.4rem 1rem; border-radius: 50px; margin-bottom: 1.25rem;
+    }
+    .page-hero h1 {
+      font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 700; color: white; line-height: 1.1; margin-bottom: 1rem;
+    }
+    .page-hero h1 em { font-style: italic; color: var(--accent); }
+    .page-hero p {
+      font-size: 1.05rem; color: rgba(255,255,255,0.6);
+      max-width: 560px; line-height: 1.75; margin-bottom: 2rem;
+    }
+
+    /* ===== DEPT COUNT STRIP ===== */
+    .dept-strip { background: var(--navy); padding: 0 0 3rem; }
+    .strip-card {
+      background: white; border-radius: var(--radius);
+      padding: 2rem 2.5rem; box-shadow: var(--shadow-lg);
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 2rem; border: 1px solid var(--border);
+      position: relative; top: -2rem; text-align: center;
+    }
+    .strip-block { position: relative; }
+    .strip-block:not(:last-child)::after {
+      content: ''; position: absolute; right: 0; top: 10%; bottom: 10%;
+      width: 1px; background: var(--border);
+    }
+    .strip-block .num {
+      font-family: var(--font-display); font-size: 2.4rem;
+      font-weight: 700; color: var(--navy); line-height: 1; display: block;
+    }
+    .strip-block .num span { color: var(--accent); }
+    .strip-block .lbl { font-size: 0.78rem; color: var(--muted); display: block; margin-top: 6px; }
+
+    /* ===== FILTER TABS ===== */
+    .filter-section { padding: 3rem 0 1.5rem; background: var(--off-white); }
+    .filter-bar {
+      display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 0.5rem;
+    }
+    .filter-btn {
+      padding: 0.5rem 1.2rem; border-radius: 50px;
+      border: 1.5px solid var(--border); background: white;
+      font-size: 0.82rem; font-weight: 500; color: var(--muted);
+      cursor: pointer; transition: all 0.2s; font-family: var(--font-body);
+    }
+    .filter-btn:hover { border-color: var(--accent); color: var(--blue); }
+    .filter-btn.active { background: var(--blue); border-color: var(--blue); color: white; font-weight: 600; }
+    .search-row {
+      display: flex; gap: 1rem; align-items: center;
+      margin-bottom: 2rem; flex-wrap: wrap;
+    }
+    .dept-search {
+      flex: 1; min-width: 240px;
+      padding: 0.7rem 1rem 0.7rem 2.75rem;
+      border: 1.5px solid var(--border); border-radius: 50px;
+      font-family: var(--font-body); font-size: 0.9rem;
+      background: white; outline: none; color: var(--text);
+      transition: border-color 0.2s;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23556070' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.242 1.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: 1rem center;
+    }
+    .dept-search:focus { border-color: var(--blue); }
+    .result-count { font-size: 0.82rem; color: var(--muted); white-space: nowrap; }
+
+    /* ===== DEPT GRID ===== */
+    .dept-section { padding: 0 0 5rem; background: var(--off-white); }
+    .dept-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
+
+    .dept-card {
+      background: white; border: 1.5px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+      transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
+      cursor: pointer; display: flex; flex-direction: column;
+    }
+    .dept-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--accent); }
+    .dept-card.hidden { display: none; }
+
+    .dept-card-top {
+      padding: 1.75rem 1.5rem 1.25rem;
+      position: relative; overflow: hidden;
+    }
+    .dept-card-top::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 3px; background: linear-gradient(90deg, var(--accent), var(--blue));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .dept-card:hover .dept-card-top::before { transform: scaleX(1); }
+
+    .dept-icon-wrap {
+      width: 52px; height: 52px;
+      background: var(--surface); border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; margin-bottom: 1.1rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .dept-card:hover .dept-icon-wrap { background: rgba(0,168,232,0.12); transform: scale(1.08); }
+
+    .dept-card-top h3 {
+      font-size: 1.02rem; font-weight: 600; color: var(--navy);
+      margin-bottom: 0.5rem; line-height: 1.35;
+    }
+    .dept-card-top p {
+      font-size: 0.83rem; color: var(--muted); line-height: 1.6; margin-bottom: 1rem;
+    }
+    .dept-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .dept-tag-pill {
+      background: var(--surface); color: var(--blue);
+      font-size: 0.68rem; font-weight: 600;
+      padding: 0.2rem 0.6rem; border-radius: 50px;
+    }
+
+    .dept-card-bottom {
+      margin-top: auto;
+      padding: 1rem 1.5rem;
+      border-top: 1.5px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--off-white);
+    }
+    .dept-hod { font-size: 0.78rem; color: var(--muted); }
+    .dept-hod strong { display: block; font-size: 0.82rem; color: var(--navy); font-weight: 600; }
+    .dept-link {
+      color: var(--blue); font-size: 0.8rem; font-weight: 600;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 0.25rem;
+      transition: color 0.2s, gap 0.2s;
+    }
+    .dept-link:hover { color: var(--accent); gap: 0.5rem; }
+
+    /* ===== DEPT DETAIL MODAL-STYLE EXPANDED ===== */
+    .dept-panel {
+      display: none;
+      background: white; border: 1.5px solid var(--border);
+      border-radius: var(--radius); padding: 2.5rem;
+      margin-top: 1.25rem; margin-bottom: 0.5rem;
+      grid-column: 1 / -1;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+    .dept-panel.open { display: block; }
+    .panel-close {
+      position: absolute; top: 1.25rem; right: 1.25rem;
+      background: var(--off-white); border: 1.5px solid var(--border);
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1rem; color: var(--muted);
+      transition: background 0.2s, color 0.2s;
+    }
+    .panel-close:hover { background: var(--navy); color: white; }
+    .panel-layout { display: grid; grid-template-columns: 1fr 1.5fr; gap: 3rem; }
+    .panel-left h2 {
+      font-family: var(--font-display); font-size: 1.8rem;
+      color: var(--navy); font-weight: 700; margin-bottom: 0.5rem;
+    }
+    .panel-left .panel-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 1.5rem; line-height: 1.7; }
+    .panel-meta { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.75rem; }
+    .panel-meta-item {
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      padding: 0.75rem 1rem; background: var(--off-white);
+      border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+    }
+    .pm-ico { font-size: 1rem; flex-shrink: 0; }
+    .pm-key { font-size: 0.75rem; color: var(--muted); display: block; }
+    .pm-val { font-size: 0.88rem; color: var(--navy); font-weight: 600; }
+    .panel-right h4 {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--navy); margin-bottom: 1rem;
+    }
+    .services-list { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.75rem; }
+    .service-item {
+      display: flex; align-items: center; gap: 0.75rem;
+      font-size: 0.88rem; color: var(--text);
+    }
+    .service-item::before {
+      content: ''; width: 6px; height: 6px;
+      background: var(--accent); border-radius: 50%; flex-shrink: 0;
+    }
+    .faculty-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .faculty-pill {
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 50px; padding: 0.35rem 0.9rem;
+      font-size: 0.8rem; color: var(--navy); font-weight: 500;
+    }
+
+    /* ===== CTA STRIP ===== */
+    .cta-strip {
+      padding: 5rem 0; background: var(--navy);
+      position: relative; overflow: hidden;
+    }
+    .cta-strip::before {
+      content: ''; position: absolute;
+      right: -100px; top: 50%; transform: translateY(-50%);
+      width: 500px; height: 500px; border-radius: 50%;
+      border: 1px solid rgba(0,168,232,0.08);
+    }
+    .cta-inner { position: relative; z-index: 2; text-align: center; }
+    .cta-inner h2 {
+      font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.8rem);
+      color: white; font-weight: 700; margin-bottom: 1rem;
+    }
+    .cta-inner p { color: rgba(255,255,255,0.55); font-size: 1rem; margin-bottom: 2rem; }
+    .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* ===== FOOTER ===== */
+    .footer { background: var(--navy); padding: 4rem 0 0; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 3rem; padding-bottom: 3rem; }
+    .footer-desc { font-size: 0.86rem; color: rgba(255,255,255,0.5); line-height: 1.75; margin-bottom: 1.5rem; }
+    .socials { display: flex; gap: 0.5rem; }
+    .social-ico {
+      width: 36px; height: 36px; background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.7); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 700; text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .social-ico:hover { background: var(--accent); color: white; }
+    .footer-col h5 { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: white; margin-bottom: 1.25rem; }
+    .footer-col a, .footer-col p {
+      display: block; font-size: 0.84rem; color: rgba(255,255,255,0.5);
+      text-decoration: none; margin-bottom: 0.6rem; line-height: 1.6; transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--accent); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 1.25rem 0; display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .footer-bottom p { font-size: 0.78rem; color: rgba(255,255,255,0.28); }
+
+    /* TOAST */
+    .toast {
+      position: fixed; bottom: 2rem; right: 2rem;
+      background: var(--navy); color: white;
+      padding: 0.9rem 1.5rem; border-radius: var(--radius-sm);
+      font-size: 0.88rem; font-weight: 500; box-shadow: var(--shadow-lg);
+      border-left: 4px solid var(--accent);
+      transform: translateY(120px); opacity: 0;
+      transition: all 0.35s ease; z-index: 9999; max-width: 360px;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 960px) {
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column;
+        position: absolute; top: 100%; left: 0; right: 0;
+        background: var(--navy); padding: 1.5rem; gap: 1rem;
+        border-top: 1px solid rgba(255,255,255,0.1);
+      }
+      .hamburger { display: block; }
+      .appt-btn { display: none; }
+      .strip-card { grid-template-columns: 1fr 1fr; }
+      .panel-layout { grid-template-columns: 1fr; gap: 1.5rem; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    }
+    @media (max-width: 600px) {
+      .strip-card { grid-template-columns: 1fr 1fr; padding: 1.75rem 1.25rem; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .cta-actions { flex-direction: column; align-items: center; }
+      .dept-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="home.html" class="logo">
+        <div class="logo-mark">⚕</div>
+        <div class="logo-text">
+          <span class="logo-name">RRDCH</span>
+          <span class="logo-sub">Dental College & Hospital</span>
+        </div>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="home.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="departments.html" class="active">Departments</a>
+        <a href="admissions.html">Admissions</a>
+        <a href="students.html">Students</a>
+        <a href="patients.html">Patients</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="lang-btn" id="langBtn" onclick="toggleLang()">🌐 ಕನ್ನಡ</button>
+        <button class="appt-btn" onclick="window.location.href='home.html#appointment'">Book Appointment</button>
+        <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ANNOUNCE BAR -->
+  <div class="announce-bar">
+    <div class="ticker-wrap">
+      <div class="ticker">
+        <span class="tag">NEW</span> Admissions Open 2026–27 — BDS &amp; MDS Programs
+        <span class="sep">|</span>
+        <span class="tag">AWARD</span> Ranked #1 Dental College in Karnataka — 2025
+        <span class="sep">|</span>
+        <span class="tag">EVENT</span> Free Dental Camp — April 20, 2026 at RRDCH Campus
+        <span class="sep">|</span>
+        <span class="tag">NOTICE</span> Internal Exams scheduled: May 10–14, 2026
+        <span class="sep">|</span>
+        <span class="tag">NEW</span> Admissions Open 2026–27 — BDS &amp; MDS Programs
+        <span class="sep">|</span>
+        <span class="tag">AWARD</span> Ranked #1 Dental College in Karnataka — 2025
+        <span class="sep">|</span>
+        <span class="tag">EVENT</span> Free Dental Camp — April 20, 2026 at RRDCH Campus
+        <span class="sep">|</span>
+        <span class="tag">NOTICE</span> Internal Exams scheduled: May 10–14, 2026
+        <span class="sep">|</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="page-hero-grid"></div>
+    <div class="page-hero-inner">
+      <div class="breadcrumb">
+        <a href="home.html">Home</a>
+        <span style="color:rgba(255,255,255,0.25);">›</span>
+        <span style="color:rgba(255,255,255,0.6);">Departments</span>
+      </div>
+      <div class="page-hero-badge">
+        <span style="width:6px;height:6px;background:var(--accent);border-radius:50%;display:inline-block;"></span>
+        12 Clinical Specialties
+      </div>
+      <h1>Our <em>Departments</em></h1>
+      <p>From complex oral surgery to preventive dentistry for children — explore all 12 clinical departments staffed by expert faculty and dedicated to your oral health.</p>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+        <a href="home.html#appointment" class="btn btn-primary">📅 Book Appointment</a>
+        <a href="about.html" class="btn btn-outline-white">About RRDCH</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS STRIP -->
+  <section class="dept-strip">
+    <div class="container">
+      <div class="strip-card reveal">
+        <div class="strip-block">
+          <span class="num">12</span>
+          <span class="lbl">Departments</span>
+        </div>
+        <div class="strip-block">
+          <span class="num">80<span>+</span></span>
+          <span class="lbl">Specialist Faculty</span>
+        </div>
+        <div class="strip-block">
+          <span class="num">200<span>+</span></span>
+          <span class="lbl">Dental Chairs</span>
+        </div>
+        <div class="strip-block">
+          <span class="num">50k<span>+</span></span>
+          <span class="lbl">Patients / Year</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILTER + SEARCH -->
+  <section class="filter-section">
+    <div class="container">
+      <div class="filter-bar" id="filterBar">
+        <button class="filter-btn active" data-filter="all" onclick="filterDepts(this,'all')">All Departments</button>
+        <button class="filter-btn" data-filter="clinical" onclick="filterDepts(this,'clinical')">Clinical</button>
+        <button class="filter-btn" data-filter="surgical" onclick="filterDepts(this,'surgical')">Surgical</button>
+        <button class="filter-btn" data-filter="diagnostic" onclick="filterDepts(this,'diagnostic')">Diagnostic</button>
+        <button class="filter-btn" data-filter="research" onclick="filterDepts(this,'research')">Research</button>
+      </div>
+      <div class="search-row">
+        <input class="dept-search" type="text" placeholder="Search departments, treatments, doctors…" id="deptSearch" oninput="searchDepts()"/>
+        <span class="result-count" id="resultCount">Showing 12 of 12 departments</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPT GRID -->
+  <section class="dept-section">
+    <div class="container">
+      <div class="dept-grid" id="deptGrid">
+
+        <!-- 1. Oral Medicine & Radiology -->
+        <div class="dept-card reveal" data-dept="oral-medicine" data-category="diagnostic" data-name="Oral Medicine Radiology" onclick="togglePanel('panel-oral-medicine', this)">
+          <div class="dept-card-top">
+            <div class="dept-icon-wrap">🔭</div>
+            <h3>Oral Medicine &amp; Radiology</h3>
+            <p>Diagnosis of oral diseases, mucosal conditions, and advanced imaging including OPG, CBCT and digital X-rays.</p>
+            <div class="dept-tags">
+              <span class="dept-tag-pill">Diagnostic</span>
+              <span class="dept-tag-pill">Radiology</span>
+              <span class="dept-tag-pill">Biopsy</span>
+            </div>
+          </div>
+          <div class="dept-card-bottom">
+            <div class="dept-hod"><span class="pm-key">Head of Department</span><strong>Dr. Kavitha Reddy</strong></div>
+            <span class="dept-link">View Details →</span>
+          </div>
+        </div>
+        <div class="dept-panel" id="panel-oral-medicine">
+          <button class="panel-close" onclick="closePanel('panel-oral-medicine')">✕</button>
+          <div class="panel-layout">
+            <div class="panel-left">
+              <h2>Oral Medicine &amp; Radiology</h2>
+              <p class="panel-sub">The department specialises in the diagnosis and management of oral mucosal diseases, oro-facial pain, and salivary gland disorders, supported by state-of-the-art digital imaging facilities including OPG, CBCT, and IOPA X-rays.</p>
+              <div class="panel-meta">
+                <div class="panel-meta-item"><span class="pm-ico">👩‍⚕️</span><div><span class="pm-key">Head of Department</span><span class="pm-val">Dr. Kavitha Reddy, MDS</span></div></div>
+                <div class="panel-meta-item"><span class="pm-ico">🕐</span><div><span class="pm-key">OPD Timings</span><span class="pm-val">Mon – Sat: 9:00 AM – 4:00 PM</span></div></div>
+                <div class="panel-meta-item"><span class="pm-ico">📋</span><div><span class="pm-key">Registration</span><span class="pm-val">Walk-in &amp; Prior Appointment</span></div></div>
+              </div>
+              <a href="home.html#appointment" class="btn btn-primary btn-sm">Book Appointment →</a>
+            </div>
+            <div class="panel-right">
+              <h4>Services Offered</h4>
+              <div class="services-list">
+                <div class="service-item">Diagnosis of oral mucosal diseases</div>
+                <div class="service-item">Digital OPG, CBCT &amp; IOPA X-rays</div>
+                <div class="service-item">Incisional &amp; excisional biopsy</div>
+                <div class="service-item">Oro-facial pain management</div>
+                <div class="service-item">Salivary gland disorder treatment</div>
+                <div class="service-item">Oral cancer screening</div>
+              </div>
+              <h4>Faculty</h4>
+              <div class="faculty-row">
+                <span class="faculty-pill">Dr. Kavitha Reddy</span>
+                <span class="faculty-pill">Dr. Anil Hegde</span>
+                <span class="faculty-pill">Dr. Suma Rao</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Prosthodontics & Crown & Bridge -->
+        <div class="dept-card reveal" data-dept="prosthodontics" data-category="clinical" data-name="Prosthodontics Crown Bridge" onclick="togglePanel('panel-prosthodontics', this)">
+          <div class="dept-card-top">
+            <div class="dept-icon-wrap">🦴</div>
+            <h3>Prosthodontics, Crown &amp; Bridge</h3>
+            <p>Complete, partial dentures, crowns, bridges, and implant-supported prosthetics for smile restoration.</p>
+            <div class="dept-tags">
+              <span class="dept-tag-pill">Clinical</span>
+              <span class="dept-tag-pill">Implants</span>
+              <span class="dept-tag-pill">Cosmetic</span>
+            </div>
+          </div>
+          <div class="dept-card-bottom">
+            <div class="dept-hod"><span class="pm-key">Head of Department</span><strong>Dr. Suresh R. Nair</strong></div>
+            <span class="dept-link">View Details →</span>
+          </div>
+        </div>
+        <div class="dept-panel" id="panel-prosthodontics">
+          <button class="panel-close" onclick="closePanel('panel-prosthodontics')">✕</button>
+          <div class="panel-layout">
+            <div class="panel-left">
+              <h2>Prosthodontics, Crown &amp; Bridge</h2>
+              <p class="panel-sub">Our Prosthodontics department offers comprehensive tooth replacement solutions, from conventional dentures to advanced implant-supported prostheses, using the latest CAD/CAM milling and digital impression technologies.</p>
+              <div class="panel-meta">
+                <div class="panel-meta-item"><span class="pm-ico">👨‍⚕️</span><div><span class="pm-key">Head of Department</span><span class="pm-val">Dr. Suresh R. Nair, MDS, PhD</span></div></div>
+                <div class="panel-meta-item"><span class="pm-ico">🕐</span><div><span class="pm-key">OPD Timings</span><span class="pm-val">Mon – Sat: 9:00 AM – 4:00 PM</span></div></div>
+                <div class="panel-meta-item"><span class="pm-ico">📋</span><div><span class="pm-key">Registration</span><span class="pm-val">Prior Appointment Preferred</span></div></div>
+              </div>
+              <a href="home.html#appointment" class="btn btn-primary btn-sm">Book Appointment →</a>
+            </div>
+            <div class="panel-right">
+              <h4>Services Offered</h4>
+              <div class="services-list">
+                <div class="service-item">Complete &amp; partial dentures</div>
+                <div class="service-item">Metal-ceramic &amp; all-ceramic crowns</div>
+                <div class="service-item">Fixed dental bridges</div>
+                <div class="service-item">Implant-supported prosthetics</div>
+                <div class="service-item">Maxillofacial prosthetics</div>
+                <div class="service-item">CAD/CAM digital restorations</div>
+              </div>
+              <h4>Faculty</h4>
+              <div class="faculty-row">
+                <span class="faculty-pill">Dr. Suresh R. Nair</span>
+                <span class="faculty-pill">Dr. Rekha Menon</span>
+                <span class="faculty-pill">Dr. Prakash S</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Oral & Maxillofacial Surgery -->
+        <div class="dept-card reveal" data-dept="oral-surgery" data-category="surgical" data-name="Oral Maxillofacial Surgery">
+          <div class="dept-card-top" onclick="togglePanel('panel-oral-surgery', this.closest('.dept-card'))">
+            <div class="dept-icon-wrap">🔬</div>
+            <h3>Oral &amp; Maxillofacial Surgery</h3>
+            <p>Wisdom tooth removal, jaw corrective surgeries, dental implants, cyst removal, and facial trauma management.</p>
+            <div class="dept-tags">
+              <span class="dept-tag-pill">Surgical</span>
+              <span class="dept-tag-pill">Trauma</span>
+              <span class="dept-tag-pill">Implants</span>
+            </div>
+          </div>
+          <div class="dept-card-bottom">
+            <div class="dept-hod"><span class="pm-key">Head of Department</span><strong>Dr. Arjun Bhat</strong></div>
+            <span class="dept-link" onclick="togglePanel('panel-oral-surgery', this.closest('.dept-card'))">View Details →</span>
+          </div>
+        </div>
+        <div class="dept-panel" id="panel-oral-surgery">
+          <button class="panel-close" onclick="closePanel('panel-oral-surgery')">✕</button>
+          <div class="panel-layout">
+            <div class="panel-left">
+              <h2>Oral &amp; Maxillofacial Surgery</h2>
+              <p class="panel-sub">One of the busiest surgical departments in the institution, handling over 2,000 surgical procedures annually — from routine extractions to complex orthognathic surgeries under general anaesthesia.</p>
+              <div class="panel-meta">
+                <div class="panel-meta-item"><span class="pm-ico">👨‍⚕️</span><div><span class="pm-key">Head of Department</span><span class="pm-val">Dr. Arjun Bhat, MDS</span></div></div>
+                <div class="panel-meta-item"><span class="pm-ico">🕐</span><div><span class="pm-key">OPD Timings</span><span class="pm-val">Mon – Sat: 9:00 AM – 3:30 PM</span></div></div>
+                <div class="panel-meta-item"><span class="pm-ico">🚨</span><div><span class="pm-key">Emergency</span><span class="pm-val">24 × 7 Dental Emergency Available</span></div></div>
+              </div>
+              <a href="home.html#appointment" class="btn btn-primary btn-sm">Book Appointment →</a>
+            </div>
+            <div class="panel-right">
+              <h4>Services Offered</h4>
+              <div class="services-list">
+                <div class="service-item">Wisdom tooth (third molar) extractions</div>
+                <div class="service-item">Orthognathic &amp; corrective jaw surgery</div>
+                <div class="service-item">Dental implant placement</div>
+                <div class="service-item">Cyst &amp; tumour excision</div>
+                <div class="service-item">Facial trauma &amp; fracture management</div>
+                <div class="service-item">Preprosthetic surgery</div>
+              </div>
+              <h4>Faculty</h4>
+              <div class="faculty-row">
+                <span class="faculty-pill">Dr. Arjun Bhat</span>
+                <span class="faculty-pill">Dr. Sunil Kumar</span>
+                <span class="faculty-pill">Dr. Nanditha R</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Periodontology -->
+        <div class="dept-card reveal" data-dept="periodontics" data-category="clinical" data-name="Periodontology Periodontics Gum" onclick="togglePanel('panel-periodontics', this)">
+          <div class="dept-card-top">
+            <div class="dept-icon-wrap">🩺</div>
+            <h3>Periodontology</h3>
+            <p>Management of gum diseases, scaling &amp; root planing, flap surgeries, bone grafting, and dental implants.</p>
+            <div class="dept-tags">
+              <span class="dept-tag-pill">Clinical</span>
+              <span class="dept-tag-pill">Gum Care</span>
+              <span class="dept-tag-pill">Surgical</span>
+            </div>
+          </div>
+          <div class="dept-card-bottom">
+            <div class="dept-hod"><span class="pm-key">Head of Department</span><strong>Dr. Meera Krishnamurthy</strong></div>
+            <span class="dept-link">View Details →</span>
+          </div>
+        </div>
+        <div class="dept-panel" id="panel-periodontics">
+          <button class="panel-close" onclick="closePanel('panel-periodontics')">✕</button>
+          <div class="panel-layout">
+            <div class="panel-left">
+              <h2>Periodontology</h2>
+              <p class="panel-sub">The Department of Periodontology offers comprehensive treatment of the supporting structures of teeth — gums, bone, and periodontal ligament — from non-surgical scaling to advanced mucogingival surgeries and bone regeneration procedures.</p>
+              <div class="panel-meta">
+                <div class="panel-meta-item"><span class="pm-ico">👩‍⚕️</span><div><span class="pm-key">Head of Department</span><span class="pm-val">Dr. Meera Krishnamurthy, MDS</span></div></div>
+                <div class="panel-meta-item"><span class="pm-ico">🕐</span><div><span class="pm-key">OPD Timings</span><span class="pm-val">Mon – Sat: 9:00 AM – 4:00 PM</span></div></div>
+                <div class="panel-meta-item"><span class="pm-ico">📋</span><div><span class="pm-key">Registration</span><span class="pm-val">Walk-in &amp; Prior Appointment</span></div></div>
+              </div>
+              <a href="home.html#appointment" class="btn btn-primary btn-sm">Book Appointment →</a>
+            </div>
+            <div class="panel-right">
+              <h4>Services Offered</h4>
+              <div class="services-list">
+                <div class="service-item">Scaling &amp; root planing</div>
+                <div class="service-item">Periodontal flap surgery</div>
+                <div class="service-item">Bone grafting &amp; guided tissue regeneration</div>
+                <div class="service-item">Gingival recession treatment</div>
+                <div class="service-item">Dental implants</div>
+                <div class="service-item">Laser-assisted periodontal therapy</div>
+              </div>
+              <h4>Faculty</h4>
+              <div class="faculty-row">
+                <span class="faculty-pill">Dr. Meera Krishnamurthy</span>
+                <span class="faculty-pill">Dr. Ravi Shankar</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Pedodontics & Preventive Dentistry -->
+        <div class="dept-card reveal" data-dept="pedodontics" data-category="clinical" data-name="Pedodontics Preventive Dentistry Children" onclick="togglePanel('panel-pedodontics', this)">
+          <div class="dept-card-top">
+            <div class="dept-icon-wrap">👶</div>
+            <h3>Pedodontics &amp; Preventive Dentistry</h3>
+            <p>Specialised dental care for infants, children, and adolescents, including fluoride treatment and space maintainers.</p>
+            <div class="dept-tags">
+              <span class="dept-tag-pill">Clinical</span>
+              <span class="dept-tag-pill">Paediatric</span>
+              <span class="dept-tag-pill">Preventive</span>
+            </div>
+          </div>
+          <div class="dept-card-bottom">
+            <div class="dept-hod"><span class="pm-key">Head of Department</span><strong>Dr. Ananya Rao</strong></div>
+            <span class="dept-link">View Details →</span>
+          </div>
+        </div>
+        <div class="dept-panel" id="panel-pedodontics">
+          <button class="panel-close" onclick="closePanel('panel-pedodontics')">✕</button>
+          <div class="panel-layout">
+            <div class="panel-left">
+              <h2>Pedodontics &amp; Preventive Dentistry</h2>
+              <p class="panel-sub">Our child-friendly department is designed to provide a comforting environment for young patients, offering everything from routine check-ups and fluoride application to pulp therapy and behaviour management techniques.</p>
+              <div class="panel-meta">
+                <div class="panel-meta-item"><span class="pm-ico">👩‍⚕️</span><div><span class="pm-key">Head of Department</span><span class="pm-val">Dr. Ananya Rao, MDS</span></div></div>
+                <div class="panel-meta-item"><span class="pm-ico">🕐</span><div><span class="pm-key">OPD Timings</span><span class="pm-val">Mon – Sat: 9:00 AM – 4:00 PM</span></div></div>
+                <div class="panel-meta-item"><span class="pm-ico">👦</span><div><span class="pm-key">Age Group</span><span class="pm-val">Infants to 18 years</span></div></div>
+              </div>
+              <a href="home.html#appointment" class="btn btn-primary btn-sm">Book Appointment →</a>
+            </div>
+            <div class="panel-right">
+              <h4>Services Offered</h4>
+              <div class="services-list">
+                <div class="service-item">Dental examination &amp; cleaning for children</div>
+                <div class="service-item">Fluoride application &amp; pit-fissure sealants</div>
+                <div class="service-item">Space maintainers</div>
+                <div class="service-item">Pulpotomy &amp; pulpectomy</div>
+                <div class="service-item">Stainless steel crowns</div>
+                <div class="service-item">Interceptive orthodontics</div>
+              </div>
+              <h4>Faculty</h4>
+              <div class="faculty-row">
+                <span class="faculty-pill">Dr. Ananya Rao</span>
+                <span class="faculty-pill">Dr. Deepika S</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. Conservative Dentistry & Endodontics -->
+        <div class="dept-card reveal" data-dept="endodontics" data-category="clinical" data-name="Conservative Dentistry Endodontics Root Canal" onclick="togglePanel('panel-endodontics', this)">
+          <div class="dept-card-top">
+            <div class="dept-icon-wrap">💊</div>
+            <h3>Conservative Dentistry &amp; Endodontics</h3>
+            <p>Root canal treatments, cavity restorations, tooth bonding, bleaching, and cosmetic tooth repairs.</p>
+            <div class="dept-tags">
+              <span class="dept-tag-pill">Clinical</span>
+              <span class="dept-tag-pill">Root Canal</span>
+              <span class="dept-tag-pill">Cosmetic</span>
+            </div>
+          </div>
+          <div class="dept-card-bottom">
+            <div class="dept-hod"><span class="pm-key">Head of Department</span><strong>Dr. Rajan Kumar</strong></div>
+            <span class="dept-link">View Details →</span>
+          </div>
+        </div>
+        <div class="dept-panel" id="panel-endodontics">
+          <button class="panel-close" onclick="closePanel('panel-endodontics')">✕</button>
+          <div class="panel-layout">
+            <div class="panel-left">
+              <h2>Conservative Dentistry &amp; Endodontics</h2>
+              <p class="panel-sub">This department focuses on preserving natural teeth through minimally invasive restorations and root canal procedures. We use rotary endodontic systems, apex locators, and digital radiographs for precision care.</p>
+              <div class="panel-meta">
+                <div class="panel-meta-item"><span class="pm-ico">👨‍⚕️</span><div><span class="pm-key">Head of Department</span><span class="pm-val">Dr. Rajan Kumar, MDS</span></div></div>
+                <div class="panel-meta-item"><span class="pm-ico">🕐</span><div><span class="pm-key">OPD Timings</span><span class="pm-val">Mon – Sat: 9:00 AM – 4:00 PM</span></div></div>
+                <div class="panel-meta-item"><span class="pm-ico">📋</span><div><span class="pm-key">Registration</span><span class="pm-val">Walk-in &amp; Prior Appointment</span></div></div>
+              </div>
+              <a href="home.html#appointment" class="btn btn-primary btn-sm">Book Appointment →</a>
+            </div>
+            <div class="panel-right">
+              <h4>Services Offered</h4>
+              <div class="services-list">
+                <div class="service-item">Root canal treatment (RCT)</div>
+                <div class="service-item">Direct &amp; indirect tooth restorations</div>
+                <div class="service-item">Composite bonding &amp; veneers</div>
+                <div class="service-item">Tooth bleaching &amp; whitening</div>
+                <div class="service-item">Apicectomy</div>
+                <div class="service-item">Cavity management &amp; fillings</div>
+              </div>
+              <h4>Faculty</h4>
+              <div class="faculty-row">
+                <span class="faculty-pill">Dr. Rajan Kumar</span>
+                <span class="faculty-pill">Dr. Preethi V</span>
+                <span class="faculty-pill">Dr. Ashwin K</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. Orthodontics & Dentofacial Orthopedics -->
+        <div class="dept-card reveal" data-dept="orthodontics" data-category="clinical" data-name="Orthodontics Dentofacial Orthopedics Braces Aligners" onclick="togglePanel('panel-orthodontics', this)">
+          <div class="dept-card-top">
+            <div class="dept-icon-wrap">🦷</div>
+            <h3>Orthodontics &amp; Dentofacial Orthopedics</h3>
+            <p>Metal &amp; ceramic braces, clear aligners, retainers, and jaw correction treatments for all ages.</p>
+            <div class="dept-tags">
+              <span class="dept-tag-pill">Clinical</span>
+              <span class="dept-tag-pill">Braces</span>
+              <span class="dept-tag-pill">Aligners</span>
+            </div>
+          </div>
+          <div class="dept-card-bottom">
+            <div class="dept-hod"><span class="pm-key">Head of Department</span><strong>Dr. Priya Nair</strong></div>
+            <span class="dept-link">View Details →</span>
+          </div>
+        </div>
+        <div class="dept-panel" id="panel-orthodontics">
+          <button class="panel-close" onclick="closePanel('panel-orthodontics')">✕</button>
+          <div class="panel-layout">
+            <div class="panel-left">
+              <h2>Orthodontics &amp; Dentofacial Orthopedics</h2>
+              <p class="panel-sub">The orthodontics department handles the full spectrum of malocclusion — from simple crowding in children to complex skeletal discrepancies in adults — using the latest fixed appliances, functional appliances, and clear aligner systems.</p>
+              <div class="panel-meta">
+                <div class="panel-meta-item"><span class="pm-ico">👩‍⚕️</span><div><span class="pm-key">Head of Department</span><span class="pm-val">Dr. Priya Nair, MDS</span></div></div>
+                <div class="panel-meta-item"><span class="pm-ico">🕐</span><div><span class="pm-key">OPD Timings</span><span class="pm-val">Mon – Sat: 9:00 AM – 4:00 PM</span></div></div>
+                <div class="panel-meta-item"><span class="pm-ico">📋</span><div><span class="pm-key">Registration</span><span class="pm-val">Prior Appointment Required</span></div></div>
+              </div>
+              <a href="home.html#appointment" class="btn btn-primary btn-sm">Book Appointment →</a>
+            </div>
+            <div class="panel-right">
+              <h4>Services Offered</h4>
+              <div class="services-list">
+                <div class="service-item">Metal &amp; ceramic fixed braces</div>
+                <div class="service-item">Clear aligner therapy</div>
+                <div class="service-item">Lingual braces</div>
+                <div class="service-item">Functional &amp; myofunctional appliances</div>
+                <div class="service-item">Retention &amp; retainer fabrication</div>
+                <div class="service-item">Interceptive orthodontics for children</div>
+              </div>
+              <h4>Faculty</h4>
+              <div class="faculty-row">
+                <span class="faculty-pill">Dr. Priya Nair</span>
+                <span class="faculty-pill">Dr. Harsha M</span>
+                <span class="faculty-pill">Dr. Leena S</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8. Public Health Dentistry -->
+        <div class="dept-card reveal" data-dept="public-health" data-category="research" data-name="Public Health Dentistry Community" onclick="togglePanel('panel-public-health', this)">
+          <div class="dept-card-top">
+            <div class="dept-icon-wrap">🌍</div>
+            <h3>Public Health Dentistry</h3>
+            <p>Community dental camps, oral health surveys, school screening programs, and preventive oral health education.</p>
+            <div class="dept-tags">
+              <span class="dept-tag-pill">Community</span>
+              <span class="dept-tag-pill">Research</span>
+              <span class="dept-tag-pill">Preventive</span>
+            </div>
+          </div>
+          <div class="dept-card-bottom">
+            <div class="dept-hod"><span class="pm-key">Head of Department</span><strong>Dr. Vinod Shetty</strong></div>
+            <span class="dept-link">View Details →</span>
+          </div>
+        </div>
+        <div class="dept-panel" id="panel-public-health">
+          <button class="panel-close" onclick="closePanel('panel-public-health')">✕</button>
+          <div class="panel-layout">
+            <div class="panel-left">
+              <h2>Public Health Dentistry</h2>
+              <p class="panel-sub">The Department of Public Health Dentistry drives community outreach — conducting over 40 dental camps per year, school oral health programs across Bengaluru, and epidemiological research in partnership with state health bodies.</p>
+              <div class="panel-meta">
+                <div class="panel-meta-item"><span class="pm-ico">👨‍⚕️</span><div><span class="pm-key">Head of Department</span><span class="pm-val">Dr. Vinod Shetty, MDS, MPH</span></div></div>
+                <div class="panel-meta-item"><span class="pm-ico">🏕</span><div><span class="pm-key">Dental Camps</span><span class="pm-val">40+ Community Camps / Year</span></div></div>
+                <div class="panel-meta-item"><span class="pm-ico">🏫</span><div><span class="pm-key">School Programs</span><span class="pm-val">20+ Schools Covered Annually</span></div></div>
+              </div>
+              <a href="contact.html" class="btn btn-primary btn-sm">Partner With Us →</a>
+            </div>
+            <div class="panel-right">
+              <h4>Programs &amp; Services</h4>
+              <div class="services-list">
+                <div class="service-item">Free community dental camps</div>
+                <div class="service-item">School oral health screening</div>
+                <div class="service-item">Fluoride programs for rural areas</div>
+                <div class="service-item">Epidemiological surveys &amp; research</div>
+                <div class="service-item">Oral health education workshops</div>
+                <div class="service-item">Tobacco cessation counselling</div>
+              </div>
+              <h4>Faculty</h4>
+              <div class="faculty-row">
+                <span class="faculty-pill">Dr. Vinod Shetty</span>
+                <span class="faculty-pill">Dr. Bhavana T</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 9. Oral & Maxillofacial Pathology -->
+        <div class="dept-card reveal" data-dept="oral-pathology" data-category="diagnostic" data-name="Oral Maxillofacial Pathology Histopathology" onclick="togglePanel('panel-oral-pathology', this)">
+          <div class="dept-card-top">
+            <div class="dept-icon-wrap">🧫</div>
+            <h3>Oral &amp; Maxillofacial Pathology</h3>
+            <p>Histopathological diagnosis, cytology, biopsy analysis, and research on oral lesions and tumours.</p>
+            <div class="dept-tags">
+              <span class="dept-tag-pill">Diagnostic</span>
+              <span class="dept-tag-pill">Pathology</span>
+              <span class="dept-tag-pill">Research</span>
+            </div>
+          </div>
+          <div class="dept-card-bottom">
+            <div class="dept-hod"><span class="pm-key">Head of Department</span><strong>Dr. Shreya Kulkarni</strong></div>
+            <span class="dept-link">View Details →</span>
+          </div>
+        </div>
+        <div class="dept-panel" id="panel-oral-pathology">
+          <button class="panel-close" onclick="closePanel('panel-oral-pathology')">✕</button>
+          <div class="panel-layout">
+            <div class="panel-left">
+              <h2>Oral &amp; Maxillofacial Pathology</h2>
+              <p class="panel-sub">The department houses a fully equipped histopathology and cytology laboratory. It serves as the diagnostic hub for tissue specimens from clinical departments and maintains an active research program on oral pre-malignancies and malignancies.</p>
+              <div class="panel-meta">
+                <div class="panel-meta-item"><span class="pm-ico">👩‍⚕️</span><div><span class="pm-key">Head of Department</span><span class="pm-val">Dr. Shreya Kulkarni, MDS</span></div></div>
+                <div class="panel-meta-item"><span class="pm-ico">🕐</span><div><span class="pm-key">Lab Timings</span><span class="pm-val">Mon – Sat: 9:00 AM – 3:30 PM</span></div></div>
+                <div class="panel-meta-item"><span class="pm-ico">🧪</span><div><span class="pm-key">Lab Facility</span><span class="pm-val">Histopathology &amp; Cytology Lab</span></div></div>
+              </div>
+              <a href="home.html#appointment" class="btn btn-primary btn-sm">Refer a Sample →</a>
+            </div>
+            <div class="panel-right">
+              <h4>Services Offered</h4>
+              <div class="services-list">
+                <div class="service-item">Histopathological examination of biopsies</div>
+                <div class="service-item">Exfoliative cytology &amp; FNAC</div>
+                <div class="service-item">Special staining techniques</div>
+                <div class="service-item">Immunohistochemistry</div>
+                <div class="service-item">Forensic odontology consultation</div>
+                <div class="service-item">Research on oral pre-malignancies</div>
+              </div>
+              <h4>Faculty</h4>
+              <div class="faculty-row">
+                <span class="faculty-pill">Dr. Shreya Kulkarni</span>
+                <span class="faculty-pill">Dr. Sanjay D</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 10. Implantology -->
+        <div class="dept-card reveal" data-dept="implantology" data-category="surgical" data-name="Implantology Dental Implants" onclick="togglePanel('panel-implantology', this)">
+          <div class="dept-card-top">
+            <div class="dept-icon-wrap">⚙️</div>
+            <h3>Implantology</h3>
+            <p>Single, multiple, and full-arch dental implants using guided implant surgery with CBCT planning for precision outcomes.</p>
+            <div class="dept-tags">
+              <span class="dept-tag-pill">Surgical</span>
+              <span class="dept-tag-pill">Implants</span>
+              <span class="dept-tag-pill">Advanced</span>
+            </div>
+          </div>
+          <div class="dept-card-bottom">
+            <div class="dept-hod"><span class="pm-key">Head of Department</span><strong>Dr. Arjun Bhat</strong></div>
+            <span class="dept-link">View Details →</span>
+          </div>
+        </div>
+        <div class="dept-panel" id="panel-implantology">
+          <button class="panel-close" onclick="closePanel('panel-implantology')">✕</button>
+          <div class="panel-layout">
+            <div class="panel-left">
+              <h2>Implantology</h2>
+              <p class="panel-sub">Our dedicated Implantology unit offers the full spectrum of dental implant treatments — from single tooth replacements to full-arch rehabilitation — using Nobel Biocare, Straumann, and indigenously manufactured implant systems, guided by CBCT-based surgical planning.</p>
+              <div class="panel-meta">
+                <div class="panel-meta-item"><span class="pm-ico">👨‍⚕️</span><div><span class="pm-key">Head of Department</span><span class="pm-val">Dr. Arjun Bhat, MDS, FICOI</span></div></div>
+                <div class="panel-meta-item"><span class="pm-ico">🕐</span><div><span class="pm-key">OPD Timings</span><span class="pm-val">Mon – Fri: 10:00 AM – 3:00 PM</span></div></div>
+                <div class="panel-meta-item"><span class="pm-ico">📋</span><div><span class="pm-key">Registration</span><span class="pm-val">Prior Appointment Required</span></div></div>
+              </div>
+              <a href="home.html#appointment" class="btn btn-primary btn-sm">Book Consultation →</a>
+            </div>
+            <div class="panel-right">
+              <h4>Services Offered</h4>
+              <div class="services-list">
+                <div class="service-item">Single &amp; multiple tooth implants</div>
+                <div class="service-item">All-on-4 / All-on-6 full arch implants</div>
+                <div class="service-item">Immediate loading implants</div>
+                <div class="service-item">Guided (computer-assisted) implant surgery</div>
+                <div class="service-item">Sinus lift &amp; bone augmentation</div>
+                <div class="service-item">Implant-supported dentures</div>
+              </div>
+              <h4>Faculty</h4>
+              <div class="faculty-row">
+                <span class="faculty-pill">Dr. Arjun Bhat</span>
+                <span class="faculty-pill">Dr. Mahesh R</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 11. Research & Publication -->
+        <div class="dept-card reveal" data-dept="research" data-category="research" data-name="Research Publication Academic" onclick="togglePanel('panel-research', this)">
+          <div class="dept-card-top">
+            <div class="dept-icon-wrap">📚</div>
+            <h3>Research &amp; Publication</h3>
+            <p>ICMR-recognised research cell driving evidence-based dentistry, clinical trials, and academic publications in peer-reviewed journals.</p>
+            <div class="dept-tags">
+              <span class="dept-tag-pill">Research</span>
+              <span class="dept-tag-pill">Academic</span>
+              <span class="dept-tag-pill">ICMR</span>
+            </div>
+          </div>
+          <div class="dept-card-bottom">
+            <div class="dept-hod"><span class="pm-key">Research Coordinator</span><strong>Dr. Ananya Rao</strong></div>
+            <span class="dept-link">View Details →</span>
+          </div>
+        </div>
+        <div class="dept-panel" id="panel-research">
+          <button class="panel-close" onclick="closePanel('panel-research')">✕</button>
+          <div class="panel-layout">
+            <div class="panel-left">
+              <h2>Research &amp; Publication</h2>
+              <p class="panel-sub">The RRDCH Research Cell coordinates interdepartmental and collaborative research, manages ICMR-funded projects, and supports faculty and postgraduate students from abstract submission to manuscript publication in indexed journals.</p>
+              <div class="panel-meta">
+                <div class="panel-meta-item"><span class="pm-ico">👩‍⚕️</span><div><span class="pm-key">Research Coordinator</span><span class="pm-val">Dr. Ananya Rao, MDS, PhD</span></div></div>
+                <div class="panel-meta-item"><span class="pm-ico">📄</span><div><span class="pm-key">Publications</span><span class="pm-val">200+ Indexed Publications</span></div></div>
+                <div class="panel-meta-item"><span class="pm-ico">🏅</span><div><span class="pm-key">Recognition</span><span class="pm-val">ICMR Recognised Research Facility</span></div></div>
+              </div>
+              <a href="contact.html" class="btn btn-primary btn-sm">Collaborate With Us →</a>
+            </div>
+            <div class="panel-right">
+              <h4>Research Areas</h4>
+              <div class="services-list">
+                <div class="service-item">Oral cancer &amp; pre-malignancy research</div>
+                <div class="service-item">Implant biomaterials &amp; osseointegration</div>
+                <div class="service-item">Periodontal-systemic disease links</div>
+                <div class="service-item">Epidemiological surveys in oral health</div>
+                <div class="service-item">Novel restorative materials</div>
+                <div class="service-item">Orthodontic biomechanics</div>
+              </div>
+              <h4>Key Faculty</h4>
+              <div class="faculty-row">
+                <span class="faculty-pill">Dr. Ananya Rao</span>
+                <span class="faculty-pill">Dr. Suresh R. Nair</span>
+                <span class="faculty-pill">Dr. Shreya Kulkarni</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 12. Orofacial Pain -->
+        <div class="dept-card reveal" data-dept="orofacial-pain" data-category="clinical" data-name="Orofacial Pain TMJ Headache" onclick="togglePanel('panel-orofacial-pain', this)">
+          <div class="dept-card-top">
+            <div class="dept-icon-wrap">🧠</div>
+            <h3>Orofacial Pain</h3>
+            <p>Diagnosis and management of TMJ disorders, bruxism, facial pain, and sleep-related orofacial conditions.</p>
+            <div class="dept-tags">
+              <span class="dept-tag-pill">Clinical</span>
+              <span class="dept-tag-pill">TMJ</span>
+              <span class="dept-tag-pill">Pain Mgmt</span>
+            </div>
+          </div>
+          <div class="dept-card-bottom">
+            <div class="dept-hod"><span class="pm-key">Head of Department</span><strong>Dr. Pooja Iyer</strong></div>
+            <span class="dept-link">View Details →</span>
+          </div>
+        </div>
+        <div class="dept-panel" id="panel-orofacial-pain">
+          <button class="panel-close" onclick="closePanel('panel-orofacial-pain')">✕</button>
+          <div class="panel-layout">
+            <div class="panel-left">
+              <h2>Orofacial Pain</h2>
+              <p class="panel-sub">A specialised clinic dedicated to the assessment and treatment of chronic and acute orofacial pain conditions, temporomandibular joint (TMJ) disorders, bruxism, and headaches of dental origin using multimodal, evidence-based approaches.</p>
+              <div class="panel-meta">
+                <div class="panel-meta-item"><span class="pm-ico">👩‍⚕️</span><div><span class="pm-key">Head of Department</span><span class="pm-val">Dr. Pooja Iyer, MDS</span></div></div>
+                <div class="panel-meta-item"><span class="pm-ico">🕐</span><div><span class="pm-key">Clinic Timings</span><span class="pm-val">Mon, Wed, Fri: 10:00 AM – 3:00 PM</span></div></div>
+                <div class="panel-meta-item"><span class="pm-ico">📋</span><div><span class="pm-key">Registration</span><span class="pm-val">Prior Appointment Required</span></div></div>
+              </div>
+              <a href="home.html#appointment" class="btn btn-primary btn-sm">Book Consultation →</a>
+            </div>
+            <div class="panel-right">
+              <h4>Services Offered</h4>
+              <div class="services-list">
+                <div class="service-item">TMJ disorder diagnosis &amp; treatment</div>
+                <div class="service-item">Occlusal splint therapy</div>
+                <div class="service-item">Bruxism management</div>
+                <div class="service-item">Chronic facial pain counselling</div>
+                <div class="service-item">TENS &amp; physiotherapy referral</div>
+                <div class="service-item">Sleep-related orofacial conditions</div>
+              </div>
+              <h4>Faculty</h4>
+              <div class="faculty-row">
+                <span class="faculty-pill">Dr. Pooja Iyer</span>
+                <span class="faculty-pill">Dr. Ramesh N</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end dept-grid -->
+      <div id="noResults" style="display:none;text-align:center;padding:3rem;color:var(--muted);">
+        <p style="font-size:1.1rem;margin-bottom:0.5rem;">No departments found.</p>
+        <p style="font-size:0.88rem;">Try a different keyword or filter.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA STRIP -->
+  <section class="cta-strip reveal">
+    <div class="container">
+      <div class="cta-inner">
+        <span class="section-eyebrow center">Expert Care Awaits</span>
+        <h2>Not Sure Which Department<br>You Need?</h2>
+        <p>Book a general consultation and our team will guide you to the right specialist.</p>
+        <div class="cta-actions">
+          <a href="home.html#appointment" class="btn btn-primary">📅 Book Appointment →</a>
+          <a href="contact.html" class="btn btn-outline-white">📞 Call Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="home.html" class="logo" style="margin-bottom:1rem;display:flex;">
+            <div class="logo-mark">⚕</div>
+            <div class="logo-text">
+              <span class="logo-name">RRDCH</span>
+              <span class="logo-sub">Dental College & Hospital</span>
+            </div>
+          </a>
+          <p class="footer-desc">Serving Karnataka with world-class dental education and compassionate patient care since 1994. DCI Approved · RGUHS Affiliated · NAAC A+</p>
+          <div class="socials">
+            <a href="#" class="social-ico">f</a>
+            <a href="#" class="social-ico">in</a>
+            <a href="#" class="social-ico">𝕏</a>
+            <a href="#" class="social-ico">▶</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Departments</h5>
+          <a href="#oral-medicine">Oral Medicine & Radiology</a>
+          <a href="#prosthodontics">Prosthodontics</a>
+          <a href="#oral-surgery">Oral Surgery</a>
+          <a href="#orthodontics">Orthodontics</a>
+          <a href="#periodontics">Periodontology</a>
+        </div>
+        <div class="footer-col">
+          <h5>Patient Services</h5>
+          <a href="home.html#appointment">Book Appointment</a>
+          <a href="patients.html">Patient Portal</a>
+          <a href="contact.html">Contact Us</a>
+          <a href="patients.html#emergency">Emergency: 1800-XXX-XXXX</a>
+        </div>
+        <div class="footer-col">
+          <h5>Contact</h5>
+          <p>Mysore Road, Kambipura,<br>Bengaluru – 560074</p>
+          <p>📞 +91 80 2860 1234</p>
+          <p>✉️ info@rrdch.edu.in</p>
+          <p>🕐 Mon–Sat: 9AM – 5PM</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Rajarajeshwari Dental College & Hospital. All rights reserved.</p>
+        <p>Designed & Developed by RRDCH Web Team</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', scrollY > 60);
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    let activePanel = null;
+
+    function togglePanel(panelId, card) {
+      const panel = document.getElementById(panelId);
+      if (!panel) return;
+
+      if (panel.classList.contains('open')) {
+        panel.classList.remove('open');
+        activePanel = null;
+        return;
+      }
+      if (activePanel && activePanel !== panel) {
+        activePanel.classList.remove('open');
+      }
+
+      // Insert panel after the card's row
+      const grid = document.getElementById('deptGrid');
+      const cards = Array.from(grid.children).filter(c => c.classList.contains('dept-card') && !c.classList.contains('hidden'));
+      const styles = getComputedStyle(grid);
+      const cols = styles.gridTemplateColumns.split(' ').length;
+
+      // Find the card index among visible cards
+      const allChildren = Array.from(grid.children);
+      const cardIndex = allChildren.indexOf(card);
+
+      // Place panel right after this card (remove & reinsert)
+      grid.insertBefore(panel, allChildren[cardIndex + 1] || null);
+      panel.classList.add('open');
+      activePanel = panel;
+
+      setTimeout(() => {
+        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 80);
+    }
+
+    function closePanel(panelId) {
+      const panel = document.getElementById(panelId);
+      if (panel) { panel.classList.remove('open'); activePanel = null; }
+    }
+
+    function filterDepts(btn, category) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cards = document.querySelectorAll('.dept-card');
+      let visible = 0;
+      cards.forEach(card => {
+        const match = category === 'all' || card.dataset.category === category;
+        card.classList.toggle('hidden', !match);
+        if (match) visible++;
+      });
+      document.getElementById('resultCount').textContent = `Showing ${visible} of 12 departments`;
+      document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
+      if (activePanel) { activePanel.classList.remove('open'); activePanel = null; }
+    }
+
+    function searchDepts() {
+      const query = document.getElementById('deptSearch').value.toLowerCase().trim();
+      const cards = document.querySelectorAll('.dept-card');
+      let visible = 0;
+      cards.forEach(card => {
+        const name = card.dataset.name.toLowerCase();
+        const match = name.includes(query);
+        card.classList.toggle('hidden', !match);
+        if (match) visible++;
+      });
+      document.getElementById('resultCount').textContent = `Showing ${visible} of 12 departments`;
+      document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector('[data-filter="all"]').classList.add('active');
+      if (activePanel) { activePanel.classList.remove('open'); activePanel = null; }
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3800);
+    }
+
+    let isKannada = false;
+    const navEN = ['Home','About','Departments','Admissions','Students','Patients','Contact'];
+    const navKN = ['ಮುಖಪುಟ','ನಮ್ಮ ಬಗ್ಗೆ','ವಿಭಾಗಗಳು','ಪ್ರವೇಶ','ವಿದ್ಯಾರ್ಥಿಗಳು','ರೋಗಿಗಳು','ಸಂಪರ್ಕ'];
+    function toggleLang() {
+      isKannada = !isKannada;
+      document.getElementById('langBtn').textContent = isKannada ? '🌐 English' : '🌐 ಕನ್ನಡ';
+      document.querySelectorAll('.nav-links a').forEach((a, i) => {
+        a.textContent = isKannada ? navKN[i] : navEN[i];
+      });
+      showToast(isKannada ? '✅ ಕನ್ನಡಕ್ಕೆ ಬದಲಾಯಿಸಲಾಗಿದೆ' : '✅ Switched to English');
+    }
+  </script>
+</body>
+</html>

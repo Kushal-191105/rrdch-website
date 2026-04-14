@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us | RRDCH – Rajarajeshwari Dental College & Hospital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:       #071e38;
+      --navy-mid:   #0d2d52;
+      --blue:       #1456a0;
+      --blue-mid:   #1a6bbf;
+      --accent:     #00a8e8;
+      --teal:       #00869e;
+      --gold:       #d4960a;
+      --white:      #ffffff;
+      --off-white:  #f3f7fd;
+      --surface:    #eaf3fd;
+      --text:       #0d1f33;
+      --muted:      #556070;
+      --border:     #ccdff0;
+
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body:    'DM Sans', sans-serif;
+
+      --radius:    18px;
+      --radius-sm: 10px;
+      --shadow:    0 4px 20px rgba(7,30,56,0.10);
+      --shadow-lg: 0 12px 48px rgba(7,30,56,0.18);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      color: var(--text);
+      background: var(--white);
+      overflow-x: hidden;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 1.5rem; }
+    .section-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .section-eyebrow.center { text-align: center; }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.9rem, 3.2vw, 2.8rem);
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.15;
+      margin-bottom: 2.5rem;
+    }
+    .section-title.center { text-align: center; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.75rem 1.75rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      font-family: var(--font-body);
+      text-decoration: none;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.22s ease;
+    }
+    .btn-primary { background: var(--blue); color: white; border-color: var(--blue); }
+    .btn-primary:hover { background: var(--navy); border-color: var(--navy); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(20,86,160,0.35); }
+    .btn-outline-white { background: transparent; color: white; border-color: rgba(255,255,255,0.6); }
+    .btn-outline-white:hover { background: rgba(255,255,255,0.12); }
+    .btn-outline { background: transparent; color: var(--blue); border-color: var(--blue); }
+    .btn-outline:hover { background: var(--blue); color: white; }
+
+    /* ===================== NAVBAR ===================== */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 999;
+      background: rgba(7,30,56,0.97);
+      backdrop-filter: blur(14px);
+      padding: 0.85rem 0;
+      transition: box-shadow 0.3s;
+    }
+    .navbar.scrolled { box-shadow: 0 4px 28px rgba(0,0,0,0.3); }
+    .nav-inner {
+      max-width: 1180px; margin: 0 auto; padding: 0 1.5rem;
+      display: flex; align-items: center; gap: 1.5rem;
+    }
+    .logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; flex-shrink: 0; }
+    .logo-mark {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--accent), var(--blue));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; color: white; font-weight: 700;
+    }
+    .logo-text .logo-name { display: block; font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; color: white; line-height: 1; }
+    .logo-text .logo-sub  { display: block; font-size: 0.62rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
+
+    .nav-links { display: flex; gap: 1.5rem; flex: 1; justify-content: center; }
+    .nav-links a {
+      color: rgba(255,255,255,0.78);
+      text-decoration: none;
+      font-size: 0.86rem;
+      font-weight: 500;
+      padding: 0.3rem 0;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: white; border-bottom-color: var(--accent); }
+
+    .nav-actions { display: flex; align-items: center; gap: 0.65rem; flex-shrink: 0; }
+    .lang-btn {
+      background: rgba(255,255,255,0.09);
+      color: rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 0.38rem 0.9rem;
+      border-radius: 50px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-family: var(--font-body);
+    }
+    .lang-btn:hover { background: rgba(255,255,255,0.18); }
+    .appt-btn {
+      background: var(--accent);
+      color: white; border: none;
+      padding: 0.5rem 1.15rem;
+      border-radius: 50px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      font-family: var(--font-body);
+    }
+    .appt-btn:hover { background: var(--teal); transform: translateY(-1px); }
+    .hamburger { display: none; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+
+    /* ===================== ANNOUNCE BAR ===================== */
+    .announce-bar {
+      background: var(--navy-mid);
+      border-bottom: 2px solid var(--accent);
+      margin-top: 68px;
+      overflow: hidden;
+      padding: 0.45rem 0;
+    }
+    .ticker {
+      display: inline-flex;
+      white-space: nowrap;
+      animation: ticker 36s linear infinite;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.88);
+    }
+    .ticker .sep { color: var(--accent); margin: 0 1rem; }
+    .ticker .tag {
+      background: var(--accent);
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 0.1rem 0.5rem;
+      border-radius: 4px;
+      margin-right: 0.4rem;
+      letter-spacing: 0.05em;
+    }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ===================== PAGE HERO ===================== */
+    .page-hero {
+      background: var(--navy);
+      padding: 9rem 1.5rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(circle at 80% 50%, rgba(0,168,232,0.10) 0%, transparent 55%),
+        radial-gradient(circle at 10% 30%, rgba(20,86,160,0.20) 0%, transparent 40%);
+    }
+    .page-hero-grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .page-hero-inner {
+      position: relative; z-index: 2;
+      max-width: 1180px; margin: 0 auto;
+    }
+    .page-hero-badge {
+      display: inline-flex;
+      align-items: center; gap: 0.5rem;
+      background: rgba(0,168,232,0.12);
+      border: 1px solid rgba(0,168,232,0.3);
+      color: var(--accent);
+      font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.4rem 1rem; border-radius: 50px;
+      margin-bottom: 1.25rem;
+    }
+    .page-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 700;
+      color: white;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .page-hero h1 em { font-style: italic; color: var(--accent); }
+    .page-hero p {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.6);
+      max-width: 560px;
+      line-height: 1.75;
+      margin-bottom: 2rem;
+    }
+    .breadcrumb {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.8rem; color: rgba(255,255,255,0.4);
+    }
+    .breadcrumb a { color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .breadcrumb span { color: rgba(255,255,255,0.25); }
+
+    /* ===================== QUICK STATS STRIP ===================== */
+    .stats-strip {
+      background: var(--navy);
+      padding: 0 0 3rem;
+    }
+    .stats-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 2.5rem 3rem;
+      box-shadow: var(--shadow-lg);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      border: 1px solid var(--border);
+      position: relative;
+      top: -2rem;
+      text-align: center;
+    }
+    .stats-card .divider {
+      width: 1px;
+      background: var(--border);
+      position: absolute;
+    }
+    .stat-block { position: relative; }
+    .stat-block:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 10%; bottom: 10%;
+      width: 1px;
+      background: var(--border);
+    }
+    .stat-block .num {
+      font-family: var(--font-display);
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1;
+      display: block;
+    }
+    .stat-block .num span { color: var(--accent); }
+    .stat-block .lbl { font-size: 0.78rem; color: var(--muted); display: block; margin-top: 6px; letter-spacing: 0.03em; }
+
+    /* ===================== HISTORY SECTION ===================== */
+    .history { padding: 5rem 0; background: var(--off-white); }
+    .history-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .history-text p {
+      font-size: 0.96rem;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 1.25rem;
+    }
+    .history-text p strong { color: var(--navy); font-weight: 600; }
+    .history-highlights { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+    .highlight-item {
+      display: flex; align-items: flex-start; gap: 1rem;
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.25rem;
+    }
+    .highlight-ico {
+      width: 38px; height: 38px; flex-shrink: 0;
+      background: var(--surface);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+    .highlight-item strong { display: block; font-size: 0.88rem; color: var(--navy); font-weight: 600; }
+    .highlight-item span { font-size: 0.82rem; color: var(--muted); }
+
+    /* Timeline card on right */
+    .history-timeline { display: flex; flex-direction: column; gap: 0; position: relative; }
+    .history-timeline::before {
+      content: '';
+      position: absolute;
+      left: 20px; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent), var(--border));
+    }
+    .timeline-item { display: flex; gap: 1.25rem; align-items: flex-start; padding-bottom: 2rem; position: relative; }
+    .timeline-dot {
+      width: 42px; height: 42px;
+      background: white;
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: 700; color: var(--blue);
+      flex-shrink: 0;
+      z-index: 1;
+    }
+    .timeline-dot.filled { background: var(--accent); color: white; border-color: var(--accent); }
+    .timeline-body { padding-top: 0.6rem; }
+    .timeline-body strong { display: block; font-size: 0.92rem; color: var(--navy); font-weight: 600; margin-bottom: 3px; }
+    .timeline-body span { font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
+
+    /* ===================== VISION MISSION ===================== */
+    .vision-mission { padding: 5rem 0; background: white; }
+    .vm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .vm-card {
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      border: 1.5px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .vm-card.vision { background: var(--navy); }
+    .vm-card.mission { background: var(--off-white); }
+    .vm-card.values  { background: var(--surface); grid-column: 1 / -1; }
+    .vm-card::before {
+      content: '';
+      position: absolute;
+      right: -40px; bottom: -40px;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .vm-label {
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      margin-bottom: 1rem; display: block;
+    }
+    .vm-card.vision .vm-label { color: var(--accent); }
+    .vm-card.mission .vm-label { color: var(--blue); }
+    .vm-card.values  .vm-label { color: var(--teal); }
+    .vm-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.5rem; font-weight: 700;
+      line-height: 1.25; margin-bottom: 1rem;
+    }
+    .vm-card.vision h3 { color: white; }
+    .vm-card.mission h3, .vm-card.values h3 { color: var(--navy); }
+    .vm-card p { font-size: 0.9rem; line-height: 1.8; }
+    .vm-card.vision p { color: rgba(255,255,255,0.65); }
+    .vm-card.mission p, .vm-card.values p { color: var(--muted); }
+    .values-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+    .value-item {
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.25rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .value-item .v-ico { font-size: 1.2rem; flex-shrink: 0; }
+    .value-item strong { font-size: 0.88rem; color: var(--navy); font-weight: 600; }
+
+    /* ===================== PRINCIPAL MESSAGE ===================== */
+    .principal { padding: 5rem 0; background: var(--off-white); }
+    .principal-layout { display: grid; grid-template-columns: 360px 1fr; gap: 5rem; align-items: start; }
+    .principal-card {
+      background: var(--navy);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      text-align: center;
+      position: sticky;
+      top: 5rem;
+    }
+    .principal-avatar {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--blue));
+      margin: 0 auto 1.25rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem;
+      border: 3px solid rgba(255,255,255,0.15);
+    }
+    .principal-card h3 { font-family: var(--font-display); font-size: 1.4rem; color: white; font-weight: 700; margin-bottom: 0.25rem; }
+    .principal-card .desig { font-size: 0.8rem; color: var(--accent); font-weight: 500; margin-bottom: 0.5rem; }
+    .principal-card .qual { font-size: 0.78rem; color: rgba(255,255,255,0.45); line-height: 1.55; margin-bottom: 1.5rem; }
+    .principal-badges { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+    .p-badge {
+      background: rgba(255,255,255,0.09);
+      color: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.15);
+      font-size: 0.72rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 50px;
+    }
+    .principal-message blockquote {
+      font-family: var(--font-display);
+      font-size: clamp(1.35rem, 2vw, 1.7rem);
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.45;
+      margin-bottom: 2rem;
+      position: relative;
+      padding-left: 1.5rem;
+      border-left: 4px solid var(--accent);
+    }
+    .principal-message p {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.85;
+      margin-bottom: 1.25rem;
+    }
+    .principal-sig {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1.5px solid var(--border);
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      color: var(--navy);
+      font-weight: 600;
+    }
+    .principal-sig span { display: block; font-family: var(--font-body); font-size: 0.8rem; color: var(--muted); margin-top: 3px; font-weight: 400; }
+
+    /* ===================== LEADERSHIP TEAM ===================== */
+    .leadership { padding: 5rem 0; background: white; }
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.25rem; }
+    .team-card {
+      background: var(--off-white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      text-align: center;
+      transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
+    }
+    .team-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: var(--accent); }
+    .team-avatar {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--surface), var(--border));
+      margin: 0 auto 1rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+      border: 2px solid var(--border);
+    }
+    .team-card h4 { font-size: 1rem; font-weight: 600; color: var(--navy); margin-bottom: 3px; }
+    .team-card .role { font-size: 0.78rem; color: var(--blue); font-weight: 500; margin-bottom: 5px; }
+    .team-card .dept-tag {
+      display: inline-block;
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 0.72rem;
+      padding: 0.2rem 0.65rem;
+      border-radius: 50px;
+    }
+
+    /* ===================== ACCREDITATION ===================== */
+    .accreditation { padding: 5rem 0; background: var(--off-white); }
+    .acc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.15rem; }
+    .acc-card {
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .acc-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .acc-logo {
+      width: 64px; height: 64px;
+      background: var(--surface);
+      border-radius: 14px;
+      margin: 0 auto 1.25rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem;
+    }
+    .acc-card h4 { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 0.3rem; }
+    .acc-card .acc-body { font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
+    .acc-card .acc-year {
+      display: inline-block;
+      background: var(--surface);
+      color: var(--blue);
+      font-size: 0.72rem; font-weight: 600;
+      padding: 0.25rem 0.7rem;
+      border-radius: 50px;
+      margin-top: 0.75rem;
+    }
+
+    /* ===================== CAMPUS INFRA ===================== */
+    .infrastructure { padding: 5rem 0; background: white; }
+    .infra-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .infra-content p { font-size: 0.95rem; color: var(--muted); line-height: 1.8; margin-bottom: 1.75rem; }
+    .infra-list { display: flex; flex-direction: column; gap: 0.75rem; }
+    .infra-item {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 0.9rem 1.25rem;
+      background: var(--off-white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+    .infra-item .i-num {
+      font-family: var(--font-display);
+      font-size: 1.4rem; font-weight: 700;
+      color: var(--blue); flex-shrink: 0; min-width: 56px;
+    }
+    .infra-item strong { display: block; font-size: 0.88rem; color: var(--navy); font-weight: 600; }
+    .infra-item span { font-size: 0.8rem; color: var(--muted); }
+    .infra-image-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .infra-img-box {
+      background: var(--surface);
+      border: 1.5px dashed var(--border);
+      border-radius: var(--radius);
+      height: 160px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 0.5rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .infra-img-box:hover { background: var(--border); border-color: var(--accent); }
+    .infra-img-box span { font-size: 1.8rem; }
+    .infra-img-box.tall { grid-row: span 2; height: auto; min-height: 340px; }
+
+    /* ===================== CTA STRIP ===================== */
+    .cta-strip {
+      padding: 5rem 0;
+      background: var(--navy);
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-strip::before {
+      content: '';
+      position: absolute;
+      right: -100px; top: 50%;
+      transform: translateY(-50%);
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,168,232,0.08);
+    }
+    .cta-inner {
+      position: relative; z-index: 2;
+      text-align: center;
+    }
+    .cta-inner .section-eyebrow { color: var(--accent); }
+    .cta-inner h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      color: white;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .cta-inner p { color: rgba(255,255,255,0.55); font-size: 1rem; margin-bottom: 2rem; }
+    .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* ===================== FOOTER ===================== */
+    .footer { background: var(--navy); padding: 4rem 0 0; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 3rem; padding-bottom: 3rem; }
+    .footer-brand .logo { margin-bottom: 1rem; }
+    .footer-desc { font-size: 0.86rem; color: rgba(255,255,255,0.5); line-height: 1.75; margin-bottom: 1.5rem; }
+    .socials { display: flex; gap: 0.5rem; }
+    .social-ico {
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.7);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .social-ico:hover { background: var(--accent); color: white; }
+    .footer-col h5 { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: white; margin-bottom: 1.25rem; }
+    .footer-col a, .footer-col p {
+      display: block;
+      font-size: 0.84rem;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      margin-bottom: 0.6rem;
+      line-height: 1.6;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--accent); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 1.25rem 0;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 0.5rem;
+    }
+    .footer-bottom p { font-size: 0.78rem; color: rgba(255,255,255,0.28); }
+
+    /* TOAST */
+    .toast {
+      position: fixed; bottom: 2rem; right: 2rem;
+      background: var(--navy);
+      color: white;
+      padding: 0.9rem 1.5rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      border-left: 4px solid var(--accent);
+      transform: translateY(120px);
+      opacity: 0;
+      transition: all 0.35s ease;
+      z-index: 9999;
+      max-width: 360px;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    /* SCROLL REVEAL */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 960px) {
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column;
+        position: absolute; top: 100%; left: 0; right: 0;
+        background: var(--navy);
+        padding: 1.5rem; gap: 1rem;
+        border-top: 1px solid rgba(255,255,255,0.1);
+      }
+      .hamburger { display: block; }
+      .appt-btn { display: none; }
+      .stats-card { grid-template-columns: 1fr 1fr; }
+      .history-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+      .vm-grid { grid-template-columns: 1fr; }
+      .vm-card.values { grid-column: auto; }
+      .principal-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+      .principal-card { position: static; }
+      .infra-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    }
+    @media (max-width: 600px) {
+      .stats-card { grid-template-columns: 1fr 1fr; gap: 1.5rem; padding: 2rem 1.5rem; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .cta-actions { flex-direction: column; align-items: center; }
+      .infra-image-grid { grid-template-columns: 1fr; }
+      .infra-img-box.tall { min-height: 180px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================
+       NAVBAR
+  =========================================== -->
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="home.html" class="logo">
+        <div class="logo-mark">⚕</div>
+        <div class="logo-text">
+          <span class="logo-name">RRDCH</span>
+          <span class="logo-sub">Dental College & Hospital</span>
+        </div>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="home.html" data-en="Home" data-kn="ಮುಖಪುಟ">Home</a>
+        <a href="about.html" class="active" data-en="About" data-kn="ನಮ್ಮ ಬಗ್ಗೆ">About</a>
+        <a href="departments.html" data-en="Departments" data-kn="ವಿಭಾಗಗಳು">Departments</a>
+        <a href="admissions.html" data-en="Admissions" data-kn="ಪ್ರವೇಶ">Admissions</a>
+        <a href="students.html" data-en="Students" data-kn="ವಿದ್ಯಾರ್ಥಿಗಳು">Students</a>
+        <a href="patients.html" data-en="Patients" data-kn="ರೋಗಿಗಳು">Patients</a>
+        <a href="contact.html" data-en="Contact" data-kn="ಸಂಪರ್ಕ">Contact</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="lang-btn" id="langBtn" onclick="toggleLang()">🌐 ಕನ್ನಡ</button>
+        <button class="appt-btn" onclick="window.location.href='home.html#appointment'">Book Appointment</button>
+        <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================
+       ANNOUNCEMENT BAR
+  =========================================== -->
+  <div class="announce-bar">
+    <div class="ticker-wrap">
+      <div class="ticker">
+        <span class="tag">NEW</span> Admissions Open 2026–27 — BDS &amp; MDS Programs
+        <span class="sep">|</span>
+        <span class="tag">AWARD</span> Ranked #1 Dental College in Karnataka — 2025
+        <span class="sep">|</span>
+        <span class="tag">EVENT</span> Free Dental Camp — April 20, 2026 at RRDCH Campus
+        <span class="sep">|</span>
+        <span class="tag">NOTICE</span> Internal Exams scheduled: May 10–14, 2026
+        <span class="sep">|</span>
+        <span class="tag">NEW</span> Admissions Open 2026–27 — BDS &amp; MDS Programs
+        <span class="sep">|</span>
+        <span class="tag">AWARD</span> Ranked #1 Dental College in Karnataka — 2025
+        <span class="sep">|</span>
+        <span class="tag">EVENT</span> Free Dental Camp — April 20, 2026 at RRDCH Campus
+        <span class="sep">|</span>
+        <span class="tag">NOTICE</span> Internal Exams scheduled: May 10–14, 2026
+        <span class="sep">|</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       PAGE HERO
+  =========================================== -->
+  <section class="page-hero">
+    <div class="page-hero-grid"></div>
+    <div class="page-hero-inner">
+      <div class="breadcrumb" style="margin-bottom:1.25rem;">
+        <a href="home.html">Home</a>
+        <span>›</span>
+        <span style="color:rgba(255,255,255,0.6);">About Us</span>
+      </div>
+      <div class="page-hero-badge">
+        <span style="width:6px;height:6px;background:var(--accent);border-radius:50%;display:inline-block;"></span>
+        Established 1994
+      </div>
+      <h1>About <em>RRDCH</em></h1>
+      <p>Over three decades of shaping Karnataka's finest dental professionals while delivering compassionate, world-class oral healthcare to thousands of patients every year.</p>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+        <a href="admissions.html" class="btn btn-primary">Explore Admissions →</a>
+        <a href="departments.html" class="btn btn-outline-white">Our Departments</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       QUICK STATS STRIP
+  =========================================== -->
+  <section class="stats-strip">
+    <div class="container">
+      <div class="stats-card reveal">
+        <div class="stat-block">
+          <span class="num">30<span>+</span></span>
+          <span class="lbl">Years of Excellence</span>
+        </div>
+        <div class="stat-block">
+          <span class="num">50k<span>+</span></span>
+          <span class="lbl">Patients Treated</span>
+        </div>
+        <div class="stat-block">
+          <span class="num">200<span>+</span></span>
+          <span class="lbl">Faculty & Staff</span>
+        </div>
+        <div class="stat-block">
+          <span class="num">10</span>
+          <span class="lbl">Clinical Departments</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       HISTORY & TIMELINE
+  =========================================== -->
+  <section class="history reveal" id="history">
+    <div class="container">
+      <div class="history-layout">
+        <div class="history-text">
+          <span class="section-eyebrow">Our Story</span>
+          <h2 class="section-title">A Legacy Built on<br>Excellence &amp; Care</h2>
+          <p>
+            Rajarajeshwari Dental College &amp; Hospital was founded in <strong>1994</strong> with a singular vision — to establish a centre of excellence in dental education and healthcare in Karnataka. Named after the revered goddess Rajarajeshwari, the institution was built on the principles of compassion, integrity, and academic rigour.
+          </p>
+          <p>
+            Affiliated to <strong>Rajiv Gandhi University of Health Sciences (RGUHS)</strong> and approved by the <strong>Dental Council of India (DCI)</strong>, the college has grown from a single BDS batch to one of Karnataka's most recognised dental institutions — offering BDS, MDS across nine specialties, and active research programmes.
+          </p>
+          <p>
+            Today, the hospital manages over <strong>50,000 patient visits annually</strong>, supported by state-of-the-art dental operatories, a digital radiology unit, simulation labs, and a 24×7 dental emergency facility.
+          </p>
+
+          <div class="history-highlights">
+            <div class="highlight-item">
+              <div class="highlight-ico">🏛</div>
+              <div>
+                <strong>RGUHS Affiliated</strong>
+                <span>Affiliated to Rajiv Gandhi University of Health Sciences, Bengaluru</span>
+              </div>
+            </div>
+            <div class="highlight-item">
+              <div class="highlight-ico">📜</div>
+              <div>
+                <strong>DCI Approved</strong>
+                <span>Recognised and approved by the Dental Council of India since inception</span>
+              </div>
+            </div>
+            <div class="highlight-item">
+              <div class="highlight-ico">🌟</div>
+              <div>
+                <strong>NAAC Accredited A+</strong>
+                <span>Holds the highest national accreditation grade for quality and infrastructure</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="history-timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot filled">1994</div>
+            <div class="timeline-body">
+              <strong>Founded</strong>
+              <span>RRDCH established on Mysore Road, Bengaluru with the first BDS batch of 60 students.</span>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot">2001</div>
+            <div class="timeline-body">
+              <strong>Hospital Wing Launched</strong>
+              <span>State-of-the-art dental hospital wing opened, adding 80 patient chairs across 10 departments.</span>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot">2006</div>
+            <div class="timeline-body">
+              <strong>MDS Programmes Introduced</strong>
+              <span>Postgraduate MDS courses launched across Orthodontics, Periodontics, and Oral Surgery.</span>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot">2012</div>
+            <div class="timeline-body">
+              <strong>Research Centre Established</strong>
+              <span>Dedicated dental research centre inaugurated with grants from ICMR and DST.</span>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot">2018</div>
+            <div class="timeline-body">
+              <strong>Digital Radiology & Simulation Lab</strong>
+              <span>Fully digital OPG, CBCT suite, and simulation training lab commissioned.</span>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot filled">2024</div>
+            <div class="timeline-body">
+              <strong>NAAC A+ Accreditation</strong>
+              <span>Awarded highest national accreditation grade for academic quality and patient care outcomes.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       VISION, MISSION & VALUES
+  =========================================== -->
+  <section class="vision-mission reveal" id="vision">
+    <div class="container">
+      <span class="section-eyebrow center">Our Purpose</span>
+      <h2 class="section-title center">Vision, Mission &amp; Values</h2>
+      <div class="vm-grid">
+        <div class="vm-card vision">
+          <span class="vm-label">Our Vision</span>
+          <h3>To be South India's most trusted dental institution by 2030</h3>
+          <p>We envision a future where every student graduates as a globally competent dental professional, and every patient receives world-class care regardless of their socioeconomic background.</p>
+        </div>
+
+        <div class="vm-card mission">
+          <span class="vm-label">Our Mission</span>
+          <h3>Education, Research &amp; Community Service</h3>
+          <p>To provide comprehensive dental education through rigorous academics and clinical training; to advance oral health through evidence-based research; and to serve underprivileged communities through outreach programs and affordable care.</p>
+        </div>
+
+        <div class="vm-card values">
+          <span class="vm-label">Our Core Values</span>
+          <h3>What We Stand For</h3>
+          <div class="values-list">
+            <div class="value-item">
+              <span class="v-ico">🤝</span>
+              <strong>Compassion</strong>
+            </div>
+            <div class="value-item">
+              <span class="v-ico">⚖️</span>
+              <strong>Integrity</strong>
+            </div>
+            <div class="value-item">
+              <span class="v-ico">🔬</span>
+              <strong>Innovation</strong>
+            </div>
+            <div class="value-item">
+              <span class="v-ico">🎓</span>
+              <strong>Academic Excellence</strong>
+            </div>
+            <div class="value-item">
+              <span class="v-ico">🌍</span>
+              <strong>Community Service</strong>
+            </div>
+            <div class="value-item">
+              <span class="v-ico">🏥</span>
+              <strong>Patient Safety</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       PRINCIPAL'S MESSAGE
+  =========================================== -->
+  
+
+  <!-- ==========================================
+       ACCREDITATION & AFFILIATIONS
+  =========================================== -->
+  <section class="accreditation reveal" id="accreditation">
+    <div class="container">
+      <span class="section-eyebrow center">Credentials</span>
+      <h2 class="section-title center">Accreditations &amp; Affiliations</h2>
+      <div class="acc-grid">
+        <div class="acc-card">
+          <div class="acc-logo">🏛</div>
+          <h4>RGUHS Affiliated</h4>
+          <p class="acc-body">Affiliated to Rajiv Gandhi University of Health Sciences, Bengaluru under the Karnataka State government.</p>
+          <span class="acc-year">Since 1994</span>
+        </div>
+        <div class="acc-card">
+          <div class="acc-logo">📜</div>
+          <h4>DCI Approved</h4>
+          <p class="acc-body">Recognised and approved by the Dental Council of India — the statutory body governing dental education in India.</p>
+          <span class="acc-year">Since 1994</span>
+        </div>
+        <div class="acc-card">
+          <div class="acc-logo">🌟</div>
+          <h4>NAAC A+ Grade</h4>
+          <p class="acc-body">Awarded the highest NAAC accreditation grade following rigorous assessment of academic quality, infrastructure, and outcomes.</p>
+          <span class="acc-year">2024</span>
+        </div>
+        <div class="acc-card">
+          <div class="acc-logo">✅</div>
+          <h4>ISO 9001:2015</h4>
+          <p class="acc-body">International quality management certification covering all hospital services, patient safety protocols, and administrative processes.</p>
+          <span class="acc-year">2024</span>
+        </div>
+        <div class="acc-card">
+          <div class="acc-logo">🏆</div>
+          <h4>#1 Dental College — Karnataka</h4>
+          <p class="acc-body">Awarded by Karnataka State Dental Council for outstanding academic performance, research output, and patient care metrics.</p>
+          <span class="acc-year">2025</span>
+        </div>
+        <div class="acc-card">
+          <div class="acc-logo">🔬</div>
+          <h4>ICMR Research Recognition</h4>
+          <p class="acc-body">Indian Council of Medical Research–recognised research facility for dental and maxillofacial studies.</p>
+          <span class="acc-year">2022</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       CAMPUS INFRASTRUCTURE
+  =========================================== -->
+  <section class="infrastructure reveal" id="campus">
+    <div class="container">
+      <div class="infra-layout">
+        <div class="infra-content">
+          <span class="section-eyebrow">Campus &amp; Facilities</span>
+          <h2 class="section-title">World-Class Infrastructure</h2>
+          <p>
+            Spread across a lush 14-acre campus on Mysore Road, RRDCH features purpose-built dental operatories, advanced diagnostic suites, and modern student amenities — all designed to support both clinical training and patient care at the highest level.
+          </p>
+          <div class="infra-list">
+            <div class="infra-item">
+              <span class="i-num">200+</span>
+              <div>
+                <strong>Dental Chairs</strong>
+                <span>Fully equipped clinical operatories across 10 departments</span>
+              </div>
+            </div>
+            <div class="infra-item">
+              <span class="i-num">14 ac</span>
+              <div>
+                <strong>Campus Area</strong>
+                <span>Landscaped green campus with hostel, sports, and amenities</span>
+              </div>
+            </div>
+            <div class="infra-item">
+              <span class="i-num">1</span>
+              <div>
+                <strong>Simulation Lab</strong>
+                <span>Preclinical mannequin-based simulation training facility</span>
+              </div>
+            </div>
+            <div class="infra-item">
+              <span class="i-num">24/7</span>
+              <div>
+                <strong>Emergency Dental Care</strong>
+                <span>Round-the-clock dental emergency services and trauma unit</span>
+              </div>
+            </div>
+            <div class="infra-item">
+              <span class="i-num">1</span>
+              <div>
+                <strong>CBCT &amp; Digital Radiology</strong>
+                <span>State-of-the-art cone-beam CT and OPG suites</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="infra-image-grid">
+          <div class="infra-img-box tall" onclick="showToast('Main Building — RRDCH Campus')">
+            <span>🏛</span>
+            <p>Main Building</p>
+          </div>
+          <div class="infra-img-box" onclick="showToast('Simulation Lab — Preclinical Training')">
+            <span>🦷</span>
+            <p>Simulation Lab</p>
+          </div>
+          <div class="infra-img-box" onclick="showToast('Digital Radiology Suite')">
+            <span>🔬</span>
+            <p>Radiology Suite</p>
+          </div>
+          <div class="infra-img-box" onclick="showToast('College Library — 15,000+ volumes')">
+            <span>📚</span>
+            <p>Library</p>
+          </div>
+          <div class="infra-img-box" onclick="showToast('Student Hostel Facilities')">
+            <span>🏠</span>
+            <p>Hostels</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       CTA STRIP
+  =========================================== -->
+  <section class="cta-strip reveal">
+    <div class="container">
+      <div class="cta-inner">
+        <span class="section-eyebrow center">Join RRDCH</span>
+        <h2>Ready to Begin Your Journey<br>with Us?</h2>
+        <p>Whether you're a prospective student, a patient, or a healthcare partner — we'd love to hear from you.</p>
+        <div class="cta-actions">
+          <a href="admissions.html" class="btn btn-primary">Apply for Admissions →</a>
+          <a href="home.html#appointment" class="btn btn-outline-white">Book an Appointment</a>
+          <a href="contact.html" class="btn btn-outline-white">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       FOOTER
+  =========================================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="home.html" class="logo">
+            <div class="logo-mark">⚕</div>
+            <div class="logo-text">
+              <span class="logo-name">RRDCH</span>
+              <span class="logo-sub">Dental College & Hospital</span>
+            </div>
+          </a>
+          <p class="footer-desc">Serving Karnataka with world-class dental education and compassionate patient care since 1994. DCI Approved · RGUHS Affiliated · NAAC A+</p>
+          <div class="socials">
+            <a href="#" class="social-ico">f</a>
+            <a href="#" class="social-ico">in</a>
+            <a href="#" class="social-ico">𝕏</a>
+            <a href="#" class="social-ico">▶</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h5>Quick Links</h5>
+          <a href="home.html">Home</a>
+          <a href="about.html">About Us</a>
+          <a href="departments.html">Departments</a>
+          <a href="admissions.html">Admissions</a>
+          <a href="research.html">Research</a>
+        </div>
+
+        <div class="footer-col">
+          <h5>Patient Services</h5>
+          <a href="home.html#appointment">Book Appointment</a>
+          <a href="patients.html">Patient Portal</a>
+          <a href="contact.html">Contact Us</a>
+          <a href="patients.html#emergency">Emergency: 1800-XXX-XXXX</a>
+        </div>
+
+        <div class="footer-col">
+          <h5>Contact</h5>
+          <p>Mysore Road, Kambipura,<br>Bengaluru – 560074</p>
+          <p>📞 +91 80 2860 1234</p>
+          <p>✉️ info@rrdch.edu.in</p>
+          <p>🕐 Mon–Sat: 9AM – 5PM</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 Rajarajeshwari Dental College & Hospital. All rights reserved.</p>
+        <p>Designed & Developed by RRDCH Web Team</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', scrollY > 60);
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3800);
+    }
+
+    let isKannada = false;
+    const navEN = ['Home','About','Departments','Admissions','Students','Patients','Contact'];
+    const navKN = ['ಮುಖಪುಟ','ನಮ್ಮ ಬಗ್ಗೆ','ವಿಭಾಗಗಳು','ಪ್ರವೇಶ','ವಿದ್ಯಾರ್ಥಿಗಳು','ರೋಗಿಗಳು','ಸಂಪರ್ಕ'];
+
+    function toggleLang() {
+      isKannada = !isKannada;
+      const btn = document.getElementById('langBtn');
+      btn.textContent = isKannada ? '🌐 English' : '🌐 ಕನ್ನಡ';
+      document.querySelectorAll('.nav-links a').forEach((a, i) => {
+        a.textContent = isKannada ? navKN[i] : navEN[i];
+      });
+      showToast(isKannada ? '✅ ಕನ್ನಡಕ್ಕೆ ಬದಲಾಯಿಸಲಾಗಿದೆ' : '✅ Switched to English');
+    }
+  </script>
+</body>
+</html>

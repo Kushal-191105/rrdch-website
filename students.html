@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Login | RRDCH Student Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:#071e38; --navy-mid:#0d2d52; --blue:#1456a0;
+      --accent:#00a8e8; --teal:#00869e; --white:#ffffff;
+      --off-white:#f3f7fd; --surface:#eaf3fd; --text:#0d1f33;
+      --muted:#556070; --border:#ccdff0;
+      --font-display:'Cormorant Garamond',Georgia,serif;
+      --font-body:'DM Sans',sans-serif;
+      --radius:18px; --radius-sm:10px;
+      --shadow-lg:0 12px 48px rgba(7,30,56,0.18);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{
+      font-family:var(--font-body);
+      background:var(--navy);
+      min-height:100vh;
+      display:flex;
+      overflow:hidden;
+    }
+
+    /* LEFT PANEL */
+    .left-panel{
+      width:55%;
+      background:var(--navy);
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      padding:4rem;
+      overflow:hidden;
+    }
+    .left-panel::before{
+      content:'';position:absolute;inset:0;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(0,168,232,0.12) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(20,86,160,0.18) 0%, transparent 45%);
+    }
+    .grid-lines{
+      position:absolute;inset:0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size:60px 60px;
+    }
+    .deco-ring{
+      position:absolute;right:-120px;top:50%;transform:translateY(-50%);
+      width:500px;height:500px;border-radius:50%;
+      border:1px solid rgba(0,168,232,0.07);
+    }
+    .deco-ring2{
+      position:absolute;right:30px;top:50%;transform:translateY(-50%);
+      width:320px;height:320px;border-radius:50%;
+      border:1px solid rgba(0,168,232,0.05);
+    }
+    .left-content{position:relative;z-index:2;}
+    .portal-logo{
+      display:flex;align-items:center;gap:0.75rem;
+      text-decoration:none;margin-bottom:3.5rem;
+    }
+    .logo-mark{
+      width:44px;height:44px;
+      background:linear-gradient(135deg,var(--accent),var(--blue));
+      border-radius:11px;display:flex;align-items:center;
+      justify-content:center;font-size:1.4rem;color:white;font-weight:700;
+    }
+    .logo-text .ln{display:block;font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:white;line-height:1;}
+    .logo-text .ls{display:block;font-size:0.65rem;color:rgba(255,255,255,0.45);margin-top:3px;}
+
+    .left-badge{
+      display:inline-flex;align-items:center;gap:0.5rem;
+      background:rgba(0,168,232,0.12);border:1px solid rgba(0,168,232,0.3);
+      color:var(--accent);font-size:0.72rem;font-weight:600;
+      letter-spacing:0.12em;text-transform:uppercase;
+      padding:0.38rem 1rem;border-radius:50px;margin-bottom:1.5rem;
+    }
+    .left-badge span{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite;}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.7)}}
+
+    .left-title{
+      font-family:var(--font-display);
+      font-size:clamp(2.2rem,4vw,3.5rem);
+      font-weight:700;color:white;line-height:1.1;margin-bottom:1.25rem;
+    }
+    .left-title em{font-style:italic;color:var(--accent);}
+    .left-desc{
+      font-size:0.96rem;color:rgba(255,255,255,0.55);
+      line-height:1.8;max-width:440px;margin-bottom:2.5rem;
+    }
+    .feature-list{display:flex;flex-direction:column;gap:0.75rem;}
+    .feature-item{
+      display:flex;align-items:center;gap:0.75rem;
+      font-size:0.86rem;color:rgba(255,255,255,0.6);
+    }
+    .feature-item::before{
+      content:'';width:6px;height:6px;
+      background:var(--accent);border-radius:50%;flex-shrink:0;
+    }
+
+    /* RIGHT PANEL */
+    .right-panel{
+      width:45%;
+      background:var(--off-white);
+      display:flex;align-items:center;justify-content:center;
+      padding:3rem 2.5rem;
+      position:relative;
+    }
+    .login-box{width:100%;max-width:420px;}
+    .login-box h2{
+      font-family:var(--font-display);
+      font-size:2rem;font-weight:700;color:var(--navy);
+      margin-bottom:0.4rem;
+    }
+    .login-box p{font-size:0.88rem;color:var(--muted);margin-bottom:2rem;line-height:1.6;}
+
+    .tab-row{
+      display:flex;background:white;border-radius:50px;
+      border:1.5px solid var(--border);padding:4px;
+      margin-bottom:2rem;
+    }
+    .tab-btn{
+      flex:1;padding:0.55rem;border-radius:50px;border:none;
+      font-family:var(--font-body);font-size:0.84rem;font-weight:500;
+      cursor:pointer;transition:all 0.2s;background:none;color:var(--muted);
+    }
+    .tab-btn.active{background:var(--navy);color:white;font-weight:600;}
+
+    .form-group{margin-bottom:1.25rem;}
+    .form-group label{
+      display:block;font-size:0.75rem;font-weight:600;
+      color:var(--navy);margin-bottom:0.4rem;letter-spacing:0.04em;
+      text-transform:uppercase;
+    }
+    .form-group input{
+      width:100%;padding:0.8rem 1.1rem;
+      border:1.5px solid var(--border);border-radius:var(--radius-sm);
+      font-family:var(--font-body);font-size:0.92rem;color:var(--text);
+      background:white;outline:none;transition:border-color 0.2s,box-shadow 0.2s;
+    }
+    .form-group input:focus{
+      border-color:var(--blue);
+      box-shadow:0 0 0 3px rgba(20,86,160,0.1);
+    }
+    .form-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;}
+    .remember{display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;color:var(--muted);cursor:pointer;}
+    .remember input{width:auto;margin:0;}
+    .forgot{font-size:0.82rem;color:var(--blue);text-decoration:none;font-weight:500;}
+    .forgot:hover{color:var(--accent);}
+
+    .login-btn{
+      width:100%;padding:0.9rem;border-radius:50px;
+      background:var(--blue);color:white;border:none;
+      font-family:var(--font-body);font-size:0.95rem;font-weight:600;
+      cursor:pointer;transition:all 0.22s;
+    }
+    .login-btn:hover{background:var(--navy);transform:translateY(-2px);box-shadow:0 6px 20px rgba(20,86,160,0.35);}
+
+    .divider{
+      display:flex;align-items:center;gap:0.75rem;
+      margin:1.5rem 0;color:var(--muted);font-size:0.78rem;
+    }
+    .divider::before,.divider::after{
+      content:'';flex:1;height:1px;background:var(--border);
+    }
+
+    .demo-creds{
+      background:var(--surface);border:1.5px solid var(--border);
+      border-radius:var(--radius-sm);padding:1rem 1.25rem;
+      font-size:0.8rem;color:var(--muted);
+    }
+    .demo-creds strong{display:block;color:var(--navy);margin-bottom:0.4rem;font-size:0.78rem;}
+    .demo-creds span{display:block;margin-bottom:0.2rem;}
+    .use-demo{
+      display:inline-block;margin-top:0.6rem;
+      font-size:0.78rem;font-weight:600;color:var(--blue);
+      cursor:pointer;text-decoration:underline;
+    }
+
+    .back-link{
+      display:flex;align-items:center;gap:0.4rem;
+      font-size:0.8rem;color:var(--muted);text-decoration:none;
+      margin-top:1.75rem;transition:color 0.2s;
+    }
+    .back-link:hover{color:var(--blue);}
+
+    .error-msg{
+      background:#fff3f3;border:1.5px solid #f5c6c6;
+      border-radius:var(--radius-sm);padding:0.75rem 1rem;
+      font-size:0.82rem;color:#a0392e;margin-bottom:1rem;
+      display:none;
+    }
+    .error-msg.show{display:block;}
+
+    /* RESPONSIVE */
+    @media(max-width:768px){
+      body{flex-direction:column;}
+      .left-panel{width:100%;padding:2.5rem 1.5rem;min-height:auto;}
+      .feature-list{display:none;}
+      .left-desc{display:none;}
+      .right-panel{width:100%;padding:2rem 1.5rem;}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+    <div class="grid-lines"></div>
+    <div class="deco-ring"></div>
+    <div class="deco-ring2"></div>
+    <div class="left-content">
+      <a href="home.html" class="portal-logo">
+        <div class="logo-mark">⚕</div>
+        <div class="logo-text">
+          <span class="ln">RRDCH</span>
+          <span class="ls">Dental College & Hospital</span>
+        </div>
+      </a>
+      <div class="left-badge"><span></span> Student Portal</div>
+      <h1 class="left-title">Welcome to your<br><em>Academic Hub</em></h1>
+      <p class="left-desc">Access your timetable, syllabus, hostel services, PG schedules, and all academic resources — all in one place.</p>
+      <div class="feature-list">
+        <div class="feature-item">View timetable & department schedule</div>
+        <div class="feature-item">Download syllabus (BDS Year 1–4 & MDS)</div>
+        <div class="feature-item">Submit hostel complaints</div>
+        <div class="feature-item">PG doctors posting schedule</div>
+        <div class="feature-item">Academic calendar & events</div>
+        <div class="feature-item">Notices & circulars</div>
+        <div class="feature-item">Student feedback</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel">
+    <div class="login-box">
+      <h2>Sign In</h2>
+      <p>Enter your Student ID and password to access the portal.</p>
+
+      <div class="tab-row">
+        <button class="tab-btn active" onclick="setRole(this,'student')">🎓 Student</button>
+        <button class="tab-btn" onclick="setRole(this,'faculty')">👨‍🏫 Faculty</button>
+      </div>
+
+      <div class="error-msg" id="errorMsg">
+        ❌ Invalid Student ID or password. Please try again.
+      </div>
+
+      <div class="form-group">
+        <label id="idLabel">Student ID</label>
+        <input type="text" id="userId" placeholder="e.g. RRDCH2024001"/>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="userPass" placeholder="Enter your password"/>
+      </div>
+      <div class="form-row">
+        <label class="remember">
+          <input type="checkbox"/> Remember me
+        </label>
+        <a href="#" class="forgot">Forgot password?</a>
+      </div>
+
+      <button class="login-btn" onclick="doLogin()">Sign In to Portal →</button>
+
+      <div class="divider">Demo Credentials</div>
+
+      <div class="demo-creds">
+        <strong>🎓 Student Demo</strong>
+        <span>ID: <strong>RRDCH2024001</strong></span>
+        <span>Password: <strong>student123</strong></span>
+        <span class="use-demo" onclick="fillDemo('student')">Use these credentials →</span>
+      </div>
+
+      <a href="home.html" class="back-link">← Back to RRDCH Website</a>
+    </div>
+  </div>
+
+  <script>
+    let currentRole = 'student';
+    const creds = {
+      student: { id: 'RRDCH2024001', pass: 'student123', redirect: 'student-portal.html' },
+      faculty: { id: 'FAC001', pass: 'faculty123', redirect: 'student-portal.html' }
+    };
+
+    function setRole(btn, role) {
+      currentRole = role;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('idLabel').textContent = role === 'student' ? 'Student ID' : 'Faculty ID';
+      document.getElementById('userId').placeholder = role === 'student' ? 'e.g. RRDCH2024001' : 'e.g. FAC001';
+      document.getElementById('errorMsg').classList.remove('show');
+      // update demo creds
+      const dc = document.querySelector('.demo-creds');
+      if(role === 'faculty') {
+        dc.innerHTML = `<strong>👨‍🏫 Faculty Demo</strong><span>ID: <strong>FAC001</strong></span><span>Password: <strong>faculty123</strong></span><span class="use-demo" onclick="fillDemo('faculty')">Use these credentials →</span>`;
+      } else {
+        dc.innerHTML = `<strong>🎓 Student Demo</strong><span>ID: <strong>RRDCH2024001</strong></span><span>Password: <strong>student123</strong></span><span class="use-demo" onclick="fillDemo('student')">Use these credentials →</span>`;
+      }
+    }
+
+    function fillDemo(role) {
+      document.getElementById('userId').value = creds[role].id;
+      document.getElementById('userPass').value = creds[role].pass;
+    }
+
+    function doLogin() {
+      const id = document.getElementById('userId').value.trim();
+      const pass = document.getElementById('userPass').value.trim();
+      const c = creds[currentRole];
+      if(id === c.id && pass === c.pass) {
+        window.location.href = c.redirect;
+      } else {
+        document.getElementById('errorMsg').classList.add('show');
+        document.getElementById('userPass').value = '';
+      }
+    }
+
+    document.addEventListener('keydown', e => { if(e.key === 'Enter') doLogin(); });
+  </script>
+</body>
+</html>

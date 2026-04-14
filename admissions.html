@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admissions 2026–27 | RRDCH – Rajarajeshwari Dental College & Hospital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:       #071e38;
+      --navy-mid:   #0d2d52;
+      --blue:       #1456a0;
+      --blue-mid:   #1a6bbf;
+      --accent:     #00a8e8;
+      --teal:       #00869e;
+      --gold:       #d4960a;
+      --white:      #ffffff;
+      --off-white:  #f3f7fd;
+      --surface:    #eaf3fd;
+      --text:       #0d1f33;
+      --muted:      #556070;
+      --border:     #ccdff0;
+      --green:      #0f7b4f;
+      --green-bg:   #e6f7f0;
+
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body:    'DM Sans', sans-serif;
+      --radius:    18px;
+      --radius-sm: 10px;
+      --shadow:    0 4px 20px rgba(7,30,56,0.10);
+      --shadow-lg: 0 12px 48px rgba(7,30,56,0.18);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      color: var(--text);
+      background: var(--white);
+      overflow-x: hidden;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 1.5rem; }
+    .section-eyebrow {
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.5rem; display: block;
+    }
+    .section-eyebrow.center { text-align: center; }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.9rem, 3.2vw, 2.8rem);
+      font-weight: 700; color: var(--navy);
+      line-height: 1.15; margin-bottom: 2.5rem;
+    }
+    .section-title.center { text-align: center; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.75rem 1.75rem; border-radius: 50px;
+      font-weight: 600; font-size: 0.9rem;
+      font-family: var(--font-body); text-decoration: none;
+      cursor: pointer; border: 2px solid transparent;
+      transition: all 0.22s ease;
+    }
+    .btn-primary { background: var(--blue); color: white; border-color: var(--blue); }
+    .btn-primary:hover { background: var(--navy); border-color: var(--navy); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(20,86,160,0.35); }
+    .btn-outline-white { background: transparent; color: white; border-color: rgba(255,255,255,0.6); }
+    .btn-outline-white:hover { background: rgba(255,255,255,0.12); }
+    .btn-outline { background: transparent; color: var(--blue); border-color: var(--blue); }
+    .btn-outline:hover { background: var(--blue); color: white; }
+    .btn-sm { padding: 0.5rem 1.1rem; font-size: 0.82rem; }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 999; background: rgba(7,30,56,0.97);
+      backdrop-filter: blur(14px); padding: 0.85rem 0;
+      transition: box-shadow 0.3s;
+    }
+    .navbar.scrolled { box-shadow: 0 4px 28px rgba(0,0,0,0.3); }
+    .nav-inner {
+      max-width: 1180px; margin: 0 auto; padding: 0 1.5rem;
+      display: flex; align-items: center; gap: 1.5rem;
+    }
+    .logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; flex-shrink: 0; }
+    .logo-mark {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--accent), var(--blue));
+      border-radius: 10px; display: flex; align-items: center;
+      justify-content: center; font-size: 1.3rem; color: white; font-weight: 700;
+    }
+    .logo-text .logo-name { display: block; font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; color: white; line-height: 1; }
+    .logo-text .logo-sub  { display: block; font-size: 0.62rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
+    .nav-links { display: flex; gap: 1.5rem; flex: 1; justify-content: center; }
+    .nav-links a {
+      color: rgba(255,255,255,0.78); text-decoration: none;
+      font-size: 0.86rem; font-weight: 500; padding: 0.3rem 0;
+      border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: white; border-bottom-color: var(--accent); }
+    .nav-actions { display: flex; align-items: center; gap: 0.65rem; flex-shrink: 0; }
+    .lang-btn {
+      background: rgba(255,255,255,0.09); color: rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.2); padding: 0.38rem 0.9rem;
+      border-radius: 50px; font-size: 0.78rem; cursor: pointer;
+      transition: background 0.2s; font-family: var(--font-body);
+    }
+    .lang-btn:hover { background: rgba(255,255,255,0.18); }
+    .appt-btn {
+      background: var(--accent); color: white; border: none;
+      padding: 0.5rem 1.15rem; border-radius: 50px;
+      font-size: 0.82rem; font-weight: 600; cursor: pointer;
+      transition: background 0.2s, transform 0.15s; font-family: var(--font-body);
+    }
+    .appt-btn:hover { background: var(--teal); transform: translateY(-1px); }
+    .hamburger { display: none; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+
+    /* ===== PAGE HERO ===== */
+    .page-hero {
+      background: var(--navy); padding: 9rem 1.5rem 5rem;
+      position: relative; overflow: hidden; margin-top: 68px;
+    }
+    .page-hero::before {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        radial-gradient(circle at 80% 50%, rgba(0,168,232,0.10) 0%, transparent 55%),
+        radial-gradient(circle at 10% 30%, rgba(20,86,160,0.20) 0%, transparent 40%);
+    }
+    .page-hero-grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-deco {
+      position: absolute; right: -100px; top: 50%; transform: translateY(-50%);
+      width: 600px; height: 600px; border-radius: 50%;
+      border: 1px solid rgba(0,168,232,0.06);
+    }
+    .hero-deco2 {
+      position: absolute; right: 50px; top: 50%; transform: translateY(-50%);
+      width: 400px; height: 400px; border-radius: 50%;
+      border: 1px solid rgba(0,168,232,0.05);
+    }
+    .page-hero-inner { position: relative; z-index: 2; max-width: 1180px; margin: 0 auto; }
+    .breadcrumb {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.8rem; color: rgba(255,255,255,0.4); margin-bottom: 1.25rem;
+    }
+    .breadcrumb a { color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .page-hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(0,168,232,0.12); border: 1px solid rgba(0,168,232,0.3);
+      color: var(--accent); font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.4rem 1rem; border-radius: 50px; margin-bottom: 1.25rem;
+      display: inline-flex;
+    }
+    .page-hero h1 {
+      font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 700; color: white; line-height: 1.1; margin-bottom: 1rem;
+    }
+    .page-hero h1 em { font-style: italic; color: var(--accent); }
+    .page-hero p {
+      font-size: 1.05rem; color: rgba(255,255,255,0.6);
+      max-width: 560px; line-height: 1.75; margin-bottom: 2rem;
+    }
+
+    /* ===== QUICK NAV STRIP ===== */
+    .quick-nav-wrap { background: var(--navy); padding: 0 0 3rem; }
+    .quick-nav-card {
+      background: white; border-radius: var(--radius);
+      box-shadow: var(--shadow-lg); border: 1px solid var(--border);
+      position: relative; top: -2rem;
+      display: flex; flex-wrap: wrap;
+      overflow: hidden;
+    }
+    .qn-item {
+      flex: 1; min-width: 140px;
+      padding: 1.4rem 1.5rem;
+      display: flex; align-items: center; gap: 0.75rem;
+      text-decoration: none; color: var(--text);
+      border-right: 1px solid var(--border);
+      transition: background 0.2s, color 0.2s;
+      cursor: pointer;
+    }
+    .qn-item:last-child { border-right: none; }
+    .qn-item:hover { background: var(--surface); }
+    .qn-item:hover .qn-label { color: var(--blue); }
+    .qn-ico {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--surface); display: flex; align-items: center;
+      justify-content: center; font-size: 1.1rem; flex-shrink: 0;
+      transition: background 0.2s;
+    }
+    .qn-item:hover .qn-ico { background: rgba(0,168,232,0.15); }
+    .qn-label { font-size: 0.84rem; font-weight: 600; color: var(--navy); line-height: 1.3; }
+    .qn-sub { font-size: 0.72rem; color: var(--muted); }
+
+    /* ===== SECTION WRAPPER ===== */
+    .adm-section { padding: 5rem 0; }
+    .adm-section.bg-off { background: var(--off-white); }
+    .adm-section.bg-white { background: var(--white); }
+    .adm-section.bg-navy { background: var(--navy); }
+
+    /* ===== COURSE TABS ===== */
+    .course-tabs {
+      display: flex; gap: 0.5rem; margin-bottom: 2.5rem;
+      border-bottom: 2px solid var(--border); flex-wrap: wrap;
+    }
+    .ctab {
+      padding: 0.7rem 1.5rem; font-size: 0.88rem; font-weight: 600;
+      color: var(--muted); background: none; border: none;
+      border-bottom: 3px solid transparent; margin-bottom: -2px;
+      cursor: pointer; font-family: var(--font-body);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .ctab:hover { color: var(--blue); }
+    .ctab.active { color: var(--blue); border-bottom-color: var(--accent); }
+    .course-panel { display: none; }
+    .course-panel.active { display: block; }
+
+    /* BDS card */
+    .bds-card {
+      background: var(--navy); border-radius: var(--radius);
+      padding: 2.5rem; display: grid;
+      grid-template-columns: 1fr 1fr 1fr; gap: 2rem;
+      position: relative; overflow: hidden;
+    }
+    .bds-card::before {
+      content: ''; position: absolute;
+      right: -60px; top: -60px;
+      width: 260px; height: 260px; border-radius: 50%;
+      border: 1px solid rgba(0,168,232,0.1);
+    }
+    .bds-card::after {
+      content: ''; position: absolute;
+      right: 40px; bottom: -80px;
+      width: 200px; height: 200px; border-radius: 50%;
+      border: 1px solid rgba(0,168,232,0.07);
+    }
+    .bds-main { grid-column: 1 / 2; }
+    .bds-badge {
+      display: inline-block; background: rgba(0,168,232,0.15);
+      border: 1px solid rgba(0,168,232,0.3); color: var(--accent);
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 0.25rem 0.75rem;
+      border-radius: 50px; margin-bottom: 1rem;
+    }
+    .bds-main h3 {
+      font-family: var(--font-display); font-size: 1.8rem;
+      color: white; font-weight: 700; margin-bottom: 0.5rem;
+    }
+    .bds-main p { font-size: 0.88rem; color: rgba(255,255,255,0.55); line-height: 1.7; }
+    .bds-stat-col { display: flex; flex-direction: column; gap: 1rem; }
+    .bds-stat {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.25rem;
+    }
+    .bds-stat .s-val {
+      font-family: var(--font-display); font-size: 1.6rem;
+      font-weight: 700; color: white; display: block; line-height: 1;
+    }
+    .bds-stat .s-val span { color: var(--accent); }
+    .bds-stat .s-key { font-size: 0.72rem; color: rgba(255,255,255,0.45); margin-top: 4px; display: block; }
+
+    /* MDS table grid */
+    .mds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+    .mds-card {
+      background: white; border: 1.5px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem;
+      display: flex; align-items: flex-start; gap: 1rem;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    }
+    .mds-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--accent); }
+    .mds-num {
+      width: 36px; height: 36px; background: var(--surface);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 700; color: var(--blue); flex-shrink: 0;
+      transition: background 0.2s;
+    }
+    .mds-card:hover .mds-num { background: rgba(0,168,232,0.15); }
+    .mds-info h4 { font-size: 0.92rem; font-weight: 600; color: var(--navy); margin-bottom: 0.3rem; }
+    .mds-meta { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .mds-pill {
+      font-size: 0.68rem; font-weight: 600; padding: 0.18rem 0.55rem;
+      border-radius: 50px; background: var(--surface); color: var(--blue);
+    }
+    .mds-pill.seats { background: #fff8e6; color: var(--gold); }
+
+    /* PhD table */
+    .phd-card {
+      background: var(--off-white); border: 1.5px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .phd-header {
+      background: var(--navy-mid); padding: 1.25rem 1.75rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .phd-header span { font-size: 1.2rem; }
+    .phd-header h3 { font-family: var(--font-display); font-size: 1.3rem; color: white; font-weight: 700; }
+    .phd-header p { font-size: 0.8rem; color: rgba(255,255,255,0.5); }
+    .phd-list { padding: 1.5rem 1.75rem; display: flex; flex-direction: column; gap: 0.75rem; }
+    .phd-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.85rem 1.1rem; background: white;
+      border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+      transition: border-color 0.2s;
+    }
+    .phd-item:hover { border-color: var(--accent); }
+    .phd-item span { font-size: 0.9rem; color: var(--navy); font-weight: 500; }
+    .phd-item .dur { font-size: 0.75rem; color: var(--muted); }
+
+    /* ===== ELIGIBILITY ===== */
+    .elig-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .elig-card {
+      background: white; border: 1.5px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .elig-card-head {
+      padding: 1.25rem 1.5rem;
+      display: flex; align-items: center; gap: 0.75rem;
+      border-bottom: 1.5px solid var(--border);
+    }
+    .elig-card-head.bds-head { background: var(--navy); }
+    .elig-card-head.mds-head { background: var(--blue); }
+    .elig-card-head.phd-head { background: var(--teal); }
+    .elig-card-head .eh-ico { font-size: 1.4rem; }
+    .elig-card-head h3 { font-family: var(--font-display); font-size: 1.25rem; color: white; font-weight: 700; }
+    .elig-card-head p { font-size: 0.75rem; color: rgba(255,255,255,0.55); }
+    .elig-card-body { padding: 1.5rem; }
+    .elig-row {
+      display: flex; gap: 0.75rem; align-items: flex-start;
+      padding: 0.85rem 0; border-bottom: 1px solid var(--border);
+    }
+    .elig-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .elig-ico {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: var(--surface); display: flex; align-items: center;
+      justify-content: center; font-size: 0.9rem; flex-shrink: 0;
+    }
+    .elig-key { font-size: 0.75rem; color: var(--muted); display: block; margin-bottom: 2px; }
+    .elig-val { font-size: 0.88rem; font-weight: 600; color: var(--navy); }
+    .elig-note { font-size: 0.78rem; color: var(--muted); margin-top: 2px; display: block; }
+
+    .neet-banner {
+      background: var(--navy); border-radius: var(--radius);
+      padding: 1.75rem 2rem; margin-top: 1.5rem;
+      display: flex; align-items: center; gap: 1.5rem;
+      grid-column: 1 / -1;
+    }
+    .neet-ico { font-size: 2rem; flex-shrink: 0; }
+    .neet-banner h4 { font-size: 1rem; font-weight: 600; color: white; margin-bottom: 0.25rem; }
+    .neet-banner p { font-size: 0.85rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+    /* ===== FEE STRUCTURE ===== */
+    .fee-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; align-items: start; }
+    .fee-table-wrap {
+      background: white; border: 1.5px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .fee-table-head {
+      background: var(--navy); padding: 1.25rem 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .fee-table-head h3 { font-family: var(--font-display); font-size: 1.2rem; color: white; font-weight: 700; }
+    .fee-table-head span { font-size: 0.72rem; color: rgba(255,255,255,0.45); }
+    table.fee-tbl { width: 100%; border-collapse: collapse; }
+    table.fee-tbl thead tr { background: var(--surface); }
+    table.fee-tbl th {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted);
+      padding: 0.75rem 1.25rem; text-align: left;
+      border-bottom: 1.5px solid var(--border);
+    }
+    table.fee-tbl td {
+      padding: 0.85rem 1.25rem; font-size: 0.88rem;
+      border-bottom: 1px solid var(--border); color: var(--text);
+    }
+    table.fee-tbl tr:last-child td { border-bottom: none; }
+    table.fee-tbl tr:hover td { background: var(--off-white); }
+    table.fee-tbl td.fee-amt { font-weight: 600; color: var(--navy); }
+    table.fee-tbl tr.total-row td { background: var(--surface); font-weight: 700; color: var(--navy); }
+    table.fee-tbl tr.total-row td.fee-amt { color: var(--blue); font-size: 1rem; }
+
+    .fee-side { display: flex; flex-direction: column; gap: 1.25rem; }
+    .fee-note-card {
+      background: white; border: 1.5px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem;
+    }
+    .fee-note-card h4 {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--navy); margin-bottom: 1rem;
+      padding-bottom: 0.6rem; border-bottom: 1.5px solid var(--border);
+    }
+    .fee-note-list { display: flex; flex-direction: column; gap: 0.6rem; }
+    .fee-note-item {
+      display: flex; align-items: flex-start; gap: 0.6rem;
+      font-size: 0.83rem; color: var(--muted); line-height: 1.55;
+    }
+    .fee-note-item::before {
+      content: ''; width: 6px; height: 6px;
+      background: var(--accent); border-radius: 50%;
+      flex-shrink: 0; margin-top: 7px;
+    }
+    .scholarship-card {
+      background: var(--navy); border-radius: var(--radius); padding: 1.5rem;
+    }
+    .scholarship-card h4 { font-size: 0.88rem; font-weight: 600; color: var(--accent); margin-bottom: 0.75rem; }
+    .scholarship-card p { font-size: 0.83rem; color: rgba(255,255,255,0.55); line-height: 1.65; }
+
+    /* ===== DOCUMENTS ===== */
+    .docs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.15rem; }
+    .doc-card {
+      background: white; border: 1.5px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem;
+      display: flex; align-items: flex-start; gap: 1rem;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    }
+    .doc-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--accent); }
+    .doc-ico {
+      width: 44px; height: 44px; border-radius: 11px;
+      background: var(--surface); display: flex; align-items: center;
+      justify-content: center; font-size: 1.2rem; flex-shrink: 0;
+      transition: background 0.2s;
+    }
+    .doc-card:hover .doc-ico { background: rgba(0,168,232,0.15); }
+    .doc-card h4 { font-size: 0.9rem; font-weight: 600; color: var(--navy); margin-bottom: 0.25rem; }
+    .doc-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.55; }
+    .doc-required {
+      display: inline-block; font-size: 0.65rem; font-weight: 700;
+      padding: 0.15rem 0.5rem; border-radius: 50px; margin-top: 0.4rem;
+    }
+    .doc-required.mandatory { background: #fef3cd; color: #856404; }
+    .doc-required.conditional { background: var(--surface); color: var(--blue); }
+
+    .docs-note {
+      margin-top: 2rem; background: var(--surface);
+      border: 1.5px solid var(--border); border-left: 4px solid var(--accent);
+      border-radius: var(--radius-sm); padding: 1.25rem 1.5rem;
+      font-size: 0.86rem; color: var(--muted); line-height: 1.7;
+    }
+    .docs-note strong { color: var(--navy); }
+
+    /* ===== HOSTEL ===== */
+    .hostel-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .hostel-card {
+      border-radius: var(--radius); overflow: hidden;
+      border: 1.5px solid var(--border);
+    }
+    .hostel-head {
+      padding: 1.5rem; display: flex; align-items: center; gap: 1rem;
+    }
+    .hostel-head.boys { background: var(--navy); }
+    .hostel-head.girls { background: #6b1f5e; }
+    .hostel-head .h-ico { font-size: 1.8rem; }
+    .hostel-head h3 { font-family: var(--font-display); font-size: 1.3rem; color: white; font-weight: 700; }
+    .hostel-head p { font-size: 0.78rem; color: rgba(255,255,255,0.5); }
+    .hostel-body { background: white; padding: 1.5rem; }
+    .hostel-stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem; }
+    .h-stat {
+      background: var(--off-white); border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm); padding: 0.75rem 1rem;
+    }
+    .h-stat .v { font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; color: var(--navy); display: block; line-height: 1; }
+    .h-stat .k { font-size: 0.72rem; color: var(--muted); display: block; margin-top: 3px; }
+    .hostel-amenities h5 {
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--navy); margin-bottom: 0.75rem;
+    }
+    .amenity-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .amenity-tag {
+      background: var(--surface); color: var(--blue);
+      font-size: 0.75rem; font-weight: 500;
+      padding: 0.3rem 0.75rem; border-radius: 50px;
+      border: 1px solid var(--border);
+    }
+
+    .hostel-fee-row {
+      margin-top: 1.25rem; padding-top: 1.25rem;
+      border-top: 1.5px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .hostel-fee-row span { font-size: 0.8rem; color: var(--muted); }
+    .hostel-fee-row strong { font-size: 1rem; color: var(--navy); font-weight: 700; }
+
+    /* ===== CONTACT ===== */
+    .contact-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; }
+    .contact-info { display: flex; flex-direction: column; gap: 1.15rem; }
+    .contact-card {
+      background: var(--off-white); border: 1.5px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem;
+      display: flex; gap: 1rem; align-items: flex-start;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .contact-card:hover { border-color: var(--accent); transform: translateX(4px); }
+    .contact-ico {
+      width: 44px; height: 44px; border-radius: 11px;
+      background: var(--surface); display: flex; align-items: center;
+      justify-content: center; font-size: 1.2rem; flex-shrink: 0;
+    }
+    .contact-card h4 { font-size: 0.82rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
+    .contact-card p, .contact-card a { font-size: 0.92rem; color: var(--navy); font-weight: 500; text-decoration: none; display: block; line-height: 1.6; transition: color 0.2s; }
+    .contact-card a:hover { color: var(--accent); }
+
+    .enquiry-card {
+      background: var(--navy); border-radius: var(--radius);
+      padding: 2rem; position: sticky; top: 5rem;
+    }
+    .enquiry-card h3 { font-family: var(--font-display); font-size: 1.4rem; color: white; font-weight: 700; margin-bottom: 0.5rem; }
+    .enquiry-card p { font-size: 0.84rem; color: rgba(255,255,255,0.5); margin-bottom: 1.5rem; line-height: 1.65; }
+    .enq-form { display: flex; flex-direction: column; gap: 0.85rem; }
+    .enq-field { display: flex; flex-direction: column; gap: 0.35rem; }
+    .enq-field label { font-size: 0.72rem; font-weight: 600; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.06em; }
+    .enq-field input, .enq-field select {
+      padding: 0.7rem 1rem; border: 1.5px solid rgba(255,255,255,0.15);
+      border-radius: var(--radius-sm); background: rgba(255,255,255,0.07);
+      font-family: var(--font-body); font-size: 0.88rem; color: white; outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .enq-field input::placeholder { color: rgba(255,255,255,0.3); }
+    .enq-field input:focus, .enq-field select:focus { border-color: var(--accent); background: rgba(255,255,255,0.1); }
+    .enq-field select option { background: var(--navy); color: white; }
+    .enq-submit {
+      width: 100%; padding: 0.85rem; border-radius: 50px;
+      background: var(--accent); color: white; border: none;
+      font-family: var(--font-body); font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; margin-top: 0.5rem;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .enq-submit:hover { background: var(--teal); transform: translateY(-1px); }
+
+    /* ===== CTA STRIP ===== */
+    .cta-strip {
+      padding: 5rem 0; background: var(--navy);
+      position: relative; overflow: hidden;
+    }
+    .cta-strip::before {
+      content: ''; position: absolute;
+      right: -100px; top: 50%; transform: translateY(-50%);
+      width: 500px; height: 500px; border-radius: 50%;
+      border: 1px solid rgba(0,168,232,0.08);
+    }
+    .cta-inner { position: relative; z-index: 2; text-align: center; }
+    .cta-inner h2 {
+      font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.8rem);
+      color: white; font-weight: 700; margin-bottom: 1rem;
+    }
+    .cta-inner p { color: rgba(255,255,255,0.55); font-size: 1rem; margin-bottom: 2rem; }
+    .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* ===== FOOTER ===== */
+    .footer { background: var(--navy); padding: 4rem 0 0; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 3rem; padding-bottom: 3rem; }
+    .footer-desc { font-size: 0.86rem; color: rgba(255,255,255,0.5); line-height: 1.75; margin-bottom: 1.5rem; }
+    .socials { display: flex; gap: 0.5rem; }
+    .social-ico {
+      width: 36px; height: 36px; background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.7); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 700; text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .social-ico:hover { background: var(--accent); color: white; }
+    .footer-col h5 { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: white; margin-bottom: 1.25rem; }
+    .footer-col a, .footer-col p {
+      display: block; font-size: 0.84rem; color: rgba(255,255,255,0.5);
+      text-decoration: none; margin-bottom: 0.6rem; line-height: 1.6; transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--accent); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08); padding: 1.25rem 0;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 0.5rem;
+    }
+    .footer-bottom p { font-size: 0.78rem; color: rgba(255,255,255,0.28); }
+
+    /* TOAST */
+    .toast {
+      position: fixed; bottom: 2rem; right: 2rem;
+      background: var(--navy); color: white;
+      padding: 0.9rem 1.5rem; border-radius: var(--radius-sm);
+      font-size: 0.88rem; font-weight: 500; box-shadow: var(--shadow-lg);
+      border-left: 4px solid var(--accent);
+      transform: translateY(120px); opacity: 0;
+      transition: all 0.35s ease; z-index: 9999; max-width: 360px;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 960px) {
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column;
+        position: absolute; top: 100%; left: 0; right: 0;
+        background: var(--navy); padding: 1.5rem; gap: 1rem;
+        border-top: 1px solid rgba(255,255,255,0.1);
+      }
+      .hamburger { display: block; }
+      .appt-btn { display: none; }
+      .bds-card { grid-template-columns: 1fr 1fr; }
+      .elig-layout { grid-template-columns: 1fr; }
+      .fee-layout { grid-template-columns: 1fr; }
+      .hostel-layout { grid-template-columns: 1fr; }
+      .contact-layout { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    }
+    @media (max-width: 600px) {
+      .bds-card { grid-template-columns: 1fr; }
+      .quick-nav-card { flex-direction: column; }
+      .qn-item { border-right: none; border-bottom: 1px solid var(--border); }
+      .qn-item:last-child { border-bottom: none; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .cta-actions { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="home.html" class="logo">
+        <div class="logo-mark">⚕</div>
+        <div class="logo-text">
+          <span class="logo-name">RRDCH</span>
+          <span class="logo-sub">Dental College & Hospital</span>
+        </div>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="home.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="departments.html">Departments</a>
+        <a href="admissions.html" class="active">Admissions</a>
+        <a href="students.html">Students</a>
+        <a href="patients.html">Patients</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="lang-btn" id="langBtn" onclick="toggleLang()">🌐 ಕನ್ನಡ</button>
+        <button class="appt-btn" onclick="window.location.href='home.html#appointment'">Book Appointment</button>
+        <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="page-hero-grid"></div>
+    <div class="hero-deco"></div>
+    <div class="hero-deco2"></div>
+    <div class="page-hero-inner">
+      <div class="breadcrumb">
+        <a href="home.html">Home</a>
+        <span style="color:rgba(255,255,255,0.25);">›</span>
+        <span style="color:rgba(255,255,255,0.6);">Admissions</span>
+      </div>
+      <div class="page-hero-badge">
+        <span style="width:6px;height:6px;background:var(--accent);border-radius:50%;display:inline-block;animation:pulse 2s infinite;"></span>
+        Admissions Open — 2026–27
+      </div>
+      <h1>Begin Your Journey<br>at <em>RRDCH</em></h1>
+      <p>Join Karnataka's #1 ranked dental institution. Explore our UG, PG, and Ph.D. programmes — backed by NAAC A+, DCI approval, and 30+ years of excellence.</p>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+        <a href="#courses" class="btn btn-primary">📋 View Courses →</a>
+        <a href="#contact-admissions" class="btn btn-outline-white">📞 Contact Admissions</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUICK NAV STRIP -->
+  <section class="quick-nav-wrap">
+    <div class="container">
+      <div class="quick-nav-card reveal">
+        <a href="#courses" class="qn-item">
+          <div class="qn-ico">🎓</div>
+          <div><div class="qn-label">Courses Offered</div><div class="qn-sub">UG · PG · Ph.D.</div></div>
+        </a>
+        <a href="#eligibility" class="qn-item">
+          <div class="qn-ico">✅</div>
+          <div><div class="qn-label">Eligibility</div><div class="qn-sub">Criteria & NEET</div></div>
+        </a>
+        <a href="#fees" class="qn-item">
+          <div class="qn-ico">💰</div>
+          <div><div class="qn-label">Fee Structure</div><div class="qn-sub">Tuition & Hostel</div></div>
+        </a>
+        <a href="#documents" class="qn-item">
+          <div class="qn-ico">📁</div>
+          <div><div class="qn-label">Documents</div><div class="qn-sub">Required at Admission</div></div>
+        </a>
+        <a href="#hostel" class="qn-item">
+          <div class="qn-ico">🏠</div>
+          <div><div class="qn-label">Hostel</div><div class="qn-sub">Boys & Girls</div></div>
+        </a>
+        <a href="#contact-admissions" class="qn-item">
+          <div class="qn-ico">📞</div>
+          <div><div class="qn-label">Contact</div><div class="qn-sub">Admissions Office</div></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== COURSES OFFERED ==================== -->
+  <section class="adm-section bg-off reveal" id="courses">
+    <div class="container">
+      <span class="section-eyebrow">Programmes</span>
+      <h2 class="section-title">Courses Offered</h2>
+
+      <div class="course-tabs">
+        <button class="ctab active" onclick="switchTab(this,'tab-bds')">🦷 BDS — Undergraduate</button>
+        <button class="ctab" onclick="switchTab(this,'tab-mds')">🎓 MDS — Postgraduate</button>
+        <button class="ctab" onclick="switchTab(this,'tab-phd')">🔬 Ph.D. — Doctorate</button>
+      </div>
+
+      <!-- BDS TAB -->
+      <div class="course-panel active" id="tab-bds">
+        <div class="bds-card">
+          <div class="bds-main">
+            <div class="bds-badge">Undergraduate Programme</div>
+            <h3>Bachelor of Dental Surgery (BDS)</h3>
+            <p style="color:rgba(255,255,255,0.55);font-size:0.88rem;line-height:1.7;margin-top:0.75rem;">
+              A comprehensive 5-year programme (4 years academic + 1 year compulsory rotating internship) covering all aspects of dental science — anatomy, physiology, pathology, and 10 clinical specialties. Affiliated to RGUHS and approved by the Dental Council of India.
+            </p>
+          </div>
+          <div class="bds-stat-col">
+            <div class="bds-stat">
+              <span class="s-val">100<span>*</span></span>
+              <span class="s-key">Annual Intake Seats</span>
+            </div>
+            <div class="bds-stat">
+              <span class="s-val">5 <span>Yrs</span></span>
+              <span class="s-key">Duration (incl. Internship)</span>
+            </div>
+          </div>
+          <div class="bds-stat-col">
+            <div class="bds-stat">
+              <span class="s-val">NEET</span>
+              <span class="s-key">Entrance Exam Required</span>
+            </div>
+            <div class="bds-stat">
+              <span class="s-val">RGUHS</span>
+              <span class="s-key">Affiliating University</span>
+            </div>
+          </div>
+        </div>
+        <p style="font-size:0.75rem;color:var(--muted);margin-top:0.75rem;">* Seats include Government, Management, and NRI quota. Actual allocation subject to KEA counselling.</p>
+      </div>
+
+      <!-- MDS TAB -->
+      <div class="course-panel" id="tab-mds">
+        <p style="font-size:0.9rem;color:var(--muted);margin-bottom:1.75rem;line-height:1.7;">
+          3-year postgraduate MDS programmes across 9 clinical specialties. Admission through KEA PG counselling based on NEET MDS rank. All programmes are DCI approved and RGUHS affiliated.
+        </p>
+        <div class="mds-grid">
+          <div class="mds-card">
+            <div class="mds-num">01</div>
+            <div class="mds-info">
+              <h4>Orthodontics &amp; Dentofacial Orthopedics</h4>
+              <div class="mds-meta">
+                <span class="mds-pill">3 Years</span>
+                <span class="mds-pill seats">5 Seats*</span>
+              </div>
+            </div>
+          </div>
+          <div class="mds-card">
+            <div class="mds-num">02</div>
+            <div class="mds-info">
+              <h4>Periodontology</h4>
+              <div class="mds-meta">
+                <span class="mds-pill">3 Years</span>
+                <span class="mds-pill seats">5 Seats*</span>
+              </div>
+            </div>
+          </div>
+          <div class="mds-card">
+            <div class="mds-num">03</div>
+            <div class="mds-info">
+              <h4>Oral &amp; Maxillofacial Surgery</h4>
+              <div class="mds-meta">
+                <span class="mds-pill">3 Years</span>
+                <span class="mds-pill seats">3 Seats*</span>
+              </div>
+            </div>
+          </div>
+          <div class="mds-card">
+            <div class="mds-num">04</div>
+            <div class="mds-info">
+              <h4>Conservative Dentistry &amp; Endodontics</h4>
+              <div class="mds-meta">
+                <span class="mds-pill">3 Years</span>
+                <span class="mds-pill seats">5 Seats*</span>
+              </div>
+            </div>
+          </div>
+          <div class="mds-card">
+            <div class="mds-num">05</div>
+            <div class="mds-info">
+              <h4>Prosthetics &amp; Crown and Bridge</h4>
+              <div class="mds-meta">
+                <span class="mds-pill">3 Years</span>
+                <span class="mds-pill seats">5 Seats*</span>
+              </div>
+            </div>
+          </div>
+          <div class="mds-card">
+            <div class="mds-num">06</div>
+            <div class="mds-info">
+              <h4>Oral Medicine &amp; Radiology</h4>
+              <div class="mds-meta">
+                <span class="mds-pill">3 Years</span>
+                <span class="mds-pill seats">3 Seats*</span>
+              </div>
+            </div>
+          </div>
+          <div class="mds-card">
+            <div class="mds-num">07</div>
+            <div class="mds-info">
+              <h4>Oral Pathology &amp; Microbiology</h4>
+              <div class="mds-meta">
+                <span class="mds-pill">3 Years</span>
+                <span class="mds-pill seats">3 Seats*</span>
+              </div>
+            </div>
+          </div>
+          <div class="mds-card">
+            <div class="mds-num">08</div>
+            <div class="mds-info">
+              <h4>Pedodontics &amp; Preventive Dentistry</h4>
+              <div class="mds-meta">
+                <span class="mds-pill">3 Years</span>
+                <span class="mds-pill seats">3 Seats*</span>
+              </div>
+            </div>
+          </div>
+          <div class="mds-card">
+            <div class="mds-num">09</div>
+            <div class="mds-info">
+              <h4>Public Health Dentistry</h4>
+              <div class="mds-meta">
+                <span class="mds-pill">3 Years</span>
+                <span class="mds-pill seats">3 Seats*</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p style="font-size:0.75rem;color:var(--muted);margin-top:1rem;">* Seat matrix subject to DCI and RGUHS approval each academic year. Contact admissions for confirmed seat availability.</p>
+      </div>
+
+      <!-- PhD TAB -->
+      <div class="course-panel" id="tab-phd">
+        <p style="font-size:0.9rem;color:var(--muted);margin-bottom:1.75rem;line-height:1.7;">
+          RRDCH offers Ph.D. programmes in 5 disciplines under RGUHS. Candidates must hold an MDS degree in the relevant speciality and qualify through a research aptitude test and interview.
+        </p>
+        <div class="phd-card">
+          <div class="phd-header">
+            <span>🔬</span>
+            <div>
+              <h3>Doctor of Philosophy (Ph.D.)</h3>
+              <p>RGUHS Affiliated · Minimum 3 Years · Research-based</p>
+            </div>
+          </div>
+          <div class="phd-list">
+            <div class="phd-item">
+              <span>Public Health Dentistry</span>
+              <span class="dur">3–5 Years</span>
+            </div>
+            <div class="phd-item">
+              <span>Oral &amp; Maxillofacial Surgery</span>
+              <span class="dur">3–5 Years</span>
+            </div>
+            <div class="phd-item">
+              <span>Prosthetics &amp; Crown and Bridge</span>
+              <span class="dur">3–5 Years</span>
+            </div>
+            <div class="phd-item">
+              <span>Periodontology</span>
+              <span class="dur">3–5 Years</span>
+            </div>
+            <div class="phd-item">
+              <span>Orthodontics &amp; Dentofacial Orthopedics</span>
+              <span class="dur">3–5 Years</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ELIGIBILITY ==================== -->
+  <section class="adm-section bg-white reveal" id="eligibility">
+    <div class="container">
+      <span class="section-eyebrow">Admission Criteria</span>
+      <h2 class="section-title">Eligibility Criteria</h2>
+      <div class="elig-layout">
+
+        <div class="elig-card">
+          <div class="elig-card-head bds-head">
+            <span class="eh-ico">🦷</span>
+            <div>
+              <h3>BDS — Undergraduate</h3>
+              <p>Bachelor of Dental Surgery</p>
+            </div>
+          </div>
+          <div class="elig-card-body">
+            <div class="elig-row">
+              <div class="elig-ico">📚</div>
+              <div>
+                <span class="elig-key">Academic Qualification</span>
+                <span class="elig-val">10+2 or equivalent with PCB</span>
+                <span class="elig-note">Physics, Chemistry & Biology as compulsory subjects</span>
+              </div>
+            </div>
+            <div class="elig-row">
+              <div class="elig-ico">📊</div>
+              <div>
+                <span class="elig-key">Minimum Marks</span>
+                <span class="elig-val">50% aggregate in PCB (General)</span>
+                <span class="elig-note">40% for SC / ST / OBC candidates as per DCI norms</span>
+              </div>
+            </div>
+            <div class="elig-row">
+              <div class="elig-ico">🎂</div>
+              <div>
+                <span class="elig-key">Age Requirement</span>
+                <span class="elig-val">Minimum 17 years as on 31st December 2026</span>
+                <span class="elig-note">No upper age limit as per Supreme Court ruling</span>
+              </div>
+            </div>
+            <div class="elig-row">
+              <div class="elig-ico">📝</div>
+              <div>
+                <span class="elig-key">Entrance Exam</span>
+                <span class="elig-val">NEET-UG (Mandatory)</span>
+                <span class="elig-note">Valid NEET-UG score is compulsory for all candidates</span>
+              </div>
+            </div>
+            <div class="elig-row">
+              <div class="elig-ico">🏛</div>
+              <div>
+                <span class="elig-key">Admission Route</span>
+                <span class="elig-val">KEA Counselling + Management Quota</span>
+                <span class="elig-note">Government seats through KEA; Management seats via RRDCH</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="elig-card">
+          <div class="elig-card-head mds-head">
+            <span class="eh-ico">🎓</span>
+            <div>
+              <h3>MDS — Postgraduate</h3>
+              <p>Master of Dental Surgery</p>
+            </div>
+          </div>
+          <div class="elig-card-body">
+            <div class="elig-row">
+              <div class="elig-ico">📚</div>
+              <div>
+                <span class="elig-key">Academic Qualification</span>
+                <span class="elig-val">BDS degree from a DCI recognised university</span>
+                <span class="elig-note">Must have completed 1-year compulsory internship</span>
+              </div>
+            </div>
+            <div class="elig-row">
+              <div class="elig-ico">📊</div>
+              <div>
+                <span class="elig-key">Minimum Marks</span>
+                <span class="elig-val">55% aggregate in BDS (General)</span>
+                <span class="elig-note">50% for SC / ST / OBC candidates</span>
+              </div>
+            </div>
+            <div class="elig-row">
+              <div class="elig-ico">📝</div>
+              <div>
+                <span class="elig-key">Entrance Exam</span>
+                <span class="elig-val">NEET-MDS (Mandatory)</span>
+                <span class="elig-note">Valid NEET-MDS score required for all candidates</span>
+              </div>
+            </div>
+            <div class="elig-row">
+              <div class="elig-ico">🏛</div>
+              <div>
+                <span class="elig-key">Admission Route</span>
+                <span class="elig-val">KEA PG Counselling + Management Quota</span>
+                <span class="elig-note">Stray vacancy rounds as per RGUHS schedule</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="neet-banner">
+          <span class="neet-ico">⚠️</span>
+          <div>
+            <h4>NEET is Mandatory for All Dental Admissions in India</h4>
+            <p>As per the Hon'ble Supreme Court of India and the Dental Council of India, a valid NEET score is compulsory for admission to BDS and MDS programmes across all dental colleges in India, including RRDCH. Candidates without a valid NEET score will not be considered for admission.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FEE STRUCTURE ==================== -->
+  <section class="adm-section bg-off reveal" id="fees">
+    <div class="container">
+      <span class="section-eyebrow">Financials</span>
+      <h2 class="section-title">Fee Structure — 2026–27</h2>
+      <div class="fee-layout">
+        <div>
+          <div class="fee-table-wrap" style="margin-bottom:1.5rem;">
+            <div class="fee-table-head">
+              <h3>BDS — Tuition Fees</h3>
+              <span>Per Academic Year</span>
+            </div>
+            <table class="fee-tbl">
+              <thead>
+                <tr>
+                  <th>Fee Component</th>
+                  <th>Govt. Quota</th>
+                  <th class="fee-amt">Mgmt. Quota</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Tuition Fee</td><td>₹ 1,50,000</td><td class="fee-amt">₹ 4,50,000</td></tr>
+                <tr><td>College Development Fee</td><td>₹ 20,000</td><td class="fee-amt">₹ 50,000</td></tr>
+                <tr><td>Library &amp; Lab Fee</td><td>₹ 8,000</td><td class="fee-amt">₹ 12,000</td></tr>
+                <tr><td>Examination Fee (RGUHS)</td><td>₹ 6,000</td><td class="fee-amt">₹ 6,000</td></tr>
+                <tr class="total-row"><td><strong>Total (Per Year)</strong></td><td><strong>₹ 1,84,000</strong></td><td class="fee-amt"><strong>₹ 5,18,000</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="fee-table-wrap">
+            <div class="fee-table-head">
+              <h3>MDS — Tuition Fees</h3>
+              <span>Per Academic Year</span>
+            </div>
+            <table class="fee-tbl">
+              <thead>
+                <tr>
+                  <th>Fee Component</th>
+                  <th>Govt. Quota</th>
+                  <th class="fee-amt">Mgmt. Quota</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Tuition Fee</td><td>₹ 2,50,000</td><td class="fee-amt">₹ 7,00,000</td></tr>
+                <tr><td>College Development Fee</td><td>₹ 25,000</td><td class="fee-amt">₹ 60,000</td></tr>
+                <tr><td>Library &amp; Research Fee</td><td>₹ 10,000</td><td class="fee-amt">₹ 15,000</td></tr>
+                <tr><td>Examination Fee (RGUHS)</td><td>₹ 8,000</td><td class="fee-amt">₹ 8,000</td></tr>
+                <tr class="total-row"><td><strong>Total (Per Year)</strong></td><td><strong>₹ 2,93,000</strong></td><td class="fee-amt"><strong>₹ 7,83,000</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="fee-side">
+          <div class="fee-note-card">
+            <h4>Fee Payment Notes</h4>
+            <div class="fee-note-list">
+              <div class="fee-note-item">Fees are payable annually at the start of each academic year.</div>
+              <div class="fee-note-item">Demand draft or online NEFT/IMPS transfer accepted. Cash not accepted above ₹2,000.</div>
+              <div class="fee-note-item">Government quota fees are regulated by the Karnataka Fee Regulatory Committee (KFRC).</div>
+              <div class="fee-note-item">NRI quota fees are payable in USD equivalent — contact admissions for current rate.</div>
+              <div class="fee-note-item">One-time refundable caution deposit of ₹25,000 applicable for all students.</div>
+              <div class="fee-note-item">Fees shown are indicative. Final fees as per KFRC order applicable each year.</div>
+            </div>
+          </div>
+          <div class="scholarship-card">
+            <h4>🎓 Scholarships &amp; Fee Concessions</h4>
+            <p>SC / ST / OBC students may apply for state government scholarships through the Karnataka Scholarship Portal. Merit-based fee waivers are available for top-ranking NEET students admitted under management quota — contact the admissions office for eligibility details.</p>
+          </div>
+          <div class="fee-note-card">
+            <h4>Hostel Fees (Annual)</h4>
+            <div class="fee-note-list">
+              <div class="fee-note-item"><strong style="color:var(--navy)">Boys Hostel:</strong> ₹ 80,000 per year (room + mess)</div>
+              <div class="fee-note-item"><strong style="color:var(--navy)">Girls Hostel:</strong> ₹ 85,000 per year (room + mess)</div>
+              <div class="fee-note-item">Single and shared room options available. AC rooms at additional cost.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== DOCUMENTS ==================== -->
+  <section class="adm-section bg-white reveal" id="documents">
+    <div class="container">
+      <span class="section-eyebrow">Checklist</span>
+      <h2 class="section-title">Documents Required</h2>
+      <div class="docs-grid">
+        <div class="doc-card">
+          <div class="doc-ico">📋</div>
+          <div>
+            <h4>10th Marksheet &amp; Certificate</h4>
+            <p>SSC / SSLC board certificate as proof of date of birth and passing.</p>
+            <span class="doc-required mandatory">Mandatory</span>
+          </div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-ico">📄</div>
+          <div>
+            <h4>12th Marksheet &amp; Certificate</h4>
+            <p>PUC / HSC marksheet showing PCB aggregate percentage.</p>
+            <span class="doc-required mandatory">Mandatory</span>
+          </div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-ico">🧪</div>
+          <div>
+            <h4>NEET Scorecard</h4>
+            <p>Original NEET-UG (for BDS) or NEET-MDS (for MDS) scorecard and rank letter.</p>
+            <span class="doc-required mandatory">Mandatory</span>
+          </div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-ico">🏫</div>
+          <div>
+            <h4>Transfer Certificate (TC)</h4>
+            <p>Original TC from the last institution attended.</p>
+            <span class="doc-required mandatory">Mandatory</span>
+          </div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-ico">⭐</div>
+          <div>
+            <h4>Character Certificate</h4>
+            <p>Issued by the Principal / HM of the last institution attended.</p>
+            <span class="doc-required mandatory">Mandatory</span>
+          </div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-ico">🪪</div>
+          <div>
+            <h4>Aadhaar Card / Photo ID</h4>
+            <p>Government-issued photo identity proof of the student.</p>
+            <span class="doc-required mandatory">Mandatory</span>
+          </div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-ico">📸</div>
+          <div>
+            <h4>Passport Size Photographs</h4>
+            <p>10 recent passport size photographs (white background).</p>
+            <span class="doc-required mandatory">Mandatory</span>
+          </div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-ico">🏷</div>
+          <div>
+            <h4>Caste / Category Certificate</h4>
+            <p>For SC / ST / OBC students claiming category reservation or scholarship.</p>
+            <span class="doc-required conditional">If Applicable</span>
+          </div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-ico">🚚</div>
+          <div>
+            <h4>Migration Certificate</h4>
+            <p>Required for students from universities / boards outside Karnataka.</p>
+            <span class="doc-required conditional">If Applicable</span>
+          </div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-ico">🏥</div>
+          <div>
+            <h4>Medical Fitness Certificate</h4>
+            <p>Certificate of physical fitness from a registered medical practitioner.</p>
+            <span class="doc-required mandatory">Mandatory</span>
+          </div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-ico">🎓</div>
+          <div>
+            <h4>BDS Degree &amp; Marksheets</h4>
+            <p>Required for MDS applicants — all year marksheets and provisional / original degree.</p>
+            <span class="doc-required conditional">MDS Only</span>
+          </div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-ico">🏨</div>
+          <div>
+            <h4>Internship Completion Certificate</h4>
+            <p>For MDS applicants — proof of completion of 1-year compulsory rotating internship.</p>
+            <span class="doc-required conditional">MDS Only</span>
+          </div>
+        </div>
+      </div>
+      <div class="docs-note">
+        <strong>Important:</strong> Carry originals of all documents along with two sets of self-attested photocopies at the time of reporting for admission. Documents will be retained by the college for verification and returned after completion of the programme. Failure to produce original documents may result in cancellation of admission.
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== HOSTEL ==================== -->
+  <section class="adm-section bg-off reveal" id="hostel">
+    <div class="container">
+      <span class="section-eyebrow">Campus Living</span>
+      <h2 class="section-title">Hostel Facilities</h2>
+      <div class="hostel-layout">
+
+        <div class="hostel-card">
+          <div class="hostel-head boys">
+            <span class="h-ico">🏠</span>
+            <div>
+              <h3>Boys Hostel</h3>
+              <p>On-campus residential facility for male students</p>
+            </div>
+          </div>
+          <div class="hostel-body">
+            <div class="hostel-stat-row">
+              <div class="h-stat"><span class="v">200</span><span class="k">Total Capacity</span></div>
+              <div class="h-stat"><span class="v">2–3</span><span class="k">Students per Room</span></div>
+              <div class="h-stat"><span class="v">24/7</span><span class="k">Security</span></div>
+              <div class="h-stat"><span class="v">Wi-Fi</span><span class="k">Campus Network</span></div>
+            </div>
+            <div class="hostel-amenities">
+              <h5>Amenities Included</h5>
+              <div class="amenity-list">
+                <span class="amenity-tag">Furnished rooms</span>
+                <span class="amenity-tag">Attached bathroom</span>
+                <span class="amenity-tag">Vegetarian mess</span>
+                <span class="amenity-tag">RO water</span>
+                <span class="amenity-tag">Laundry area</span>
+                <span class="amenity-tag">Reading room</span>
+                <span class="amenity-tag">Indoor games</span>
+                <span class="amenity-tag">CCTV surveillance</span>
+                <span class="amenity-tag">Generator backup</span>
+              </div>
+            </div>
+            <div class="hostel-fee-row">
+              <span>Annual Fee (Room + Mess)</span>
+              <strong>₹ 80,000 / year</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="hostel-card">
+          <div class="hostel-head girls">
+            <span class="h-ico">🏠</span>
+            <div>
+              <h3>Girls Hostel</h3>
+              <p>Secure residential facility for female students</p>
+            </div>
+          </div>
+          <div class="hostel-body">
+            <div class="hostel-stat-row">
+              <div class="h-stat"><span class="v">250</span><span class="k">Total Capacity</span></div>
+              <div class="h-stat"><span class="v">2–3</span><span class="k">Students per Room</span></div>
+              <div class="h-stat"><span class="v">24/7</span><span class="k">Lady Warden</span></div>
+              <div class="h-stat"><span class="v">Wi-Fi</span><span class="k">Campus Network</span></div>
+            </div>
+            <div class="hostel-amenities">
+              <h5>Amenities Included</h5>
+              <div class="amenity-list">
+                <span class="amenity-tag">Furnished rooms</span>
+                <span class="amenity-tag">Attached bathroom</span>
+                <span class="amenity-tag">Veg &amp; non-veg mess</span>
+                <span class="amenity-tag">RO water</span>
+                <span class="amenity-tag">Laundry area</span>
+                <span class="amenity-tag">Common room</span>
+                <span class="amenity-tag">Indoor games</span>
+                <span class="amenity-tag">CCTV surveillance</span>
+                <span class="amenity-tag">Biometric entry</span>
+              </div>
+            </div>
+            <div class="hostel-fee-row">
+              <span>Annual Fee (Room + Mess)</span>
+              <strong>₹ 85,000 / year</strong>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <p style="font-size:0.78rem;color:var(--muted);margin-top:1rem;">Hostel allotment is subject to availability and is allocated on a first-come-first-served basis after confirmation of admission. Contact the hostel warden for AC room availability and pricing.</p>
+    </div>
+  </section>
+
+  <!-- ==================== CONTACT ADMISSIONS ==================== -->
+  <section class="adm-section bg-white reveal" id="contact-admissions">
+    <div class="container">
+      <span class="section-eyebrow">Get in Touch</span>
+      <h2 class="section-title">Admissions Office</h2>
+      <div class="contact-layout">
+        <div class="contact-info">
+          <div class="contact-card">
+            <div class="contact-ico">👨‍💼</div>
+            <div>
+              <h4>Admissions Coordinator</h4>
+              <p>Dr. Vinod Shetty</p>
+              <p style="font-size:0.8rem;color:var(--muted);">MDS, MPH — Dean of Admissions</p>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-ico">📞</div>
+            <div>
+              <h4>Phone</h4>
+              <a href="tel:+918028601234">+91 80 2860 1234</a>
+              <a href="tel:+919876543210">+91 98765 43210 (Helpline)</a>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-ico">✉️</div>
+            <div>
+              <h4>Email</h4>
+              <a href="mailto:admissions@rrdch.edu.in">admissions@rrdch.edu.in</a>
+              <a href="mailto:info@rrdch.edu.in">info@rrdch.edu.in</a>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-ico">📍</div>
+            <div>
+              <h4>Admissions Office Address</h4>
+              <p>Administrative Block, Ground Floor<br>Rajarajeshwari Dental College &amp; Hospital<br>Mysore Road, Kambipura, Bengaluru – 560074</p>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-ico">🕐</div>
+            <div>
+              <h4>Office Hours</h4>
+              <p>Monday to Saturday: 9:00 AM – 5:00 PM</p>
+              <p style="font-size:0.8rem;color:var(--muted);">Closed on Sundays &amp; National Holidays</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="enquiry-card">
+            <h3>Quick Enquiry</h3>
+            <p>Fill in your details and our admissions team will call you back within 24 hours.</p>
+            <div class="enq-form">
+              <div class="enq-field">
+                <label>Full Name *</label>
+                <input type="text" placeholder="e.g. Ravi Kumar"/>
+              </div>
+              <div class="enq-field">
+                <label>Mobile Number *</label>
+                <input type="tel" placeholder="+91 98XXX XXXXX"/>
+              </div>
+              <div class="enq-field">
+                <label>Email Address</label>
+                <input type="email" placeholder="you@email.com"/>
+              </div>
+              <div class="enq-field">
+                <label>Course Interested In</label>
+                <select>
+                  <option value="">Select Course</option>
+                  <option>BDS (Undergraduate)</option>
+                  <option>MDS — Orthodontics</option>
+                  <option>MDS — Periodontology</option>
+                  <option>MDS — Oral Surgery</option>
+                  <option>MDS — Conservative &amp; Endodontics</option>
+                  <option>MDS — Prosthodontics</option>
+                  <option>MDS — Oral Medicine &amp; Radiology</option>
+                  <option>MDS — Oral Pathology</option>
+                  <option>MDS — Pedodontics</option>
+                  <option>MDS — Public Health Dentistry</option>
+                  <option>Ph.D.</option>
+                </select>
+              </div>
+              <button class="enq-submit" onclick="submitEnquiry()">Send Enquiry →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA STRIP -->
+  <section class="cta-strip reveal">
+    <div class="container">
+      <div class="cta-inner">
+        <span class="section-eyebrow center">Apply Now</span>
+        <h2>Ready to Join RRDCH?</h2>
+        <p>Admissions for 2026–27 are open. Reach out to our admissions office today.</p>
+        <div class="cta-actions">
+          <a href="mailto:admissions@rrdch.edu.in" class="btn btn-primary">✉️ Email Admissions →</a>
+          <a href="tel:+918028601234" class="btn btn-outline-white">📞 Call Now</a>
+          <a href="departments.html" class="btn btn-outline-white">View Departments</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="home.html" class="logo" style="margin-bottom:1rem;display:flex;">
+            <div class="logo-mark">⚕</div>
+            <div class="logo-text">
+              <span class="logo-name">RRDCH</span>
+              <span class="logo-sub">Dental College & Hospital</span>
+            </div>
+          </a>
+          <p class="footer-desc">Serving Karnataka with world-class dental education and compassionate patient care since 1994. DCI Approved · RGUHS Affiliated · NAAC A+</p>
+          <div class="socials">
+            <a href="#" class="social-ico">f</a>
+            <a href="#" class="social-ico">in</a>
+            <a href="#" class="social-ico">𝕏</a>
+            <a href="#" class="social-ico">▶</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Admissions</h5>
+          <a href="#courses">Courses Offered</a>
+          <a href="#eligibility">Eligibility</a>
+          <a href="#fees">Fee Structure</a>
+          <a href="#documents">Documents</a>
+          <a href="#hostel">Hostel</a>
+        </div>
+        <div class="footer-col">
+          <h5>Quick Links</h5>
+          <a href="home.html">Home</a>
+          <a href="about.html">About Us</a>
+          <a href="departments.html">Departments</a>
+          <a href="contact.html">Contact</a>
+        </div>
+        <div class="footer-col">
+          <h5>Contact</h5>
+          <p>Mysore Road, Kambipura,<br>Bengaluru – 560074</p>
+          <p>📞 +91 80 2860 1234</p>
+          <p>✉️ admissions@rrdch.edu.in</p>
+          <p>🕐 Mon–Sat: 9AM – 5PM</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Rajarajeshwari Dental College & Hospital. All rights reserved.</p>
+        <p>Designed & Developed by RRDCH Web Team</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', scrollY > 60);
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    function switchTab(btn, tabId) {
+      document.querySelectorAll('.ctab').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.course-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    function submitEnquiry() {
+      showToast('✅ Enquiry submitted! Our admissions team will contact you within 24 hours.');
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 4000);
+    }
+
+    let isKannada = false;
+    const navEN = ['Home','About','Departments','Admissions','Students','Patients','Contact'];
+    const navKN = ['ಮುಖಪುಟ','ನಮ್ಮ ಬಗ್ಗೆ','ವಿಭಾಗಗಳು','ಪ್ರವೇಶ','ವಿದ್ಯಾರ್ಥಿಗಳು','ರೋಗಿಗಳು','ಸಂಪರ್ಕ'];
+    function toggleLang() {
+      isKannada = !isKannada;
+      document.getElementById('langBtn').textContent = isKannada ? '🌐 English' : '🌐 ಕನ್ನಡ';
+      document.querySelectorAll('.nav-links a').forEach((a, i) => {
+        a.textContent = isKannada ? navKN[i] : navEN[i];
+      });
+      showToast(isKannada ? '✅ ಕನ್ನಡಕ್ಕೆ ಬದಲಾಯಿಸಲಾಗಿದೆ' : '✅ Switched to English');
+    }
+  </script>
+</body>
+</html>
