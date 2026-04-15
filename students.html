@@ -189,6 +189,29 @@
       display:none;
     }
     .error-msg.show{display:block;}
+
+    /* ── MOBILE RESPONSIVE (only addition) ── */
+    @media (max-width:900px){
+      body{flex-direction:column;overflow:auto;}
+      .left-panel{width:100%;padding:2.5rem 2rem;justify-content:flex-start;}
+      .right-panel{width:100%;padding:2.5rem 2rem;}
+      .deco-ring,.deco-ring2{display:none;}
+      .portal-logo{margin-bottom:2rem;}
+      .left-desc{margin-bottom:1.5rem;}
+      .login-box{max-width:100%;}
+    }
+
+    @media (max-width:540px){
+      .left-panel{padding:1.75rem 1.25rem;}
+      .right-panel{padding:2rem 1.25rem;}
+      .left-title{font-size:2rem;}
+      .left-desc{font-size:0.88rem;}
+      .left-badge{font-size:0.66rem;}
+      .logo-mark{width:38px;height:38px;font-size:1.1rem;}
+      .logo-text .ln{font-size:1.1rem;}
+      .login-box h2{font-size:1.7rem;}
+      .form-row{flex-direction:column;align-items:flex-start;gap:0.6rem;}
+    }
   </style>
 </head>
 <body>
