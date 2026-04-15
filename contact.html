@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us | RRDCH</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:       #071e38;
+      --navy-mid:   #0d2d52;
+      --blue:       #1456a0;
+      --accent:     #00a8e8;
+      --teal:       #00869e;
+      --white:      #ffffff;
+      --off-white:  #f3f7fd;
+      --surface:    #eaf3fd;
+      --text:       #0d1f33;
+      --muted:      #556070;
+      --border:     #ccdff0;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body:    'DM Sans', sans-serif;
+      --radius:    18px;
+      --radius-sm: 10px;
+      --shadow-lg: 0 12px 48px rgba(7,30,56,0.18);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      color: var(--text);
+      background: var(--off-white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      background: rgba(7,30,56,0.97);
+      backdrop-filter: blur(14px);
+      padding: 0.85rem 0;
+      position: sticky; top: 0; z-index: 999;
+      box-shadow: 0 4px 28px rgba(0,0,0,0.18);
+    }
+    .nav-inner {
+      max-width: 1180px; margin: 0 auto; padding: 0 1.5rem;
+      display: flex; align-items: center; gap: 1.5rem;
+    }
+    .logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; flex-shrink: 0; }
+    .logo-mark {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--accent), var(--blue));
+      border-radius: 10px; display: flex; align-items: center;
+      justify-content: center; font-size: 1.3rem; color: white; font-weight: 700;
+    }
+    .logo-text .logo-name { display: block; font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; color: white; line-height: 1; }
+    .logo-text .logo-sub  { display: block; font-size: 0.62rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
+    .nav-links { display: flex; gap: 1.5rem; flex: 1; justify-content: center; }
+    .nav-links a {
+      color: rgba(255,255,255,0.78); text-decoration: none;
+      font-size: 0.86rem; font-weight: 500; padding: 0.3rem 0;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: white; border-bottom-color: var(--accent); }
+    .nav-actions { display: flex; align-items: center; gap: 0.65rem; flex-shrink: 0; }
+    .lang-btn {
+      background: rgba(255,255,255,0.09); color: rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.2); padding: 0.38rem 0.9rem;
+      border-radius: 50px; font-size: 0.78rem; cursor: pointer;
+      transition: background 0.2s; font-family: var(--font-body);
+    }
+    .lang-btn:hover { background: rgba(255,255,255,0.18); }
+    .appt-btn {
+      background: var(--accent); color: white; border: none;
+      padding: 0.5rem 1.15rem; border-radius: 50px;
+      font-size: 0.82rem; font-weight: 600; cursor: pointer;
+      transition: background 0.2s, transform 0.15s; font-family: var(--font-body);
+    }
+    .appt-btn:hover { background: var(--teal); transform: translateY(-1px); }
+    .hamburger { display: none; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+
+    /* ===== PAGE WRAP ===== */
+    .page-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 1.5rem;
+    }
+
+    /* ===== CONTACT BOX ===== */
+    .contact-box {
+      width: 100%;
+      max-width: 980px;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      background: white;
+      border-radius: var(--radius);
+      border: 1.5px solid var(--border);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+
+    /* LEFT */
+    .contact-left {
+      background: var(--navy);
+      padding: 3rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-left::before {
+      content: '';
+      position: absolute; right: -60px; bottom: -60px;
+      width: 260px; height: 260px; border-radius: 50%;
+      border: 1px solid rgba(0,168,232,0.1);
+    }
+    .contact-left::after {
+      content: '';
+      position: absolute; left: -40px; top: -40px;
+      width: 180px; height: 180px; border-radius: 50%;
+      border: 1px solid rgba(0,168,232,0.06);
+    }
+    .cl-top { position: relative; z-index: 2; }
+    .cl-eyebrow {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--accent);
+      display: block; margin-bottom: 0.75rem;
+    }
+    .cl-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 2.5vw, 2.4rem);
+      font-weight: 700; color: white;
+      line-height: 1.15; margin-bottom: 1rem;
+    }
+    .cl-title em { font-style: italic; color: var(--accent); }
+    .cl-desc {
+      font-size: 0.86rem; color: rgba(255,255,255,0.5);
+      line-height: 1.75;
+    }
+
+    .cl-info {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column;
+      gap: 1.1rem; margin-top: 2.5rem;
+    }
+    .ci-item { display: flex; align-items: flex-start; gap: 0.85rem; }
+    .ci-ico {
+      width: 36px; height: 36px; border-radius: 9px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; flex-shrink: 0;
+    }
+    .ci-key {
+      font-size: 0.65rem; color: rgba(255,255,255,0.35);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      display: block; margin-bottom: 2px;
+    }
+    .ci-val {
+      font-size: 0.84rem; color: rgba(255,255,255,0.8);
+      font-weight: 500; line-height: 1.5;
+    }
+    .ci-val a { color: rgba(255,255,255,0.8); text-decoration: none; }
+
+    .cl-socials {
+      position: relative; z-index: 2;
+      display: flex; gap: 0.5rem; margin-top: 2.5rem;
+    }
+    .soc-ico {
+      width: 34px; height: 34px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px; display: flex; align-items: center;
+      justify-content: center; color: rgba(255,255,255,0.6);
+      font-size: 0.78rem; font-weight: 700; text-decoration: none;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .soc-ico:hover { background: var(--accent); color: white; border-color: var(--accent); }
+
+    /* RIGHT */
+    .contact-right { padding: 3rem 2.5rem; }
+    .cr-title {
+      font-family: var(--font-display);
+      font-size: 1.7rem; font-weight: 700;
+      color: var(--navy); margin-bottom: 0.3rem;
+    }
+    .cr-sub { font-size: 0.84rem; color: var(--muted); margin-bottom: 2rem; line-height: 1.6; }
+
+    .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .fgroup { margin-bottom: 1.1rem; }
+    .fgroup label {
+      display: block; font-size: 0.72rem; font-weight: 600;
+      color: var(--navy); margin-bottom: 0.4rem;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .fgroup input,
+    .fgroup select,
+    .fgroup textarea {
+      width: 100%; padding: 0.75rem 1rem;
+      border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+      font-family: var(--font-body); font-size: 0.9rem;
+      color: var(--text); background: var(--off-white); outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .fgroup input:focus,
+    .fgroup select:focus,
+    .fgroup textarea:focus { border-color: var(--blue); background: white; }
+
+    .submit-btn {
+      width: 100%; padding: 0.9rem; border-radius: 50px;
+      background: var(--blue); color: white; border: none;
+      font-family: var(--font-body); font-size: 0.92rem; font-weight: 600;
+      cursor: pointer; margin-top: 0.25rem;
+      transition: all 0.22s;
+    }
+    .submit-btn:hover { background: var(--navy); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(20,86,160,0.3); }
+
+    /* ===== FOOTER ===== */
+    .footer { background: var(--navy); padding: 2rem 0; }
+    .footer-inner {
+      max-width: 1180px; margin: 0 auto; padding: 0 1.5rem;
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+    .fl-mark {
+      width: 32px; height: 32px;
+      background: linear-gradient(135deg, var(--accent), var(--blue));
+      border-radius: 8px; display: flex; align-items: center;
+      justify-content: center; font-size: 1rem; color: white;
+    }
+    .fl-name { font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: white; line-height: 1; }
+    .fl-sub { font-size: 0.6rem; color: rgba(255,255,255,0.4); display: block; }
+    .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .footer-links a {
+      font-size: 0.8rem; color: rgba(255,255,255,0.5);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-copy { font-size: 0.75rem; color: rgba(255,255,255,0.25); }
+
+    /* TOAST */
+    .toast {
+      position: fixed; bottom: 2rem; right: 2rem;
+      background: var(--navy); color: white;
+      padding: 0.9rem 1.5rem; border-radius: var(--radius-sm);
+      font-size: 0.86rem; font-weight: 500; box-shadow: var(--shadow-lg);
+      border-left: 4px solid var(--accent);
+      transform: translateY(120px); opacity: 0;
+      transition: all 0.35s ease; z-index: 9999; max-width: 340px;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    /* RESPONSIVE */
+    @media (max-width: 960px) {
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column;
+        position: absolute; top: 100%; left: 0; right: 0;
+        background: var(--navy); padding: 1.5rem; gap: 1rem;
+        border-top: 1px solid rgba(255,255,255,0.1);
+      }
+      .hamburger { display: block; }
+      .appt-btn { display: none; }
+      .contact-box { grid-template-columns: 1fr; }
+      .contact-left { padding: 2.5rem 2rem; }
+      .contact-right { padding: 2.5rem 2rem; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 500px) {
+      .frow { grid-template-columns: 1fr; }
+      .page-wrap { padding: 2rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-inner">
+      <a href="home.html" class="logo">
+        <div class="logo-mark">⚕</div>
+        <div class="logo-text">
+          <span class="logo-name">RRDCH</span>
+          <span class="logo-sub">Dental College & Hospital</span>
+        </div>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="home.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="departments.html">Departments</a>
+        <a href="admissions.html">Admissions</a>
+        <a href="students.html">Students</a>
+        <a href="patients.html">Patients</a>
+        <a href="contact.html" class="active">Contact</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="lang-btn" id="langBtn" onclick="toggleLang()">🌐 ಕನ್ನಡ</button>
+        <button class="appt-btn" onclick="window.location.href='home.html#appointment'">Book Appointment</button>
+        <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTACT BOX -->
+  <div class="page-wrap">
+    <div class="contact-box">
+
+      <!-- LEFT -->
+      <div class="contact-left">
+        <div class="cl-top">
+          <span class="cl-eyebrow">Contact Us</span>
+          <h2 class="cl-title">Let's <em>Talk</em></h2>
+          <p class="cl-desc">Have a question about admissions, appointments, or anything else? Fill in the form and our team will get back to you within 24 hours.</p>
+        </div>
+
+        <div class="cl-info">
+          <div class="ci-item">
+            <div class="ci-ico">📍</div>
+            <div>
+              <span class="ci-key">Address</span>
+              <span class="ci-val">Mysore Road, Kambipura,<br>Bengaluru – 560074</span>
+            </div>
+          </div>
+          <div class="ci-item">
+            <div class="ci-ico">📞</div>
+            <div>
+              <span class="ci-key">Phone</span>
+              <span class="ci-val"><a href="tel:+918028601234">+91 80 2860 1234</a></span>
+            </div>
+          </div>
+          <div class="ci-item">
+            <div class="ci-ico">✉️</div>
+            <div>
+              <span class="ci-key">Email</span>
+              <span class="ci-val"><a href="mailto:info@rrdch.edu.in">info@rrdch.edu.in</a></span>
+            </div>
+          </div>
+          <div class="ci-item">
+            <div class="ci-ico">🕐</div>
+            <div>
+              <span class="ci-key">Working Hours</span>
+              <span class="ci-val">Mon – Sat: 9:00 AM – 5:00 PM</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cl-socials">
+          <a href="#" class="soc-ico">f</a>
+          <a href="#" class="soc-ico">in</a>
+          <a href="#" class="soc-ico">𝕏</a>
+          <a href="#" class="soc-ico">▶</a>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="contact-right">
+        <h3 class="cr-title">Send Us a Message</h3>
+        <p class="cr-sub">We'll respond within 24 hours on working days.</p>
+
+        <div class="frow">
+          <div class="fgroup">
+            <label>First Name *</label>
+            <input type="text" placeholder="Ravi"/>
+          </div>
+          <div class="fgroup">
+            <label>Last Name</label>
+            <input type="text" placeholder="Kumar"/>
+          </div>
+        </div>
+
+        <div class="frow">
+          <div class="fgroup">
+            <label>Email Address</label>
+            <input type="email" placeholder="you@email.com"/>
+          </div>
+          <div class="fgroup">
+            <label>Mobile Number *</label>
+            <input type="tel" placeholder="+91 98XXX XXXXX"/>
+          </div>
+        </div>
+
+        <div class="fgroup">
+          <label>Subject</label>
+          <select>
+            <option value="">Select a subject</option>
+            <option>General Enquiry</option>
+            <option>Appointment Booking</option>
+            <option>Admissions</option>
+            <option>Research Collaboration</option>
+            <option>Feedback</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="fgroup">
+          <label>Message *</label>
+          <textarea rows="4" placeholder="How can we help you?"></textarea>
+        </div>
+
+        <button class="submit-btn" onclick="sendMsg()">Send Message →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  
+
+  
+
+  <script>
+    function sendMsg() {
+      showToast('✅ Message sent! We will get back to you within 24 hours.');
+    }
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 4000);
+    }
+    let isKannada = false;
+    const navEN = ['Home','About','Departments','Admissions','Students','Patients','Contact'];
+    const navKN = ['ಮುಖಪುಟ','ನಮ್ಮ ಬಗ್ಗೆ','ವಿಭಾಗಗಳು','ಪ್ರವೇಶ','ವಿದ್ಯಾರ್ಥಿಗಳು','ರೋಗಿಗಳು','ಸಂಪರ್ಕ'];
+    function toggleLang() {
+      isKannada = !isKannada;
+      document.getElementById('langBtn').textContent = isKannada ? '🌐 English' : '🌐 ಕನ್ನಡ';
+      document.querySelectorAll('.nav-links a').forEach((a, i) => {
+        a.textContent = isKannada ? navKN[i] : navEN[i];
+      });
+      showToast(isKannada ? '✅ ಕನ್ನಡಕ್ಕೆ ಬದಲಾಯಿಸಲಾಗಿದೆ' : '✅ Switched to English');
+    }
+  </script>
+</body>
+</html>
