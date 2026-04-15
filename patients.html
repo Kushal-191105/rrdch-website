@@ -83,11 +83,58 @@
     .back-link{display:flex;align-items:center;gap:0.4rem;font-size:0.8rem;color:var(--muted);text-decoration:none;margin-top:1.5rem;transition:color 0.2s;}
     .back-link:hover{color:var(--blue);}
 
-    @media(max-width:768px){
-      body{flex-direction:column;}
-      .left-panel{width:100%;padding:2rem 1.5rem;min-height:auto;}
-      .feature-list,.left-desc{display:none;}
-      .right-panel{width:100%;padding:1.5rem;}
+    /* ── MOBILE RESPONSIVE ── */
+    @media(max-width:900px){
+      body{flex-direction:column;overflow:auto;}
+
+      .left-panel{
+        width:100%;
+        padding:2rem 1.5rem 1.75rem;
+        min-height:auto;
+        flex-shrink:0;
+      }
+      .deco-ring,.deco-ring2{display:none;}
+      .left-desc{display:none;}
+      .feature-list{display:none;}
+
+      .portal-logo{margin-bottom:1.25rem;}
+      .left-badge{margin-bottom:0.85rem;}
+      .left-title{font-size:clamp(1.8rem,6vw,2.6rem);margin-bottom:0;}
+
+      .right-panel{
+        width:100%;
+        min-height:auto;
+        padding:1.75rem 1.25rem 2.5rem;
+        align-items:flex-start;
+        overflow-y:visible;
+      }
+      .login-box{
+        max-width:100%;
+        padding:0;
+      }
+    }
+
+    @media(max-width:480px){
+      .left-panel{padding:1.5rem 1.25rem 1.25rem;}
+      .right-panel{padding:1.5rem 1rem 2rem;}
+
+      .panel-title{font-size:1.6rem;}
+      .form-row-2{grid-template-columns:1fr;}
+
+      .form-group input,.form-group select{
+        font-size:1rem; /* prevents iOS zoom on focus */
+        padding:0.85rem 1rem;
+      }
+      .primary-btn{padding:1rem;font-size:1rem;}
+
+      .form-footer{flex-direction:column;align-items:flex-start;gap:0.6rem;}
+      .tab-btn{font-size:0.8rem;padding:0.5rem;}
+    }
+
+    @media(max-width:360px){
+      .left-panel{padding:1.25rem 1rem 1rem;}
+      .right-panel{padding:1.25rem 0.9rem 2rem;}
+      .panel-title{font-size:1.45rem;}
     }
   </style>
 </head>
@@ -113,7 +160,6 @@
         <div class="feature-item">Treatment history & visit summaries</div>
         <div class="feature-item">Prescription & doctor's notes</div>
         <div class="feature-item">Follow-up reminders</div>
-        
       </div>
     </div>
   </div>
@@ -225,9 +271,7 @@
       const pass = document.getElementById('loginPass').value.trim();
       const err = document.getElementById('loginError');
 
-      // Check stored patients
       const patients = JSON.parse(localStorage.getItem('rrdch_patients') || '[]');
-      // Add demo patient if not exists
       if (!patients.find(p => p.patientId === 'PAT001')) {
         patients.push({patientId:'PAT001',password:'patient123',firstName:'Demo',lastName:'Patient',mobile:'9876543210',email:'demo@rrdch.com',dob:'1990-01-01',gender:'Male'});
         localStorage.setItem('rrdch_patients', JSON.stringify(patients));
