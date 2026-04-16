@@ -18,15 +18,26 @@
       --font-body:'DM Sans',sans-serif;
       --radius:16px; --radius-sm:10px;
       --sidebar:260px;
+      --topbar-height:60px;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:var(--font-body);background:var(--off-white);display:flex;min-height:100vh;}
+    body{font-family:var(--font-body);background:var(--off-white);display:flex;min-height:100vh;overflow-x:hidden;}
+
+    /* OVERLAY */
+    .overlay{display:none;position:fixed;inset:0;background:rgba(7,30,56,0.5);z-index:90;backdrop-filter:blur(2px);}
+    .overlay.open{display:block;}
 
     /* SIDEBAR */
-    .sidebar{width:var(--sidebar);background:var(--navy);position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column;z-index:100;overflow-y:auto;}
+    .sidebar{
+      width:var(--sidebar);background:var(--navy);
+      position:fixed;top:0;left:0;height:100vh;
+      display:flex;flex-direction:column;z-index:100;
+      overflow-y:auto;
+      transition:transform 0.3s ease;
+    }
     .sidebar-header{padding:1.5rem 1.5rem 1rem;border-bottom:1px solid rgba(255,255,255,0.07);}
     .sidebar-logo{display:flex;align-items:center;gap:0.65rem;text-decoration:none;margin-bottom:1rem;}
-    .logo-mark{width:38px;height:38px;background:linear-gradient(135deg,var(--accent),var(--blue));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:white;}
+    .logo-mark{width:38px;height:38px;background:linear-gradient(135deg,var(--accent),var(--blue));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:white;flex-shrink:0;}
     .logo-text .ln{font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:white;display:block;}
     .logo-text .ls{font-size:0.6rem;color:rgba(255,255,255,0.4);display:block;}
     .patient-chip{background:rgba(0,168,232,0.12);border:1px solid rgba(0,168,232,0.25);border-radius:8px;padding:0.6rem 0.8rem;}
@@ -44,8 +55,22 @@
     .logout-btn{width:100%;padding:0.65rem;border-radius:9px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);font-family:var(--font-body);font-size:0.84rem;cursor:pointer;transition:all 0.18s;}
     .logout-btn:hover{background:rgba(185,28,28,0.15);color:#fca5a5;border-color:rgba(185,28,28,0.3);}
 
+    /* MOBILE TOP BAR */
+    .topbar{
+      display:none;
+      position:fixed;top:0;left:0;right:0;height:var(--topbar-height);
+      background:var(--navy);z-index:80;
+      align-items:center;justify-content:space-between;
+      padding:0 1rem;
+      box-shadow:0 2px 12px rgba(7,30,56,0.3);
+    }
+    .topbar-logo{display:flex;align-items:center;gap:0.5rem;text-decoration:none;}
+    .topbar-logo .ln{font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:white;}
+    .hamburger{background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;padding:0.4rem;line-height:1;display:flex;align-items:center;justify-content:center;}
+    .topbar-close{background:none;border:none;color:rgba(255,255,255,0.6);font-size:1.4rem;cursor:pointer;padding:0.25rem;line-height:1;display:none;position:absolute;top:1rem;right:1rem;}
+
     /* MAIN */
-    .main{margin-left:var(--sidebar);flex:1;padding:2rem;min-height:100vh;}
+    .main{margin-left:var(--sidebar);flex:1;padding:2rem;min-height:100vh;width:calc(100% - var(--sidebar));max-width:100%;}
     .page{display:none;}
     .page.active{display:block;}
 
@@ -53,25 +78,35 @@
     .page-header h1{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--navy);}
     .page-header p{font-size:0.88rem;color:var(--muted);margin-top:0.25rem;}
 
-    /* CARDS */
-    .cards-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem;margin-bottom:2rem;}
+    /* STAT CARDS */
+    .cards-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:2rem;}
     .stat-card{background:white;border-radius:var(--radius);padding:1.5rem;border:1.5px solid var(--border);position:relative;overflow:hidden;}
     .stat-card .label{font-size:0.75rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem;}
     .stat-card .value{font-family:var(--font-display);font-size:2.2rem;font-weight:700;color:var(--navy);}
     .stat-card .sub{font-size:0.78rem;color:var(--muted);margin-top:0.25rem;}
     .stat-card .icon-bg{position:absolute;right:1rem;top:50%;transform:translateY(-50%);font-size:2.5rem;opacity:0.07;}
 
-    /* TABLES / CARDS */
+    /* SECTION CARDS */
     .section-card{background:white;border-radius:var(--radius);border:1.5px solid var(--border);overflow:hidden;margin-bottom:1.5rem;}
     .section-card-header{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
     .section-card-header h3{font-family:var(--font-display);font-size:1.25rem;font-weight:700;color:var(--navy);}
     .section-card-body{padding:1.5rem;}
 
-    table{width:100%;border-collapse:collapse;}
-    th{font-size:0.72rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;padding:0.6rem 1rem;text-align:left;background:var(--off-white);}
+    /* RESPONSIVE TABLES */
+    .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    table{width:100%;border-collapse:collapse;min-width:480px;}
+    th{font-size:0.72rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;padding:0.6rem 1rem;text-align:left;background:var(--off-white);white-space:nowrap;}
     td{padding:0.85rem 1rem;font-size:0.86rem;color:var(--text);border-bottom:1px solid var(--border);}
     tr:last-child td{border-bottom:none;}
     tr:hover td{background:var(--surface);}
+
+    /* MOBILE TABLE CARDS */
+    .appt-card-list{display:none;flex-direction:column;gap:0.85rem;padding:1rem;}
+    .appt-card{background:var(--off-white);border-radius:var(--radius-sm);border:1.5px solid var(--border);padding:1rem;}
+    .appt-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.6rem;}
+    .appt-card-dept{font-size:0.75rem;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:0.06em;}
+    .appt-card-row{display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;color:var(--muted);margin-top:0.3rem;}
+    .appt-card-row span{color:var(--text);}
 
     .badge{display:inline-block;padding:0.25rem 0.75rem;border-radius:50px;font-size:0.72rem;font-weight:600;}
     .badge-confirmed{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
@@ -81,16 +116,16 @@
 
     /* FORM */
     .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
-    .form-grid.full{grid-template-columns:1fr;}
     .form-group{display:flex;flex-direction:column;gap:0.4rem;}
     .form-group label{font-size:0.73rem;font-weight:600;color:var(--navy);letter-spacing:0.04em;text-transform:uppercase;}
-    .form-group input,.form-group select,.form-group textarea{padding:0.78rem 1rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font-body);font-size:0.9rem;color:var(--text);outline:none;transition:border-color 0.2s,box-shadow 0.2s;background:white;}
+    .form-group input,.form-group select,.form-group textarea{padding:0.78rem 1rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font-body);font-size:0.9rem;color:var(--text);outline:none;transition:border-color 0.2s,box-shadow 0.2s;background:white;width:100%;}
     .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(20,86,160,0.1);}
     .form-group textarea{resize:vertical;min-height:90px;}
     .form-span-2{grid-column:1/-1;}
 
     .submit-btn{padding:0.85rem 2.5rem;border-radius:50px;background:var(--blue);color:white;border:none;font-family:var(--font-body);font-size:0.95rem;font-weight:600;cursor:pointer;transition:all 0.22s;}
     .submit-btn:hover{background:var(--navy);transform:translateY(-2px);box-shadow:0 6px 20px rgba(20,86,160,0.3);}
+    .submit-btn-full{width:100%;}
 
     .alert{padding:0.85rem 1.1rem;border-radius:var(--radius-sm);font-size:0.85rem;margin-bottom:1rem;display:none;}
     .alert.show{display:block;}
@@ -98,7 +133,7 @@
     .alert-error{background:var(--red-bg);border:1.5px solid var(--red-border);color:var(--red);}
 
     /* FOLLOWUP CARDS */
-    .followup-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;}
+    .followup-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem;}
     .followup-card{background:white;border-radius:var(--radius);border:1.5px solid var(--border);padding:1.25rem;}
     .followup-card .fc-dept{font-size:0.72rem;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem;}
     .followup-card .fc-title{font-family:var(--font-display);font-size:1.15rem;font-weight:700;color:var(--navy);margin-bottom:0.5rem;}
@@ -124,18 +159,122 @@
     .info-item .info-label{font-size:0.72rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.25rem;}
     .info-item .info-value{font-size:0.92rem;color:var(--text);font-weight:500;}
 
-    @media(max-width:900px){
-      .sidebar{transform:translateX(-100%);transition:transform 0.3s;}
-      .main{margin-left:0;}
-      .form-grid{grid-template-columns:1fr;}
-      .profile-grid{grid-template-columns:1fr;}
+    /* BOTTOM NAV (mobile) */
+    .bottom-nav{
+      display:none;
+      position:fixed;bottom:0;left:0;right:0;
+      background:var(--navy);
+      border-top:1px solid rgba(255,255,255,0.1);
+      z-index:80;
+      padding:0.4rem 0 calc(0.4rem + env(safe-area-inset-bottom));
     }
+    .bottom-nav-inner{display:flex;justify-content:space-around;align-items:flex-end;}
+    .bn-item{display:flex;flex-direction:column;align-items:center;gap:3px;padding:0.35rem 0.5rem;cursor:pointer;color:rgba(255,255,255,0.45);font-size:0.6rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;border-radius:8px;transition:color 0.2s;min-width:52px;}
+    .bn-item .bn-icon{font-size:1.25rem;line-height:1;}
+    .bn-item.active{color:var(--accent);}
+    .bn-more-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:0.35rem 0.5rem;cursor:pointer;color:rgba(255,255,255,0.45);font-size:0.6rem;font-weight:600;text-transform:uppercase;min-width:52px;background:none;border:none;}
+    .bn-more-btn .bn-icon{font-size:1.25rem;line-height:1;}
+
+    /* MOBILE RESPONSIVE BREAKPOINTS */
+    @media(max-width:768px){
+      .sidebar{transform:translateX(-100%);}
+      .sidebar.open{transform:translateX(0);}
+      .topbar-close{display:block;}
+      .topbar{display:flex;}
+      .main{margin-left:0;width:100%;padding:1rem;padding-top:calc(var(--topbar-height) + 1rem);padding-bottom:calc(80px + env(safe-area-inset-bottom));}
+      .cards-row{grid-template-columns:1fr;gap:0.75rem;margin-bottom:1.25rem;}
+      .stat-card{padding:1rem 1.25rem;display:flex;align-items:center;gap:1rem;}
+      .stat-card .icon-bg{position:static;transform:none;font-size:2rem;opacity:0.2;order:-1;}
+      .stat-card .stat-text{flex:1;}
+      .stat-card .value{font-size:1.75rem;}
+      .form-grid{grid-template-columns:1fr;}
+      .form-span-2{grid-column:auto;}
+      .submit-btn{width:100%;padding:0.85rem 1rem;}
+      .profile-grid{grid-template-columns:1fr;}
+      .info-grid{grid-template-columns:1fr;}
+      .page-header h1{font-size:1.5rem;}
+      .page-header{margin-bottom:1.25rem;}
+      .section-card-header{padding:1rem;}
+      .section-card-body{padding:1rem;}
+      .section-card-header h3{font-size:1.1rem;}
+      .followup-grid{grid-template-columns:1fr;}
+      .bottom-nav{display:block;}
+    }
+
+    @media(min-width:769px) and (max-width:1024px){
+      .sidebar{width:220px;}
+      .main{margin-left:220px;width:calc(100% - 220px);padding:1.5rem;}
+      .cards-row{grid-template-columns:repeat(3,1fr);gap:1rem;}
+      .form-grid{grid-template-columns:1fr 1fr;}
+      .profile-grid{grid-template-columns:1fr;}
+      .info-grid{grid-template-columns:1fr 1fr;}
+    }
+
+    /* Desktop: show table, hide card list */
+    @media(min-width:769px){
+      .table-wrap{display:block;}
+      .appt-card-list{display:none !important;}
+    }
+    /* Mobile: hide table, show card list */
+    @media(max-width:768px){
+      .table-wrap{display:none !important;}
+      .appt-card-list{display:flex !important;}
+    }
+
+    /* Stats: 3 columns on desktop */
+    @media(min-width:769px){
+      .cards-row{grid-template-columns:repeat(3,1fr);}
+      .stat-card{display:block;}
+      .stat-card .icon-bg{position:absolute;right:1rem;top:50%;transform:translateY(-50%);font-size:2.5rem;opacity:0.07;}
+      .stat-card .stat-text{flex:unset;}
+    }
+
+    /* Drawer panel for mobile more menu */
+    .drawer{
+      display:none;position:fixed;bottom:0;left:0;right:0;
+      background:var(--navy);border-radius:20px 20px 0 0;
+      z-index:110;padding:1rem 1rem calc(1rem + env(safe-area-inset-bottom));
+      transform:translateY(100%);transition:transform 0.3s ease;
+    }
+    .drawer.open{transform:translateY(0);}
+    .drawer-handle{width:40px;height:4px;background:rgba(255,255,255,0.2);border-radius:2px;margin:0 auto 1.25rem;}
+    .drawer-item{display:flex;align-items:center;gap:0.75rem;padding:0.85rem 0.75rem;border-radius:10px;cursor:pointer;color:rgba(255,255,255,0.7);font-size:0.9rem;font-weight:500;}
+    .drawer-item:hover,.drawer-item.active{background:rgba(255,255,255,0.07);color:white;}
+    .drawer-item .icon{font-size:1.1rem;width:24px;text-align:center;}
+    .drawer-divider{height:1px;background:rgba(255,255,255,0.08);margin:0.5rem 0;}
+    .drawer-logout{color:rgba(252,165,165,0.8) !important;}
+    .drawer-logout:hover{background:rgba(185,28,28,0.15) !important;}
   </style>
 </head>
 <body>
 
+<!-- Mobile overlay -->
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- Mobile drawer for "more" menu -->
+<div class="drawer" id="drawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-item" onclick="showPage('history',null,true)"><span class="icon">📋</span> Treatment History</div>
+  <div class="drawer-item" onclick="showPage('prescriptions',null,true)"><span class="icon">💊</span> Prescriptions</div>
+  <div class="drawer-item" onclick="showPage('followup',null,true)"><span class="icon">🔔</span> Follow-up & Reminders</div>
+  <div class="drawer-item" onclick="showPage('profile',null,true)"><span class="icon">👤</span> My Profile</div>
+  <div class="drawer-divider"></div>
+  <div class="drawer-item drawer-logout" onclick="logout()"><span class="icon">🚪</span> Sign Out</div>
+</div>
+
+<!-- MOBILE TOP BAR -->
+<div class="topbar">
+  <button class="hamburger" onclick="openSidebar()" aria-label="Open menu">☰</button>
+  <a href="home.html" class="topbar-logo">
+    <div class="logo-mark" style="width:30px;height:30px;font-size:1rem;border-radius:7px;">⚕</div>
+    <span class="ln" style="font-size:1rem;">RRDCH</span>
+  </a>
+  <div style="width:40px"></div>
+</div>
+
 <!-- SIDEBAR -->
-<nav class="sidebar">
+<nav class="sidebar" id="sidebar">
+  <button class="topbar-close" onclick="closeSidebar()">✕</button>
   <div class="sidebar-header">
     <a href="home.html" class="sidebar-logo">
       <div class="logo-mark">⚕</div>
@@ -148,15 +287,15 @@
   </div>
   <div class="nav-section">
     <div class="nav-label">Main</div>
-    <div class="nav-item active" onclick="showPage('dashboard',this)"><span class="icon">🏠</span> Dashboard</div>
-    <div class="nav-item" onclick="showPage('book',this)"><span class="icon">📅</span> Book Appointment</div>
-    <div class="nav-item" onclick="showPage('appointments',this)"><span class="icon">🗓️</span> My Appointments</div>
+    <div class="nav-item active" id="nav-dashboard" onclick="showPage('dashboard',this)"><span class="icon">🏠</span> Dashboard</div>
+    <div class="nav-item" id="nav-book" onclick="showPage('book',this)"><span class="icon">📅</span> Book Appointment</div>
+    <div class="nav-item" id="nav-appointments" onclick="showPage('appointments',this)"><span class="icon">🗓️</span> My Appointments</div>
     <div class="nav-label">Health Records</div>
-    <div class="nav-item" onclick="showPage('history',this)"><span class="icon">📋</span> Treatment History</div>
-    <div class="nav-item" onclick="showPage('prescriptions',this)"><span class="icon">💊</span> Prescriptions</div>
-    <div class="nav-item" onclick="showPage('followup',this)"><span class="icon">🔔</span> Follow-up & Reminders</div>
+    <div class="nav-item" id="nav-history" onclick="showPage('history',this)"><span class="icon">📋</span> Treatment History</div>
+    <div class="nav-item" id="nav-prescriptions" onclick="showPage('prescriptions',this)"><span class="icon">💊</span> Prescriptions</div>
+    <div class="nav-item" id="nav-followup" onclick="showPage('followup',this)"><span class="icon">🔔</span> Follow-up & Reminders</div>
     <div class="nav-label">Account</div>
-    <div class="nav-item" onclick="showPage('profile',this)"><span class="icon">👤</span> My Profile</div>
+    <div class="nav-item" id="nav-profile" onclick="showPage('profile',this)"><span class="icon">👤</span> My Profile</div>
   </div>
   <div class="sidebar-footer">
     <button class="logout-btn" onclick="logout()">🚪 Sign Out</button>
@@ -187,7 +326,7 @@
   <div class="page" id="page-book">
     <div class="page-header">
       <h1>Book Appointment</h1>
-      <p>Schedule a visit at RRDCH Dental College & Hospital.</p>
+      <p>Schedule a visit at RRDCH Dental College &amp; Hospital.</p>
     </div>
     <div class="section-card">
       <div class="section-card-header"><h3>Appointment Details</h3></div>
@@ -199,9 +338,9 @@
             <label>Department</label>
             <select id="bkDept">
               <option value="">Select Department</option>
-              <option>Oral Medicine & Radiology</option>
-              <option>Oral & Maxillofacial Surgery</option>
-              <option>Conservative Dentistry & Endodontics</option>
+              <option>Oral Medicine &amp; Radiology</option>
+              <option>Oral &amp; Maxillofacial Surgery</option>
+              <option>Conservative Dentistry &amp; Endodontics</option>
               <option>Periodontics</option>
               <option>Prosthodontics</option>
               <option>Orthodontics</option>
@@ -279,11 +418,10 @@
     <div class="section-card">
       <div class="section-card-header">
         <h3>All Appointments</h3>
-        <button class="submit-btn" onclick="showPage('book', document.querySelectorAll('.nav-item')[1])" style="padding:0.5rem 1.25rem;font-size:0.82rem;">+ New</button>
+        <button class="submit-btn" onclick="showPage('book',document.getElementById('nav-book'))" style="padding:0.5rem 1.25rem;font-size:0.82rem;">+ New</button>
       </div>
-      <div id="apptTableWrap">
-        <div class="empty-state"><div class="icon">📅</div><p>No appointments yet. <a href="#" onclick="showPage('book', document.querySelectorAll('.nav-item')[1])" style="color:var(--blue)">Book one now</a></p></div>
-      </div>
+      <div id="apptTableWrap" class="table-wrap"></div>
+      <div id="apptCardList" class="appt-card-list"></div>
     </div>
   </div>
 
@@ -312,7 +450,7 @@
   <!-- FOLLOW-UP -->
   <div class="page" id="page-followup">
     <div class="page-header">
-      <h1>Follow-up & Reminders</h1>
+      <h1>Follow-up &amp; Reminders</h1>
       <p>Doctor's follow-up notes and your upcoming reminders.</p>
     </div>
     <div id="reminderBox"></div>
@@ -345,8 +483,28 @@
 
 </main>
 
+<!-- BOTTOM NAVIGATION (mobile) -->
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <div class="bn-item active" id="bn-dashboard" onclick="showPage('dashboard',document.getElementById('nav-dashboard'),false,'bn-dashboard')">
+      <span class="bn-icon">🏠</span>Home
+    </div>
+    <div class="bn-item" id="bn-book" onclick="showPage('book',document.getElementById('nav-book'),false,'bn-book')">
+      <span class="bn-icon">📅</span>Book
+    </div>
+    <div class="bn-item" id="bn-appointments" onclick="showPage('appointments',document.getElementById('nav-appointments'),false,'bn-appointments')">
+      <span class="bn-icon">🗓️</span>Visits
+    </div>
+    <button class="bn-more-btn" onclick="openDrawer()">
+      <span class="bn-icon" style="color:rgba(255,255,255,0.45)">☰</span>
+      <span style="color:rgba(255,255,255,0.45);font-size:0.6rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;">More</span>
+    </button>
+  </div>
+</nav>
+
 <script>
   let currentPatient = null;
+  let currentBnId = 'bn-dashboard';
 
   function init() {
     const stored = localStorage.getItem('rrdch_current_patient');
@@ -367,15 +525,65 @@
       <div class="info-item"><div class="info-label">Patient ID</div><div class="info-value">${currentPatient.patientId}</div></div>
       <div class="info-item"><div class="info-label">Blood Group</div><div class="info-value">—</div></div>
     `;
-    // Set min date for booking
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('bkDate').min = today;
     loadDashboard();
   }
 
+  function openSidebar() {
+    document.getElementById('sidebar').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function openDrawer() {
+    document.getElementById('drawer').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer() {
+    document.getElementById('drawer').classList.remove('open');
+    document.getElementById('overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Close drawer when overlay clicked
+  document.getElementById('overlay').addEventListener('click', () => {
+    closeSidebar();
+    closeDrawer();
+  });
+
   function getMyAppointments() {
     const all = JSON.parse(localStorage.getItem('rrdch_appointments') || '[]');
     return all.filter(a => a.patientId === currentPatient.patientId);
+  }
+
+  function showPage(id, navEl, fromDrawer, bnId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.querySelectorAll('.bn-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    if (navEl) navEl.classList.add('active');
+    if (bnId) {
+      const el = document.getElementById(bnId);
+      if (el) el.classList.add('active');
+      currentBnId = bnId;
+    }
+    closeSidebar();
+    if (fromDrawer) closeDrawer();
+    if (id === 'appointments') loadAppointments();
+    if (id === 'history') loadHistory();
+    if (id === 'prescriptions') loadPrescriptions();
+    if (id === 'followup') loadFollowup();
+    if (id === 'dashboard') loadDashboard();
+    window.scrollTo(0,0);
   }
 
   function loadDashboard() {
@@ -385,55 +593,103 @@
     const total = appts.length;
 
     document.getElementById('dashStats').innerHTML = `
-      <div class="stat-card"><div class="label">Total Appointments</div><div class="value">${total}</div><div class="sub">All time</div><div class="icon-bg">📅</div></div>
-      <div class="stat-card"><div class="label">Upcoming</div><div class="value">${upcoming.length}</div><div class="sub">Confirmed / Waiting</div><div class="icon-bg">🔔</div></div>
-      <div class="stat-card"><div class="label">Completed Visits</div><div class="value">${completed.length}</div><div class="sub">Total visits</div><div class="icon-bg">✅</div></div>
+      <div class="stat-card">
+        <div class="icon-bg">📅</div>
+        <div class="stat-text">
+          <div class="label">Total Appointments</div>
+          <div class="value">${total}</div>
+          <div class="sub">All time</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="icon-bg">🔔</div>
+        <div class="stat-text">
+          <div class="label">Upcoming</div>
+          <div class="value">${upcoming.length}</div>
+          <div class="sub">Confirmed / Waiting</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="icon-bg">✅</div>
+        <div class="stat-text">
+          <div class="label">Completed Visits</div>
+          <div class="value">${completed.length}</div>
+          <div class="sub">Total visits</div>
+        </div>
+      </div>
     `;
 
-    if (upcoming.length > 0) {
-      document.getElementById('dashUpcoming').innerHTML = buildTable(upcoming.slice(0,3));
-    } else {
-      document.getElementById('dashUpcoming').innerHTML = '<div class="empty-state"><div class="icon">📅</div><p>No upcoming appointments</p></div>';
-    }
+    document.getElementById('dashUpcoming').innerHTML = upcoming.length > 0
+      ? buildTableAndCards(upcoming.slice(0,3))
+      : '<div class="empty-state"><div class="icon">📅</div><p>No upcoming appointments</p></div>';
 
-    if (completed.length > 0) {
-      document.getElementById('dashRecent').innerHTML = buildTable(completed.slice(0,3));
-    } else {
-      document.getElementById('dashRecent').innerHTML = '<div class="empty-state"><div class="icon">📋</div><p>No visit history yet</p></div>';
-    }
+    document.getElementById('dashRecent').innerHTML = completed.length > 0
+      ? buildTableAndCards(completed.slice(0,3))
+      : '<div class="empty-state"><div class="icon">📋</div><p>No visit history yet</p></div>';
   }
 
-  function buildTable(appts) {
+  function buildBadge(status) {
+    return `<span class="badge badge-${status.toLowerCase()}">${status}</span>`;
+  }
+
+  function buildTableAndCards(appts) {
     if (!appts.length) return '<div class="empty-state"><div class="icon">📅</div><p>None</p></div>';
-    return `<table><thead><tr><th>Date</th><th>Time</th><th>Department</th><th>Doctor</th><th>Status</th><th>Type</th></tr></thead><tbody>
+    const table = `<div class="table-wrap"><table><thead><tr><th>Date</th><th>Time</th><th>Department</th><th>Doctor</th><th>Status</th><th>Type</th></tr></thead><tbody>
       ${appts.map(a => `<tr>
         <td>${a.date}</td><td>${a.time}</td><td>${a.department}</td><td>${a.doctor}</td>
-        <td><span class="badge badge-${a.status.toLowerCase()}">${a.status}</span></td>
-        <td>${a.visitType}</td>
+        <td>${buildBadge(a.status)}</td><td>${a.visitType}</td>
       </tr>`).join('')}
-    </tbody></table>`;
-  }
+    </tbody></table></div>`;
 
-  function showPage(id, navEl) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.getElementById('page-' + id).classList.add('active');
-    if (navEl) navEl.classList.add('active');
+    const cards = `<div class="appt-card-list" style="display:none;flex-direction:column;gap:0.85rem;padding:1rem;">
+      ${appts.map(a => `<div class="appt-card">
+        <div class="appt-card-top">
+          <div>
+            <div class="appt-card-dept">${a.department}</div>
+            <div style="font-size:0.88rem;font-weight:600;color:var(--navy);margin-top:2px;">${a.doctor}</div>
+          </div>
+          ${buildBadge(a.status)}
+        </div>
+        <div class="appt-card-row">📅 <span>${a.date}</span> &nbsp; ⏰ <span>${a.time}</span>
+        </div>
+        <div class="appt-card-row">🏥 <span>${a.visitType}</span></div>
+      </div>`).join('')}
+    </div>`;
 
-    if (id === 'appointments') loadAppointments();
-    if (id === 'history') loadHistory();
-    if (id === 'prescriptions') loadPrescriptions();
-    if (id === 'followup') loadFollowup();
-    if (id === 'dashboard') loadDashboard();
+    return table + cards;
   }
 
   function loadAppointments() {
     const appts = getMyAppointments();
+    const wrap = document.getElementById('apptTableWrap');
+    const cardList = document.getElementById('apptCardList');
+
     if (!appts.length) {
-      document.getElementById('apptTableWrap').innerHTML = '<div class="empty-state"><div class="icon">📅</div><p>No appointments yet.</p></div>';
+      wrap.innerHTML = '<div class="empty-state"><div class="icon">📅</div><p>No appointments yet.</p></div>';
+      cardList.innerHTML = '';
       return;
     }
-    document.getElementById('apptTableWrap').innerHTML = buildTable([...appts].reverse());
+    const reversed = [...appts].reverse();
+
+    wrap.innerHTML = `<table><thead><tr><th>Date</th><th>Time</th><th>Department</th><th>Doctor</th><th>Status</th><th>Type</th></tr></thead><tbody>
+      ${reversed.map(a => `<tr>
+        <td>${a.date}</td><td>${a.time}</td><td>${a.department}</td><td>${a.doctor}</td>
+        <td>${buildBadge(a.status)}</td><td>${a.visitType}</td>
+      </tr>`).join('')}
+    </tbody></table>`;
+
+    cardList.innerHTML = reversed.map(a => `<div class="appt-card">
+      <div class="appt-card-top">
+        <div>
+          <div class="appt-card-dept">${a.department}</div>
+          <div style="font-size:0.88rem;font-weight:600;color:var(--navy);margin-top:2px;">${a.doctor}</div>
+        </div>
+        ${buildBadge(a.status)}
+      </div>
+      <div class="appt-card-row">📅 <span>${a.date}</span> &nbsp; ⏰ <span>${a.time}</span></div>
+      <div class="appt-card-row">🏥 <span>${a.visitType}</span></div>
+      ${a.complaint ? `<div class="appt-card-row" style="margin-top:0.5rem;font-size:0.8rem;color:var(--muted);line-height:1.5;border-top:1px solid var(--border);padding-top:0.5rem;">${a.complaint}</div>` : ''}
+    </div>`).join('');
   }
 
   function loadHistory() {
@@ -442,7 +698,7 @@
       document.getElementById('historyContent').innerHTML = '<div class="empty-state section-card" style="padding:3rem;"><div class="icon">📋</div><p>No treatment records yet.</p></div>';
       return;
     }
-    document.getElementById('historyContent').innerHTML = `<div class="section-card"><div class="section-card-header"><h3>Visit Summaries</h3></div>${buildTable(completed)}</div>`;
+    document.getElementById('historyContent').innerHTML = `<div class="section-card"><div class="section-card-header"><h3>Visit Summaries</h3></div>${buildTableAndCards(completed)}</div>`;
   }
 
   function loadPrescriptions() {
@@ -470,7 +726,6 @@
       reminderHtml = `<div class="reminder-box"><h3>🔔 Next Appointment Reminder</h3><p>${next.department} — ${next.doctor}</p><div class="rdate">📅 ${next.date} &nbsp; ⏰ ${next.time}</div></div>`;
     }
     document.getElementById('reminderBox').innerHTML = reminderHtml;
-
     const withNotes = appts.filter(a => a.doctorNotes);
     if (!withNotes.length) {
       document.getElementById('followupContent').innerHTML = '<div class="empty-state section-card" style="padding:3rem;"><div class="icon">🔔</div><p>No follow-up notes yet.</p></div>';
@@ -499,7 +754,11 @@
 
     err.classList.remove('show'); suc.classList.remove('show');
 
-    if (!dept||!doctor||!date||!time) { err.textContent='❌ Please fill all required fields.'; err.classList.add('show'); return; }
+    if (!dept||!doctor||!date||!time) {
+      err.textContent = '❌ Please fill all required fields.';
+      err.classList.add('show');
+      return;
+    }
 
     const appts = JSON.parse(localStorage.getItem('rrdch_appointments') || '[]');
     const newAppt = {
@@ -522,13 +781,14 @@
     appts.push(newAppt);
     localStorage.setItem('rrdch_appointments', JSON.stringify(appts));
 
-    suc.textContent = `✅ Appointment booked successfully! ID: ${newAppt.id}. Status: Waiting for confirmation.`;
+    suc.textContent = `✅ Appointment booked! ID: ${newAppt.id}. Status: Waiting for confirmation.`;
     suc.classList.add('show');
-    document.getElementById('bkDept').value='';
-    document.getElementById('bkDoctor').value='';
-    document.getElementById('bkDate').value='';
-    document.getElementById('bkTime').value='';
-    document.getElementById('bkComplaint').value='';
+    document.getElementById('bkDept').value = '';
+    document.getElementById('bkDoctor').value = '';
+    document.getElementById('bkDate').value = '';
+    document.getElementById('bkTime').value = '';
+    document.getElementById('bkComplaint').value = '';
+    window.scrollTo(0, 0);
   }
 
   function logout() {
@@ -536,7 +796,21 @@
     window.location.href = 'patient-login.html';
   }
 
+  // Apply mobile card list visibility based on screen size
+  function applyTableVisibility() {
+    const isMobile = window.innerWidth <= 768;
+    document.querySelectorAll('.table-wrap').forEach(el => {
+      el.style.display = isMobile ? 'none' : 'block';
+    });
+    document.querySelectorAll('.appt-card-list').forEach(el => {
+      el.style.display = isMobile ? 'flex' : 'none';
+    });
+  }
+
+  window.addEventListener('resize', applyTableVisibility);
+
   init();
+  applyTableVisibility();
 </script>
 </body>
 </html>
