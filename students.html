@@ -246,73 +246,183 @@
 <div class="right-panel">
   <div class="login-box">
     <h2>Sign In</h2>
-    <p>Enter your Student ID and password to access the portal.</p>
+    <p>Enter your registered email and password to access the portal.</p>
 
     <div class="tab-row">
       <button class="tab-btn">🎓 Student</button>
     </div>
 
-    <div class="error-msg" id="errorMsg">
-      ❌ Invalid Student ID or password. Please try again.
-    </div>
+    <div class="error-msg" id="errorMsg"></div>
 
     <div class="form-group">
-      <label>Student ID</label>
-      <input type="text" id="userId" placeholder="e.g. RRDCH2024001"/>
+      <label>Email Address</label>
+      <input type="email" id="userEmail" placeholder="you@rrdch.edu.in" autocomplete="email"/>
     </div>
 
     <div class="form-group">
       <label>Password</label>
-      <input type="password" id="userPass"/>
+      <input type="password" id="userPass" placeholder="Enter your password" autocomplete="current-password"/>
     </div>
 
     <div class="form-row">
       <label class="remember">
-        <input type="checkbox"/> Remember me
+        <input type="checkbox" id="rememberMe"/> Remember me
       </label>
-      <a href="#" class="forgot">Forgot password?</a>
+      <span class="forgot" style="cursor:pointer;" onclick="openResetModal()">Forgot password?</span>
     </div>
 
-    <button class="login-btn" onclick="doLogin()">Sign In to Portal →</button>
+    <button class="login-btn" id="loginBtn" onclick="doLogin()">Sign In to Portal →</button>
 
-    <div class="divider">Demo Credentials</div>
-
-    <div class="demo-creds">
-      <strong>🎓 Student Demo</strong>
-      <span>ID: <strong>RRDCH2024001</strong></span>
-      <span>Password: <strong>student123</strong></span>
-      <span class="use-demo" onclick="fillDemo()">Use these credentials →</span>
-    </div>
-
-    <a href="index.html" class="back-link">← Back to RRDCH Website</a>
+    <a href="index.html" class="back-link" style="display:block;margin-top:1.5rem;text-align:center;font-size:0.82rem;color:var(--muted);text-decoration:none;">← Back to RRDCH Website</a>
   </div>
 </div>
 
-<script>
-  const creds = {
-    id: 'RRDCH2024001',
-    pass: 'student123',
-    redirect: 'student-portal.html'
+<!-- Forgot Password Modal -->
+<div id="resetOverlay" style="display:none;position:fixed;inset:0;background:rgba(7,30,56,0.55);z-index:999;align-items:center;justify-content:center;">
+  <div style="background:white;border-radius:18px;padding:2rem;width:90%;max-width:400px;box-shadow:0 12px 48px rgba(7,30,56,0.22);">
+    <h3 style="font-family:var(--font-display);font-size:1.4rem;color:var(--navy);margin-bottom:0.4rem;">Reset Password</h3>
+    <p style="font-size:0.84rem;color:var(--muted);margin-bottom:1.25rem;">Enter your registered email. We'll send a reset link.</p>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="resetEmail" placeholder="you@rrdch.edu.in"/>
+    </div>
+    <div id="resetErr" class="error-msg"></div>
+    <div id="resetOk" style="display:none;background:#f0fff8;border:1.5px solid #b7f0d8;border-radius:var(--radius-sm);padding:0.75rem 1rem;font-size:0.82rem;color:#0f6b42;margin-bottom:0.75rem;"></div>
+    <div style="display:flex;gap:0.75rem;margin-top:1rem;">
+      <button onclick="closeResetModal()" style="flex:1;padding:0.75rem;border-radius:50px;border:1.5px solid var(--border);background:var(--surface);font-family:var(--font-body);font-size:0.85rem;font-weight:600;cursor:pointer;color:var(--navy);">Cancel</button>
+      <button id="resetBtn" onclick="sendReset()" style="flex:1;padding:0.75rem;border-radius:50px;border:none;background:var(--blue);color:white;font-family:var(--font-body);font-size:0.85rem;font-weight:600;cursor:pointer;">Send Link</button>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail,
+    setPersistence,
+    browserLocalPersistence,
+    browserSessionPersistence,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  // ── REPLACE with your Firebase project config ──────────────────────────
+  const firebaseConfig = {
+  apiKey: "AIzaSyDLom0OpM755uoxo7raXlIOPl8rowKqMm0",
+  authDomain: "rrdchcom.firebaseapp.com",
+  projectId: "rrdchcom",
+  storageBucket: "rrdchcom.firebasestorage.app",
+  messagingSenderId: "878744432264",
+  appId: "1:878744432264:web:c33fb2527a342262dc393d",
+  measurementId: "G-8XXTP36NV3"
+};
+  // ────────────────────────────────────────────────────────────────────────
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // Auto-redirect if already signed in
+  onAuthStateChanged(auth, user => {
+    if (user) window.location.href = 'student-portal.html';
+  });
+
+  // ── LOGIN ──────────────────────────────────────────────────────────────
+  window.doLogin = async function () {
+    const email    = document.getElementById('userEmail').value.trim();
+    const pass     = document.getElementById('userPass').value.trim();
+    const remember = document.getElementById('rememberMe').checked;
+    const btn      = document.getElementById('loginBtn');
+    const errBox   = document.getElementById('errorMsg');
+
+    errBox.style.display = 'none';
+
+    if (!email || !pass) {
+      showErr(errBox, '❌ Please enter your email and password.');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Signing in…';
+
+    try {
+      await setPersistence(auth, remember ? browserLocalPersistence : browserSessionPersistence);
+      await signInWithEmailAndPassword(auth, email, pass);
+      window.location.href = 'student-portal.html';
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = 'Sign In to Portal →';
+      document.getElementById('userPass').value = '';
+      showErr(errBox, friendlyError(err.code));
+    }
   };
 
-  function fillDemo() {
-    document.getElementById('userId').value = creds.id;
-    document.getElementById('userPass').value = creds.pass;
-  }
+  // ── FORGOT PASSWORD ────────────────────────────────────────────────────
+  window.openResetModal = function () {
+    const email = document.getElementById('userEmail').value.trim();
+    if (email) document.getElementById('resetEmail').value = email;
+    document.getElementById('resetOverlay').style.display = 'flex';
+  };
+  window.closeResetModal = function () {
+    document.getElementById('resetOverlay').style.display = 'none';
+    document.getElementById('resetErr').style.display = 'none';
+    document.getElementById('resetOk').style.display = 'none';
+    document.getElementById('resetEmail').value = '';
+    document.getElementById('resetBtn').textContent = 'Send Link';
+    document.getElementById('resetBtn').disabled = false;
+  };
+  window.sendReset = async function () {
+    const email  = document.getElementById('resetEmail').value.trim();
+    const errBox = document.getElementById('resetErr');
+    const okBox  = document.getElementById('resetOk');
+    const btn    = document.getElementById('resetBtn');
 
-  function doLogin() {
-    const id = document.getElementById('userId').value.trim();
-    const pass = document.getElementById('userPass').value.trim();
+    errBox.style.display = 'none';
+    okBox.style.display  = 'none';
 
-    if(id === creds.id && pass === creds.pass) {
-      window.location.href = creds.redirect;
-    } else {
-      document.getElementById('errorMsg').classList.add('show');
-      document.getElementById('userPass').value = '';
+    if (!email) { showErr(errBox, '❌ Enter your email address.'); return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      okBox.textContent = '✅ Reset link sent! Check your inbox.';
+      okBox.style.display = 'block';
+      btn.textContent = 'Sent ✓';
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = 'Send Link';
+      showErr(errBox, friendlyError(err.code));
     }
+  };
+
+  // ── HELPERS ────────────────────────────────────────────────────────────
+  function showErr(box, msg) {
+    box.textContent = msg;
+    box.style.display = 'block';
+    box.classList.add('show');
+  }
+  function friendlyError(code) {
+    const map = {
+      'auth/user-not-found'       : '❌ No account found with this email.',
+      'auth/wrong-password'       : '❌ Incorrect password. Please try again.',
+      'auth/invalid-email'        : '❌ That email address is not valid.',
+      'auth/user-disabled'        : '❌ This account has been disabled. Contact admin.',
+      'auth/too-many-requests'    : '⚠️ Too many attempts. Please wait and try again.',
+      'auth/network-request-failed': '❌ Network error. Check your connection.',
+      'auth/invalid-credential'   : '❌ Invalid email or password. Please try again.',
+    };
+    return map[code] || '❌ An error occurred. Please try again.';
   }
 
-  document.addEventListener('keydown', e => { if(e.key === 'Enter') doLogin(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      if (document.getElementById('resetOverlay').style.display === 'flex') window.sendReset();
+      else window.doLogin();
+    }
+  });
 </script>
 
 </body>
