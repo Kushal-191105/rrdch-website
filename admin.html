@@ -244,6 +244,7 @@
             <button class="filter-btn" onclick="setFilter('Cancelled',this)">Cancelled</button>
           </div>
           <button class="refresh-btn" onclick="refreshAll()">↻ Refresh</button>
+          <button class="refresh-btn" style="color:var(--red);border-color:var(--red-border);" onclick="clearAllBookings()">🗑️ Clear All</button>
         </div>
       </div>
       <div id="allApptTable"><div class="empty-state"><div class="icon">📅</div><p>No appointments found</p></div></div>
@@ -473,6 +474,15 @@
     loadDashboard();
     renderAllAppts();
     loadToday();
+    loadPatients();
+  }
+
+  function clearAllBookings() {
+    if (confirm('Are you sure you want to delete ALL booking details? This action cannot be undone.')) {
+      localStorage.removeItem('rrdch_appointments');
+      refreshAll();
+      showToast('All bookings have been successfully removed.', false);
+    }
   }
 
   // ============================================================

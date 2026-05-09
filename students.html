@@ -323,9 +323,22 @@
   const app  = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
+  const ADMIN_EMAILS = ['admin@rrdch.com'];
+
   // Auto-redirect if already signed in
-  onAuthStateChanged(auth, user => {
-    if (user) window.location.href = 'student-portal.html';
+  onAuthStateChanged(auth, async user => {
+    if (user) {
+      if (ADMIN_EMAILS.includes(user.email)) {
+        await auth.signOut();
+        const err = document.getElementById('loginError');
+        if (err) {
+          err.textContent = '❌ Admin accounts cannot access the student portal. Please use a student account.';
+          err.style.display = 'block';
+        }
+        return;
+      }
+      window.location.href = 'student-portal.html';
+    }
   });
 
   // ── LOGIN ──────────────────────────────────────────────────────────────
