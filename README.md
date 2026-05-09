@@ -19,13 +19,12 @@ Cloud Firestore
 
 🔥 Firebase Services Used
 1. Firebase Authentication
-
 Used for:
 User Sign Up
 User Login
 Secure Authentication
-2. Cloud Firestore
 
+2. Cloud Firestore
 Used for:
 Storing User Data
 Managing Website Information
