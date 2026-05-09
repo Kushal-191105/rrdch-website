@@ -16,9 +16,19 @@
       --font-display:'Cormorant Garamond',Georgia,serif;
       --font-body:'DM Sans',sans-serif;
       --radius:16px; --radius-sm:10px; --sidebar:260px;
+      --topbar-height:60px;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:var(--font-body);background:var(--off-white);display:flex;min-height:100vh;}
+    body{font-family:var(--font-body);background:var(--off-white);display:flex;min-height:100vh;overflow-x:hidden;}
+    
+    .overlay{display:none;position:fixed;inset:0;background:rgba(7,30,56,0.5);z-index:90;backdrop-filter:blur(2px);}
+    .overlay.open{display:block;}
+
+    .topbar{display:none;position:fixed;top:0;left:0;right:0;height:var(--topbar-height);background:var(--navy);z-index:80;align-items:center;justify-content:space-between;padding:0 1rem;box-shadow:0 2px 12px rgba(7,30,56,0.3);}
+    .topbar-logo{display:flex;align-items:center;gap:0.5rem;text-decoration:none;}
+    .topbar-logo .ln{font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:white;}
+    .hamburger{background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;padding:0.4rem;line-height:1;display:flex;align-items:center;justify-content:center;}
+    .topbar-close{background:none;border:none;color:rgba(255,255,255,0.6);font-size:1.4rem;cursor:pointer;padding:0.25rem;line-height:1;display:none;position:absolute;top:1rem;right:1rem;}
 
     /* LOGIN */
     .admin-login{position:fixed;inset:0;background:var(--navy);display:flex;align-items:center;justify-content:center;z-index:999;}
@@ -41,7 +51,7 @@
     .err.show{display:block;}
 
     /* SIDEBAR */
-    .sidebar{width:var(--sidebar);background:var(--navy);position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column;z-index:100;}
+    .sidebar{width:var(--sidebar);background:var(--navy);position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column;z-index:100;transition:transform 0.3s ease;}
     .sidebar-header{padding:1.5rem;border-bottom:1px solid rgba(255,255,255,0.07);}
     .logo-row{display:flex;align-items:center;gap:0.65rem;margin-bottom:0.75rem;}
     .logo-mark{width:38px;height:38px;border-radius:9px;overflow:hidden;flex-shrink:0;}
@@ -137,13 +147,30 @@
 
     @media(max-width:900px){
       .sidebar{transform:translateX(-100%);}
-      .main{margin-left:0;}
+      .sidebar.open{transform:translateX(0);}
+      .topbar-close{display:block;}
+      .topbar{display:flex;}
+      .main{margin-left:0; width:100%; padding:1rem; padding-top:calc(var(--topbar-height) + 1.5rem);}
+      .cards-row{grid-template-columns:1fr 1fr; gap:1rem;}
+      .section-card-header{flex-direction:column; align-items:flex-start;}
+      .filter-row{margin-top:0.5rem;}
+    }
+    @media(max-width:480px){
+      .cards-row{grid-template-columns:1fr;}
     }
   </style>
 </head>
 <body>
 
 <div class="toast" id="toast"></div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- MOBILE TOP BAR -->
+<div class="topbar">
+  <button class="hamburger" onclick="openSidebar()" aria-label="Open menu">☰</button>
+  <a href="#" class="topbar-logo"><span class="ln">RRDCH Admin</span></a>
+  <div style="width:40px;"></div>
+</div>
 
 <!-- LOGIN OVERLAY -->
 <div class="admin-login" id="adminLogin">
@@ -171,7 +198,8 @@
 </div>
 
 <!-- SIDEBAR -->
-<nav class="sidebar">
+<nav class="sidebar" id="sidebar">
+  <button class="topbar-close" onclick="closeSidebar()">✕</button>
   <div class="sidebar-header">
     <div class="logo-row">
       <div class="logo-mark">
@@ -379,7 +407,7 @@
     // Email is whitelisted — show the dashboard
     document.getElementById('adminLogin').classList.add('hidden');
     document.getElementById('adminEmailDisplay').textContent = user.email;
-    refreshAll();
+    setupAppointmentsListener();
   });
   // ============================================================
   // END AUTH STATE LISTENER
@@ -460,12 +488,24 @@
   // ============================================================
   // DATA LAYER
   // ============================================================
+  let _adminAppointments = [];
+
+  function setupAppointmentsListener() {
+    db.collection('appointments').onSnapshot(snapshot => {
+      _adminAppointments = [];
+      snapshot.forEach(doc => {
+        _adminAppointments.push(doc.data());
+      });
+      refreshAll();
+    }, error => {
+      console.error("Error fetching appointments:", error);
+    });
+  }
+
   function getAppts() {
-    return JSON.parse(localStorage.getItem('rrdch_appointments') || '[]');
+    return _adminAppointments;
   }
-  function saveAppts(arr) {
-    localStorage.setItem('rrdch_appointments', JSON.stringify(arr));
-  }
+  
   function getTodayStr() {
     return new Date().toISOString().split('T')[0];
   }
@@ -477,11 +517,20 @@
     loadPatients();
   }
 
-  function clearAllBookings() {
+  async function clearAllBookings() {
     if (confirm('Are you sure you want to delete ALL booking details? This action cannot be undone.')) {
-      localStorage.removeItem('rrdch_appointments');
-      refreshAll();
-      showToast('All bookings have been successfully removed.', false);
+      try {
+        const snapshot = await db.collection('appointments').get();
+        const batch = db.batch();
+        snapshot.docs.forEach((doc) => {
+          batch.delete(doc.ref);
+        });
+        await batch.commit();
+        showToast('All bookings have been successfully removed.', false);
+      } catch (e) {
+        console.error("Error clearing bookings:", e);
+        showToast('Failed to clear bookings', true);
+      }
     }
   }
 
@@ -636,14 +685,14 @@
   // ============================================================
   // UPDATE STATUS
   // ============================================================
-  function updateStatus(id, status) {
-    const appts = getAppts();
-    const idx = appts.findIndex(a => a.id === id);
-    if (idx === -1) { showToast('Appointment not found', true); return; }
-    appts[idx].status = status;
-    saveAppts(appts);
-    showToast(`Appointment ${status.toLowerCase()} successfully`);
-    refreshAll();
+  async function updateStatus(id, status) {
+    try {
+      await db.collection('appointments').doc(id).update({ status: status });
+      // The onSnapshot listener will automatically call refreshAll()
+    } catch (e) {
+      console.error("Error updating status:", e);
+      showToast('Failed to update status', true);
+    }
   }
 
   // ============================================================
@@ -664,21 +713,25 @@
     document.getElementById('notesModal').classList.remove('show');
   }
 
-  function saveNotes() {
+  async function saveNotes() {
     const id    = document.getElementById('modalApptId').value;
     const notes = document.getElementById('modalNotes').value.trim();
     const presc = document.getElementById('modalPresc').value.trim();
-    const appts = getAppts();
-    const idx   = appts.findIndex(a => a.id === id);
-    if (idx > -1) {
-      appts[idx].doctorNotes  = notes;
-      appts[idx].prescription = presc;
-      appts[idx].status       = 'Completed';
-      saveAppts(appts);
+    
+    try {
+      await db.collection('appointments').doc(id).update({
+        doctorNotes: notes,
+        prescription: presc,
+        status: 'Completed'
+      });
+      closeModal();
+      // Toast message and refresh will be handled by onSnapshot optionally, 
+      // but showing toast here gives immediate feedback.
+      showToast('Notes saved and appointment marked as completed');
+    } catch (e) {
+      console.error("Error saving notes:", e);
+      showToast('Failed to save notes', true);
     }
-    closeModal();
-    showToast('Notes saved and appointment marked as completed');
-    refreshAll();
   }
 
   // ============================================================
@@ -761,10 +814,26 @@
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     document.getElementById('page-' + id).classList.add('active');
     if (navEl) navEl.classList.add('active');
+    
+    // Close sidebar on mobile after clicking a link
+    if(window.innerWidth <= 900) {
+      closeSidebar();
+    }
+    
     if (id === 'appointments') renderAllAppts();
     if (id === 'today')        loadToday();
     if (id === 'patients')     loadPatients();
     if (id === 'dashboard')    loadDashboard();
+  }
+
+  function openSidebar() {
+    document.getElementById('sidebar').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+  }
+
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('open');
   }
 </script>
 </body>
