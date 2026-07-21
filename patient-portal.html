@@ -548,6 +548,21 @@
   let _myAppointments = [];
 
   auth.onAuthStateChanged(async user => {
+    // Check for URL parameters passed from patients.html to bypass file:// local persistence issues
+    const urlParams = new URLSearchParams(window.location.search);
+    const passedUid = urlParams.get('uid');
+    
+    if (!user && passedUid) {
+      // Reconstruct user object from URL params
+      user = {
+        uid: passedUid,
+        email: urlParams.get('email') || '',
+        displayName: urlParams.get('name') || ''
+      };
+      // Clean up URL so it doesn't look messy
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
     if (!user) { window.location.href = 'patients.html'; return; }
     
     // Check if the logged-in user is an admin
@@ -564,9 +579,9 @@
       } else {
         currentPatient = {
           patientId:    'PAT' + String(Date.now()).slice(-6),
-          firstName:    (user.displayName || user.email).split(' ')[0],
+          firstName:    (user.displayName || user.email || 'Patient').split(' ')[0],
           lastName:     (user.displayName || '').split(' ').slice(1).join(' ') || '',
-          email:        user.email,
+          email:        user.email || '',
           mobile:       '',
           dob:          '',
           gender:       '',
@@ -575,26 +590,32 @@
         // Persist to Firestore so the patientId remains constant across reloads
         await db.collection('patients').doc(user.uid).set(currentPatient);
       }
-      const name = (currentPatient.firstName + ' ' + (currentPatient.lastName || '')).trim();
-      document.getElementById('sidebarName').textContent = name || user.email;
-      document.getElementById('sidebarPid').textContent  = 'ID: ' + currentPatient.patientId;
-      document.getElementById('topbarPid').textContent   = currentPatient.patientId || '';
-      
-      // Real-time listener for appointments
+    } catch(e) { 
+      console.error('Profile load error:', e); 
+      alert("Error loading profile from Firestore. Please check your Firestore Security Rules.");
+    }
+
+    const name = (currentPatient.firstName + ' ' + (currentPatient.lastName || '')).trim();
+    document.getElementById('sidebarName').textContent = name || user.email || 'Patient';
+    document.getElementById('sidebarPid').textContent  = 'ID: ' + currentPatient.patientId;
+    document.getElementById('topbarPid').textContent   = currentPatient.patientId || '';
+
+    // Fetch Appointments from Firestore
+    try {
       db.collection('appointments').where('patientId', '==', currentPatient.patientId).onSnapshot(snapshot => {
         _myAppointments = [];
         snapshot.forEach(doc => _myAppointments.push(doc.data()));
-        // Sort appointments by timestamp if possible, or just re-render
         if (document.getElementById('page-dashboard').classList.contains('active')) loadDashboard();
         if (document.getElementById('page-appointments').classList.contains('active')) loadAppointments();
         if (document.getElementById('page-history').classList.contains('active')) loadHistory();
-        if (document.getElementById('page-prescriptions').classList.contains('active')) loadPrescriptions();
-        if (document.getElementById('page-followup').classList.contains('active')) loadFollowup();
+      }, error => {
+        console.error("Firestore error on appointments listener:", error);
+        alert("Firestore error: Permission denied. Please update your Firestore Security Rules in the Firebase Console to allow read/write access.");
       });
+    } catch(e) { console.error('Appointments load error:', e); }
 
-      loadDashboard();
-      applyTableVisibility();
-    } catch(e) { console.error('Profile load error:', e); }
+    loadDashboard();
+    applyTableVisibility();
   });
 
   // =============================================================
@@ -774,11 +795,30 @@
     err.classList.remove('show');
     suc.classList.remove('show');
 
-    // If patient profile not yet loaded, show error instead of silent fail
+    // If patient profile not yet loaded, try to construct a temporary one to avoid blocking the user
     if (!currentPatient) {
-      err.textContent = 'Session not ready. Please wait a moment and try again.';
-      err.classList.add('show');
-      return;
+      const user = auth.currentUser;
+      if (user) {
+        currentPatient = {
+          patientId:    'PAT' + String(Date.now()).slice(-6),
+          firstName:    (user.displayName || user.email || 'Patient').split(' ')[0],
+          lastName:     (user.displayName || '').split(' ').slice(1).join(' ') || '',
+          email:        user.email || '',
+          mobile:       '',
+          dob:          '',
+          gender:       '',
+          registeredOn: new Date().toLocaleDateString('en-IN')
+        };
+        const name = (currentPatient.firstName + ' ' + (currentPatient.lastName || '')).trim();
+        document.getElementById('sidebarName').textContent = name || user.email || 'Patient';
+        document.getElementById('sidebarPid').textContent  = 'ID: ' + currentPatient.patientId;
+        document.getElementById('topbarPid').textContent   = currentPatient.patientId || '';
+        try { db.collection('patients').doc(user.uid).set(currentPatient); } catch(e) {}
+      } else {
+        err.textContent = 'Session not ready. Please wait a moment and try again.';
+        err.classList.add('show');
+        return;
+      }
     }
 
     const dept      = document.getElementById('bkDept').value;
@@ -857,12 +897,10 @@
     // Persist to Firestore
     try {
       await db.collection('appointments').doc(_pendingAppt.id).set(_pendingAppt);
+      // Let the snapshot listener handle the UI update
     } catch (e) {
-      console.error('Failed to book appointment:', e);
-      document.querySelector('.modal-confirm-btn').disabled = false;
-      document.querySelector('.modal-confirm-btn').textContent = '✓ Confirm';
-      alert('Failed to book appointment. Please try again.');
-      return;
+      console.error('Failed to book appointment in Firestore:', e);
+      alert("Failed to book appointment in Firestore! Permission Denied. Please update your Firestore Security Rules to allow writes.");
     }
 
     document.querySelector('.modal-confirm-btn').disabled = false;

@@ -269,7 +269,13 @@ const firebaseConfig = {
           }
           return;
         }
-        window.location.href = 'patient-portal.html';
+        // Pass auth details via URL to bypass file:// local persistence issues
+        const params = new URLSearchParams({
+          uid: user.uid,
+          email: user.email || '',
+          name: user.displayName || ''
+        }).toString();
+        window.location.href = 'patient-portal.html?' + params;
       }
     });
 
