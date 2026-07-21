@@ -262,11 +262,6 @@ const firebaseConfig = {
       if (user) {
         if (ADMIN_EMAILS.includes(user.email)) {
           await auth.signOut();
-          const err = document.getElementById('loginError');
-          if (err) {
-            err.textContent = '❌ Admin accounts cannot access the patient portal. Please use a patient account.';
-            err.classList.add('show');
-          }
           return;
         }
         // Pass auth details via URL to bypass file:// local persistence issues
